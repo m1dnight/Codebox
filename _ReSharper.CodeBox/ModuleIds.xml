@@ -1,0 +1,4 @@
+<Modules>
+  <Module PersistentId="D6F6E1F8-2D79-4826-A8B6-4FB35EB8AF23" ModuleId="CodeBox.WebUI" />
+  <Module PersistentId="89337627-8831-4275-A360-890F24E9ADE0" ModuleId="CodeBox.Domain" />
+</Modules>

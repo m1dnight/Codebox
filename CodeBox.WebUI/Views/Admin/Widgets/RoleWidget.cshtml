@@ -1,0 +1,17 @@
+﻿@model CodeBox.WebUI.Models.Admin.Widgets.RoleWidgetModel
+<div class="widget roles">
+    @using(Html.BeginForm("RoleWidget", "Admin"))
+    {
+        <fieldset>
+            <legend>
+                Roles
+            </legend>
+            @Html.DropDownListFor(model => model.SelectedItem, Model.Roles)
+            <p>
+                <input type="submit" value="Edit" name="commandbutton"/>
+                <input type="submit" value="Delete" name="commandbutton"/>
+            </p>
+            @Html.ActionLink("Create new", "CreateRole", "Admin")
+        </fieldset>
+    }
+</div>

@@ -1,0 +1,15 @@
+﻿@model CodeBox.WebUI.Models.Admin.Widgets.LanguageWidgetModel
+<div class="widget languages">
+    @using (Html.BeginForm("LanguageWidget", "Admin"))
+    {
+        <fieldset>
+            <legend>Languages</legend>
+            @Html.DropDownListFor(model => model.SelectedItem, Model.Languages)
+            <p>
+                <input type="submit" value="Edit" name="commandbutton" />
+                <input type="submit" value="Delete" name="commandbutton"/>
+            </p>
+            @Html.ActionLink("Create New", "CreateLanguage", "Admin")
+        </fieldset>
+    }
+</div>

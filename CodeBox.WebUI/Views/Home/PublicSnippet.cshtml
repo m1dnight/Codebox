@@ -1,0 +1,79 @@
+﻿@model CodeBox.Domain.Concrete.ORM.Snippet
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Title
+{
+    @Model.Name
+}
+<script src="@Url.Content("~/Scripts/prettify.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/base64.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/prettify.css")" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+
+    String.prototype.trimmen = function () {
+        return this.replace(/^\s*/, "").replace(/\s*$/, "");
+    };
+
+    window.onload = function () {
+        var encoded = document.getElementById("codefield").innerHTML;
+        var spatiesweg = encoded.trimmen();
+        encoded = spatiesweg;
+        var base64Test = /[^A-Za-z0-9\+\/\=]/g;
+        if (base64Test.exec(encoded)) {
+            alert("Invalid Base64 characters found!");
+        }
+
+        //var decoded = atob(encoded);
+        var decoded = base64.decode(encoded);
+        $('#codefield').text(decoded);
+        prettyPrint();
+    };
+</script>
+<fieldset>
+    <div class="display-label">
+        Description</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+    <div class="display-label">
+        Created on</div>
+    <div class="display-field">
+        @Model.CreationDate
+    </div>
+    <div class="display-label">
+        Last Modified</div>
+    <div class="display-field">
+        @Model.ModifiedDate
+    </div>
+    <div class="display-label">
+        Public</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Public)
+    </div>
+    <div class="display-label">
+        User</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.User.Name)
+    </div>
+    <div class="display-label">
+        Language</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Language.Name)
+    </div>
+    <div class="display-label">
+        Code</div>
+    <div class="display-field">
+    <pre class="prettyprint">
+        <code id="codefield" class="prettyprint linenums:2">
+            @Html.DisplayFor(model => model.Code)
+        </code>
+</pre>
+    </div>
+
+</fieldset>
+<p>
+    @Html.ActionLink("Back", "Index")
+</p>

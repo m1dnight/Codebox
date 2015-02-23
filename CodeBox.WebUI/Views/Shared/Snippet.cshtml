@@ -1,0 +1,70 @@
+﻿@model CodeBox.Domain.Concrete.ORM.Snippet
+<div class="singleSnippet">
+    <div class="InnerTop">
+        <div class="date">
+            <div class="month">
+                @if (Model.CreationDate != null)
+                {
+                    var d = (DateTime)Model.CreationDate;
+                    @d.ToString("MMMM").Substring(0,3)
+                }
+            </div>
+            <div class="day">
+                @if (Model.CreationDate != null)
+                {
+                    var d = (DateTime)Model.CreationDate;
+                    @d.Day
+                }
+            </div>
+            <div class="year">
+                @if (Model.CreationDate != null)
+                {
+                    var d = (DateTime)Model.CreationDate;
+                    @d.Year
+                }
+            </div>
+        </div>
+        <div class="snippetlang">
+            @Model.Language.Name
+        </div>
+        <div class="snippetTitle">
+            
+           <a href="@Url.Action("View", "Snippet", new { id = Model.SnippetId })"> @Model.Name (@Model.Groups.Count)</a>
+        </div>
+        <div class="description">
+            <p>@Model.Description</p>
+        </div>
+
+    </div>
+            <div class="menu">
+                <a href="@Url.Action("Edit", "Snippet", new { Model.SnippetId })">
+                    <img src="@Url.Content("~/Content/images/icons/edit.png")" alt="edit"/>
+                </a>
+                <a href="@Url.Action("DeleteSnippet", "Snippet",  new { Model.SnippetId })">
+                    <img src="@Url.Content("~/Content/images/icons/delete.png")" alt="delete"/>
+                </a>
+        </div>
+</div>
+   @* <h2>
+        @if (Model.Language != null)
+        { 
+            @Model.Language.Name}
+    </h2>
+    <h3>@Model.Name</h3>
+    @Model.Description
+    <p>
+        @Model.Code
+    </p>
+    <h4>
+        @if (Model.CreationDate != null)
+        {
+            @Html.Raw("Created:")
+            @Model.CreationDate.Value.ToString("yyyy-MM-dd hh:mm:ss")
+        }
+    </h4>
+    <h4>
+        User</h4>
+    @Model.User.Username
+    <p>@Html.ActionLink("Edit", "Edit", new { Model.SnippetId })</p>
+    <p>@Html.ActionLink("Delete", "DeleteSnippet", new { Model.SnippetId })</p>*@
+

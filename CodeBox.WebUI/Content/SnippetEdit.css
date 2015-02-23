@@ -1,0 +1,26 @@
+﻿
+/*----------------
+-Snippet Edit---*/
+
+
+
+input#Snippet_Name, #Snippet_Description, #Snippet_Code
+{
+    width: 100%;
+    margin: 0px 0px 10px 0px;
+}
+#Snippet_Description
+{
+    height: 50px;
+    resize: none;
+}
+#Snippet_Code
+{
+    height: 350px;
+    resize: vertical;
+}
+#SelectedLanguageId
+{
+    width: 200px;
+
+}

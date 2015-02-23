@@ -1,0 +1,632 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CodeBoxModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="CodeBoxModelStoreContainer">
+    <EntitySet Name="Users" EntityType="CodeBoxModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Snippets" EntityType="CodeBoxModel.Store.Snippets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Languages" EntityType="CodeBoxModel.Store.Languages" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Roles" EntityType="CodeBoxModel.Store.Roles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Groups" EntityType="CodeBoxModel.Store.Groups" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GroupAdmins" EntityType="CodeBoxModel.Store.GroupAdmins" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserRole" EntityType="CodeBoxModel.Store.UserRole" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GroupUser" EntityType="CodeBoxModel.Store.GroupUser" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GroupSnippet" EntityType="CodeBoxModel.Store.GroupSnippet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="UserSnippet" Association="CodeBoxModel.Store.UserSnippet">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Snippet" EntitySet="Snippets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_User" Association="CodeBoxModel.Store.FK_UserRole_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="UserRole" EntitySet="UserRole" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_Role" Association="CodeBoxModel.Store.FK_UserRole_Role">
+      <End Role="Role" EntitySet="Roles" />
+      <End Role="UserRole" EntitySet="UserRole" />
+    </AssociationSet>
+    <AssociationSet Name="SnippetLanguage" Association="CodeBoxModel.Store.SnippetLanguage">
+      <End Role="Snippet" EntitySet="Snippets" />
+      <End Role="Language" EntitySet="Languages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupUser_Group" Association="CodeBoxModel.Store.FK_GroupUser_Group">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="GroupUser" EntitySet="GroupUser" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupUser_User" Association="CodeBoxModel.Store.FK_GroupUser_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="GroupUser" EntitySet="GroupUser" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupSnippet_Group" Association="CodeBoxModel.Store.FK_GroupSnippet_Group">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="GroupSnippet" EntitySet="GroupSnippet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupSnippet_Snippet" Association="CodeBoxModel.Store.FK_GroupSnippet_Snippet">
+      <End Role="Snippet" EntitySet="Snippets" />
+      <End Role="GroupSnippet" EntitySet="GroupSnippet" />
+    </AssociationSet>
+    <AssociationSet Name="GroupAdminUser" Association="CodeBoxModel.Store.GroupAdminUser">
+      <End Role="GroupAdmin" EntitySet="GroupAdmins" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="GroupAdminGroup" Association="CodeBoxModel.Store.GroupAdminGroup">
+      <End Role="GroupAdmin" EntitySet="GroupAdmins" />
+      <End Role="Group" EntitySet="Groups" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Surname" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastSeen" Type="datetime" Nullable="true" />
+    <Property Name="Mail" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="passwordQuestion" Type="nvarchar" Nullable="true" MaxLength="100" />
+    <Property Name="Comment" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Approved" Type="bit" Nullable="false" DefaultValue="true" />
+    <Property Name="LockedOut" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="CreationDate" Type="datetime" Nullable="false" />
+    <Property Name="lastLoginDate" Type="datetime" Nullable="true" />
+    <Property Name="LastPasswordChangeDate" Type="datetime" Nullable="true" />
+    <Property Name="LastLockOutDate" Type="datetime" Nullable="true" />
+    <Property Name="ProviderName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="LastActivityDate" Type="datetime" Nullable="true" />
+    <Property Name="ImageData" Type="varbinary(max)" Nullable="true" />
+    <Property Name="ImageMimeType" Type="nvarchar" Nullable="true" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Snippets">
+    <Key>
+      <PropertyRef Name="SnippetId" />
+    </Key>
+    <Property Name="SnippetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="CreationDate" Type="datetime" Nullable="true" />
+    <Property Name="Code" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="true" />
+    <Property Name="Public" Type="bit" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="LanguageId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Languages">
+    <Key>
+      <PropertyRef Name="LanguageId" />
+    </Key>
+    <Property Name="LanguageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="InfoUrl" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Groups">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ImageData" Type="varbinary(max)" Nullable="true" />
+    <Property Name="ImageMimeType" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="GroupAdmins">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GroupId" Type="int" Nullable="false" />
+    <Property Name="User_UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="Users_UserId" />
+      <PropertyRef Name="Roles_RoleId" />
+    </Key>
+    <Property Name="Users_UserId" Type="int" Nullable="false" />
+    <Property Name="Roles_RoleId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GroupUser">
+    <Key>
+      <PropertyRef Name="Groups_Id" />
+      <PropertyRef Name="Users_UserId" />
+    </Key>
+    <Property Name="Groups_Id" Type="int" Nullable="false" />
+    <Property Name="Users_UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GroupSnippet">
+    <Key>
+      <PropertyRef Name="Groups_Id" />
+      <PropertyRef Name="Snippets_SnippetId" />
+    </Key>
+    <Property Name="Groups_Id" Type="int" Nullable="false" />
+    <Property Name="Snippets_SnippetId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="UserSnippet">
+    <End Role="User" Type="CodeBoxModel.Store.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Snippet" Type="CodeBoxModel.Store.Snippets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Snippet">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SnippetLanguage">
+    <End Role="Snippet" Type="CodeBoxModel.Store.Snippets" Multiplicity="*" />
+    <End Role="Language" Type="CodeBoxModel.Store.Languages" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="LanguageId" />
+      </Principal>
+      <Dependent Role="Snippet">
+        <PropertyRef Name="LanguageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GroupAdminUser">
+    <End Role="GroupAdmin" Type="CodeBoxModel.Store.GroupAdmins" Multiplicity="*" />
+    <End Role="User" Type="CodeBoxModel.Store.Users" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="GroupAdmin">
+        <PropertyRef Name="User_UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GroupAdminGroup">
+    <End Role="GroupAdmin" Type="CodeBoxModel.Store.GroupAdmins" Multiplicity="*" />
+    <End Role="Group" Type="CodeBoxModel.Store.Groups" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupAdmin">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_User">
+    <End Role="User" Type="CodeBoxModel.Store.Users" Multiplicity="1" />
+    <End Role="UserRole" Type="CodeBoxModel.Store.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UserRole">
+        <PropertyRef Name="Users_UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_Role">
+    <End Role="UserRole" Type="CodeBoxModel.Store.UserRole" Multiplicity="*" />
+    <End Role="Role" Type="CodeBoxModel.Store.Roles" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="UserRole">
+        <PropertyRef Name="Roles_RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupUser_Group">
+    <End Role="Group" Type="CodeBoxModel.Store.Groups" Multiplicity="1" />
+    <End Role="GroupUser" Type="CodeBoxModel.Store.GroupUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupUser">
+        <PropertyRef Name="Groups_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupUser_User">
+    <End Role="GroupUser" Type="CodeBoxModel.Store.GroupUser" Multiplicity="*" />
+    <End Role="User" Type="CodeBoxModel.Store.Users" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="GroupUser">
+        <PropertyRef Name="Users_UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupSnippet_Group">
+    <End Role="Group" Type="CodeBoxModel.Store.Groups" Multiplicity="1" />
+    <End Role="GroupSnippet" Type="CodeBoxModel.Store.GroupSnippet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupSnippet">
+        <PropertyRef Name="Groups_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupSnippet_Snippet">
+    <End Role="GroupSnippet" Type="CodeBoxModel.Store.GroupSnippet" Multiplicity="*" />
+    <End Role="Snippet" Type="CodeBoxModel.Store.Snippets" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Snippet">
+        <PropertyRef Name="SnippetId" />
+      </Principal>
+      <Dependent Role="GroupSnippet">
+        <PropertyRef Name="Snippets_SnippetId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="CodeBoxModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="CodeBoxEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Users" EntityType="CodeBoxModel.User" />
+          <EntitySet Name="Snippets" EntityType="CodeBoxModel.Snippet" />
+          <EntitySet Name="Languages" EntityType="CodeBoxModel.Language" />
+          <EntitySet Name="Roles" EntityType="CodeBoxModel.Role" />
+          <AssociationSet Name="UserSnippet" Association="CodeBoxModel.UserSnippet">
+            <End EntitySet="Users" Role="User" />
+            <End EntitySet="Snippets" Role="Snippet" />
+          </AssociationSet>
+          <AssociationSet Name="UserRole" Association="CodeBoxModel.UserRole">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Role" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="SnippetLanguage" Association="CodeBoxModel.SnippetLanguage">
+            <End Role="Snippet" EntitySet="Snippets" />
+            <End Role="Language" EntitySet="Languages" />
+          </AssociationSet>
+          <EntitySet Name="Groups" EntityType="CodeBoxModel.Group" />
+          <AssociationSet Name="GroupUser" Association="CodeBoxModel.GroupUser">
+            <End EntitySet="Groups" Role="Group" />
+            <End EntitySet="Users" Role="User" />
+          </AssociationSet>
+          <AssociationSet Name="GroupSnippet" Association="CodeBoxModel.GroupSnippet">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="Snippet" EntitySet="Snippets" />
+          </AssociationSet>
+          <EntitySet Name="GroupAdmins" EntityType="CodeBoxModel.GroupAdmin" />
+          <AssociationSet Name="GroupAdminUser" Association="CodeBoxModel.GroupAdminUser">
+            <End Role="GroupAdmin" EntitySet="GroupAdmins" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="GroupAdminGroup" Association="CodeBoxModel.GroupAdminGroup">
+            <End Role="GroupAdmin" EntitySet="GroupAdmins" />
+            <End Role="Group" EntitySet="Groups" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Type="Int32" Name="UserId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Nullable="true" />
+          <Property Type="String" Name="Surname" Nullable="true" FixedLength="false" MaxLength="50" />
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="50" FixedLength="false" />
+          <Property Type="String" Name="Password" Nullable="false" FixedLength="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="LastSeen" Nullable="true" />
+          <Property Type="String" Name="Mail" Nullable="false" />
+          <Property Type="String" Name="passwordQuestion" FixedLength="false" MaxLength="100" Nullable="true" />
+          <Property Type="String" Name="Comment" Nullable="true" MaxLength="Max" FixedLength="false" />
+          <Property Type="Boolean" Name="Approved" Nullable="false" DefaultValue="True" />
+          <Property Type="Boolean" Name="LockedOut" Nullable="false" DefaultValue="False" />
+          <Property Type="DateTime" Name="CreationDate" Nullable="false" />
+          <Property Type="DateTime" Name="lastLoginDate" Nullable="true" />
+          <Property Type="DateTime" Name="LastPasswordChangeDate" Nullable="true" />
+          <Property Type="DateTime" Name="LastLockOutDate" Nullable="true" />
+          <Property Type="String" Name="ProviderName" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="LastActivityDate" Nullable="true" />
+          <Property Type="Binary" Name="ImageData" FixedLength="false" MaxLength="Max" Nullable="true" />
+          <Property Type="String" Name="ImageMimeType" FixedLength="false" MaxLength="50" Nullable="true" />
+          <NavigationProperty Name="Snippets" Relationship="CodeBoxModel.UserSnippet" FromRole="User" ToRole="Snippet" />
+          <NavigationProperty Name="Roles" Relationship="CodeBoxModel.UserRole" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="Groups" Relationship="CodeBoxModel.GroupUser" FromRole="User" ToRole="Group" />
+          <NavigationProperty Name="GroupAdmins" Relationship="CodeBoxModel.GroupAdminUser" FromRole="User" ToRole="GroupAdmin" />
+        </EntityType>
+        <EntityType Name="Snippet">
+          <Key>
+            <PropertyRef Name="SnippetId" />
+          </Key>
+          <Property Type="Int32" Name="SnippetId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" MaxLength="500" FixedLength="false" Nullable="true" />
+          <Property Type="String" Name="Description" FixedLength="false" Nullable="true" />
+          <Property Type="DateTime" Name="CreationDate" Nullable="true" />
+          <Property Type="String" Name="Code" MaxLength="Max" FixedLength="false" Nullable="true" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="true" />
+          <Property Type="Boolean" Name="Public" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="CodeBoxModel.UserSnippet" FromRole="Snippet" ToRole="User" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <NavigationProperty Name="Language" Relationship="CodeBoxModel.SnippetLanguage" FromRole="Snippet" ToRole="Language" />
+          <Property Type="Int32" Name="LanguageId" Nullable="false" />
+          <NavigationProperty Name="Groups" Relationship="CodeBoxModel.GroupSnippet" FromRole="Snippet" ToRole="Group" />
+        </EntityType>
+        <EntityType Name="Language">
+          <Key>
+            <PropertyRef Name="LanguageId" />
+          </Key>
+          <Property Type="Int32" Name="LanguageId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" FixedLength="false" MaxLength="50" />
+          <Property Type="String" Name="Description" FixedLength="false" MaxLength="Max" Nullable="true" />
+          <Property Type="String" Name="InfoUrl" MaxLength="Max" Nullable="true" />
+          <NavigationProperty Name="Snippets" Relationship="CodeBoxModel.SnippetLanguage" FromRole="Language" ToRole="Snippet" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Type="Int32" Name="RoleId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="Max" />
+          <NavigationProperty Name="Users" Relationship="CodeBoxModel.UserRole" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <Association Name="UserSnippet">
+          <End Type="CodeBoxModel.User" Multiplicity="1" Role="User">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CodeBoxModel.Snippet" Multiplicity="*" Role="Snippet" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Snippet">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserRole">
+          <End Type="CodeBoxModel.User" Role="User" Multiplicity="*" />
+          <End Type="CodeBoxModel.Role" Role="Role" Multiplicity="*" />
+        </Association>
+        <Association Name="SnippetLanguage">
+          <End Type="CodeBoxModel.Snippet" Role="Snippet" Multiplicity="*" />
+          <End Type="CodeBoxModel.Language" Role="Language" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="LanguageId" />
+            </Principal>
+            <Dependent Role="Snippet">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="CodeBoxModel.GroupUser" FromRole="Group" ToRole="User" />
+          <NavigationProperty Name="Snippets" Relationship="CodeBoxModel.GroupSnippet" FromRole="Group" ToRole="Snippet" />
+          <Property Type="String" Name="Description" Nullable="true" />
+          <Property Type="Binary" Name="ImageData" Nullable="true" />
+          <Property Type="String" Name="ImageMimeType" Nullable="true" />
+          <NavigationProperty Name="GroupAdmins" Relationship="CodeBoxModel.GroupAdminGroup" FromRole="Group" ToRole="GroupAdmin" />
+        </EntityType>
+        <Association Name="GroupUser">
+          <End Type="CodeBoxModel.Group" Multiplicity="*" Role="Group" />
+          <End Type="CodeBoxModel.User" Multiplicity="*" Role="User" />
+        </Association>
+        <Association Name="GroupSnippet">
+          <End Type="CodeBoxModel.Group" Role="Group" Multiplicity="*" />
+          <End Type="CodeBoxModel.Snippet" Role="Snippet" Multiplicity="*" />
+        </Association>
+        <EntityType Name="GroupAdmin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="User" Relationship="CodeBoxModel.GroupAdminUser" FromRole="GroupAdmin" ToRole="User" />
+          <NavigationProperty Name="Group" Relationship="CodeBoxModel.GroupAdminGroup" FromRole="GroupAdmin" ToRole="Group" />
+          <Property Type="Int32" Name="GroupId" Nullable="false" />
+        </EntityType>
+        <Association Name="GroupAdminUser">
+          <End Type="CodeBoxModel.GroupAdmin" Role="GroupAdmin" Multiplicity="*" />
+          <End Type="CodeBoxModel.User" Role="User" Multiplicity="1" />
+        </Association>
+        <Association Name="GroupAdminGroup">
+          <End Type="CodeBoxModel.GroupAdmin" Role="GroupAdmin" Multiplicity="*" />
+          <End Type="CodeBoxModel.Group" Role="Group" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupAdmin">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CodeBoxModelStoreContainer" CdmEntityContainer="CodeBoxEntities">
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(CodeBoxModel.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="LastSeen" ColumnName="LastSeen" />
+          <ScalarProperty Name="Mail" ColumnName="Mail" />
+          <ScalarProperty Name="passwordQuestion" ColumnName="passwordQuestion" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="Approved" ColumnName="Approved" />
+          <ScalarProperty Name="LockedOut" ColumnName="LockedOut" />
+          <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+          <ScalarProperty Name="lastLoginDate" ColumnName="lastLoginDate" />
+          <ScalarProperty Name="LastPasswordChangeDate" ColumnName="LastPasswordChangeDate" />
+          <ScalarProperty Name="LastLockOutDate" ColumnName="LastLockOutDate" />
+          <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
+          <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+          <ScalarProperty Name="ImageData" ColumnName="ImageData" />
+          <ScalarProperty Name="ImageMimeType" ColumnName="ImageMimeType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Snippets">
+      <EntityTypeMapping TypeName="IsTypeOf(CodeBoxModel.Snippet)">
+        <MappingFragment StoreEntitySet="Snippets">
+          <ScalarProperty Name="SnippetId" ColumnName="SnippetId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="Public" ColumnName="Public" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Languages">
+      <EntityTypeMapping TypeName="IsTypeOf(CodeBoxModel.Language)">
+        <MappingFragment StoreEntitySet="Languages">
+          <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="InfoUrl" ColumnName="InfoUrl" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="IsTypeOf(CodeBoxModel.Role)">
+        <MappingFragment StoreEntitySet="Roles">
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Groups">
+      <EntityTypeMapping TypeName="IsTypeOf(CodeBoxModel.Group)">
+        <MappingFragment StoreEntitySet="Groups">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ImageData" ColumnName="ImageData" />
+          <ScalarProperty Name="ImageMimeType" ColumnName="ImageMimeType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GroupAdmins">
+      <EntityTypeMapping TypeName="IsTypeOf(CodeBoxModel.GroupAdmin)">
+        <MappingFragment StoreEntitySet="GroupAdmins">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="UserRole" TypeName="CodeBoxModel.UserRole" StoreEntitySet="UserRole">
+      <EndProperty Name="User">
+        <ScalarProperty Name="UserId" ColumnName="Users_UserId" />
+      </EndProperty>
+      <EndProperty Name="Role">
+        <ScalarProperty Name="RoleId" ColumnName="Roles_RoleId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GroupUser" TypeName="CodeBoxModel.GroupUser" StoreEntitySet="GroupUser">
+      <EndProperty Name="Group">
+        <ScalarProperty Name="Id" ColumnName="Groups_Id" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="UserId" ColumnName="Users_UserId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GroupSnippet" TypeName="CodeBoxModel.GroupSnippet" StoreEntitySet="GroupSnippet">
+      <EndProperty Name="Group">
+        <ScalarProperty Name="Id" ColumnName="Groups_Id" />
+      </EndProperty>
+      <EndProperty Name="Snippet">
+        <ScalarProperty Name="SnippetId" ColumnName="Snippets_SnippetId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GroupAdminUser" TypeName="CodeBoxModel.GroupAdminUser" StoreEntitySet="GroupAdmins">
+      <EndProperty Name="User">
+        <ScalarProperty Name="UserId" ColumnName="User_UserId" />
+      </EndProperty>
+      <EndProperty Name="GroupAdmin">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="CodeBoxModel" ZoomLevel="170" >
+        <EntityTypeShape EntityType="CodeBoxModel.User" Width="1.875" PointX="0.875" PointY="3.25" Height="5.4417122395833317" />
+        <EntityTypeShape EntityType="CodeBoxModel.Snippet" Width="1.5" PointX="5.75" PointY="0.875" Height="3.3263964843749996" />
+        <EntityTypeShape EntityType="CodeBoxModel.Language" Width="1.5" PointX="8.875" PointY="1.375" Height="1.9802864583333339" />
+        <EntityTypeShape EntityType="CodeBoxModel.Role" Width="1.5" PointX="3.625" PointY="5.25" Height="1.7879850260416657" />
+        <AssociationConnector Association="CodeBoxModel.UserSnippet">
+          <ConnectorPoint PointX="2.75" PointY="3.7569507421875006" />
+          <ConnectorPoint PointX="5.75" PointY="3.7569507421875006" />
+        </AssociationConnector>
+        <AssociationConnector Association="CodeBoxModel.UserRole">
+          <ConnectorPoint PointX="2.75" PointY="6.1439925130208328" />
+          <ConnectorPoint PointX="3.625" PointY="6.1439925130208328" />
+        </AssociationConnector>
+        <AssociationConnector Association="CodeBoxModel.SnippetLanguage">
+          <ConnectorPoint PointX="7.25" PointY="2.3651432291666667" />
+          <ConnectorPoint PointX="8.875" PointY="2.3651432291666667" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="CodeBoxModel.Group" Width="1.5" PointX="3.375" PointY="0.625" Height="2.5571907552083331" />
+        <AssociationConnector Association="CodeBoxModel.GroupUser">
+          <ConnectorPoint PointX="3.375" PointY="3.1821907552083331" />
+          <ConnectorPoint PointX="2.75" PointY="3.25" />
+        </AssociationConnector>
+        <AssociationConnector Association="CodeBoxModel.GroupSnippet">
+          <ConnectorPoint PointX="4.875" PointY="2.0285953776041667" />
+          <ConnectorPoint PointX="5.75" PointY="2.0285953776041667" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="CodeBoxModel.GroupAdmin" Width="1.5" PointX="0.625" PointY="0.5" Height="1.4033821614583335" />
+        <AssociationConnector Association="CodeBoxModel.GroupAdminUser">
+          <ConnectorPoint PointX="1.5" PointY="2.09568359375" />
+          <ConnectorPoint PointX="1.5" PointY="3.25" />
+        </AssociationConnector>
+        <AssociationConnector Association="CodeBoxModel.GroupAdminGroup">
+          <ConnectorPoint PointX="2.125" PointY="1.4564925130208333" />
+          <ConnectorPoint PointX="3.375" PointY="1.4564925130208333" />
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
