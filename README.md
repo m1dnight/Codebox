@@ -17,3 +17,8 @@ some initial data using the script in the same folder named `insert initial sql 
 password provided in that file to be able to log in.
 
 This should be all the build and run the project.
+
+
+## Disclaimer
+
+This project is old and uncommented. If you see code which makes you think I should never write a line of code again, I apologize. I was young and ignorant.
