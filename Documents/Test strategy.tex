@@ -56,4 +56,19 @@ For this user-story, we will rely almost exclusively on the Selenium framework.
 For this story, we will focus mainly on the step where the user-input, i.e., the actual snippet along with all meta-data such as its name and id, are saved to the database.
 To this end, we will automatically generate snippets, store them in the database and retrieve them immediately afterwards. If all data can be retrieved, the test has succeeded.
 
+\subsubsection*{Show snippet}
+As with the other user stories, we will heavily rely on the Selenium framework to test the input/output actions. However, when viewing a snippet, we should make sure that syntax highlighting is correctly applied on the code that is shown.
+Because this syntax highlighting depends on the input language that was chosen, as well as the code that was entered, testing the correctness of this step will be an arduous task.
+At the moment, we do not know of any technique which would allow us to automatically verify whether syntax highlighting has been correctly applied given a specific input program and programming language.
+We will therefore have to rely on manual testing for this feature.
+
+Testing this user story would go well hand-in-hand with the 'Create new snippet' story: we could test the creation of one snippet and immediately afterwards check whether this snipper is correctly displayed.
+However, we do not wish to completely rely on this technique, since we would then have to wait until both features are fully implemented before we can start testing them. Furthermore, if one feature were to fail, we would have delay testing the other feature until the issue was fixed.
+
+\subsubsection*{Edit user profile}
+Testing for this user story will be similar to the testing of the 'Register' story. We will again automatically generate mock data, use it to edit user profiles that also have been automatically generated, and check whether the correct changes have been made in the database.
+
+\subsubsection*{Delete snippet}
+It should be fairly straighforward to test this user story. We will again automatically generate snippets and store them in the database. Afterwards, we delete them and verify whether they have indeed been correctly removed.
+
 \end{document}
