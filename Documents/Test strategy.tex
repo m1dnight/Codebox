@@ -34,4 +34,26 @@ While testing these existing features, we will especially focus on the high-prio
 \subsubsection*{Integration Testing}
 After completing or updating a module in our software, we will create automatic integration tests to verify whether this module correctly interacts with the other, already existing modules. Specific attention will be payed for mission-critical modules, or modules specifically created to implement high-priority features.
 
+\subsection{Test Coverage}
+Below, we describe how we will maximize the test coverage for each of our user stories. We give an overview of the various tests we aim to create for these stories.
+Note that this set is only the minimum set of tests we will complete. It is likely that, as we progress, we will uncover additional opportunities for testing.
+
+We start by examining the highest-priority features and progressively move on to the lower-priority features.
+
+\subsubsection*{Log in}
+The most important step to be tested in the 'Log in' user story is the validation of the log-in details, i.e., the e-mail address and the password.
+It should be possible to fully automate these kinds of tests, by storing dummy user-data in the database and checking whether the validation process succeeds when entering the correct details, and fails when entering incorrect data.
+The other steps in this user story can be verified with the Selenium framework.
+
+\subsubsection*{Register}
+The most important task here is again the validation process. This time however, validation is more complex, since the application needs to make sure that no user with the given e-mail address has already been registered, that the password is strong enough and that the string that is provided as the given e-mail address can indeed be parsed as an e-mail address, for example by making use of a regular expressions matcher.
+All of these tasks can be fully automated, again by providing dummy data to the database. For the last task, we should analyze the regexp that will be used and determine where the corner cases of the expression lie.
+
+\subsubsection*{Log out}
+For this user-story, we will rely almost exclusively on the Selenium framework.
+
+\subsubsection*{Create new snippet}
+For this story, we will focus mainly on the step where the user-input, i.e., the actual snippet along with all meta-data such as its name and id, are saved to the database.
+To this end, we will automatically generate snippets, store them in the database and retrieve them immediately afterwards. If all data can be retrieved, the test has succeeded.
+
 \end{document}
