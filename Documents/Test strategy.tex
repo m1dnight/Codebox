@@ -1,0 +1,37 @@
+\documentclass {article}
+
+\title {Capita Selecta of Software Engineering}
+\usepackage{color}
+
+\begin{document}
+
+\maketitle
+ 
+\section{Test Strategy}
+
+\subsection{Overall Test Strategy}
+We plan on employing a wide array of different testing strategies, to maximize the quality of our delivered software, in accordance with the principles of agile programming. Testing will not happen ad-hoc, but will be structured and integrated directly into the core of our development process.
+In order to maximize the number of tests that can take place, we will mainly focus on creating tests that can be run and verified automatically, i.e., unit-tests.
+However, we will also dedicate ourselves in part to manually explore our application, to validate the overall quality of our software. This extends not only to finding and solving any bugs that may be present, but also to making sure that the runtime performance of our application is sufficiently high to remain responsive and that our graphical user interface is intuitive for new users.
+
+Since it is in practice impossible to deliver an application completely free of any errors, we will have to divide our time and choose which aspects of our software will receive the most focus. We have therefore decided that the time spent on a feature directly corresponds with the priority level of that feature: high-priority features will receive the most attention, low-priority features the least.
+
+Concretely, we plan on using the following testing strategies.
+
+\subsubsection{Unit Testing}
+Unit-tests will form the backbone of our testing strategy. Each developper will create unit-tests simultaneously with implementing the various features.
+If the developper has finished writing the unit-test, the test will be run. If an error is reported, the error should be fixed immediately.
+Additionally, all unit-tests that have been created will be run overnight and any errors should be solved the following day.
+
+\subsubsection{Feature Testing}
+In each iteration of our development process, we will release a number of new features in our application. Once a feature has been completed, we will perform manual testing on this feature to make sure it lives up to the expected standards with regards to errors, runtime performance and a qualitive GUI.
+For a small part, it might be possible to run automatic tests on a new feature, but most of the testing will happen manually.
+
+\subsubsection{System Testing}
+At the end of each iteration, we will execute manual, system-wide tests. These tests will mostly be focused on verifying and validating the newly implemented features, but they will also cover the existing features, in order to make sure that the whole application lives up to the standards we have set for it.
+While testing these existing features, we will especially focus on the high-priority features.
+
+\subsubsection{Integration Testing}
+After completing or updating a module in our software, we will create automatic integration tests to verify whether this module correctly interacts with the other, already existing modules. Specific attention will be payed for mission-critical modules, or modules specifically created to implement high-priority features.
+
+\end{document}
