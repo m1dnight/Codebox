@@ -1,11 +1,26 @@
 \documentclass[10pt,a4paper,BCOR12mm, headexclude, footexclude,
-  twoside, openright]{scrartcl} \usepackage[scaled]{helvet}
-\usepackage[british]{babel} \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc} \usepackage{fancyhdr} \usepackage{lastpage}
-\usepackage{ifthen} \usepackage{amsmath,amsfonts,amsthm}
-\usepackage{sfmath} \usepackage{makecell} \usepackage{booktabs}
-\usepackage{sectsty} \usepackage{url} %url in footnote
-\usepackage{color} \usepackage{tikz} \usepackage{graphicx}
+  twoside, openright]{scrartcl}
+\usepackage[scaled]{helvet}
+\usepackage[british]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{ifthen}
+\usepackage{amsmath,amsfonts,amsthm}
+\usepackage{sfmath}
+\usepackage{makecell}
+\usepackage{booktabs}
+\usepackage{sectsty}
+\usepackage{url} %url in footnote
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{graphicx}
+
+%% Listings
+\usepackage{listings}
+\usepackage{xcolor}
+
 \graphicspath{ {images/} }
 
 %\KOMAoptions{optionenliste}
@@ -40,6 +55,33 @@
 
 \setlength\parindent{0pt}
 
+%%%% Listings
+% C#
+%\setmonofont{Consolas} %to be used with XeLaTeX or LuaLaTeX
+\definecolor{bluekeywords}{rgb}{0,0,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.64,0.08,0.08}
+\definecolor{xmlcomments}{rgb}{0.5,0.5,0.5}
+\definecolor{types}{rgb}{0.17,0.57,0.68}
+
+\usepackage{listings}
+\lstset{language=[Sharp]C,
+captionpos=b,
+%numbers=left, %Nummerierung
+%numberstyle=\tiny, % kleine Zeilennummern
+frame=lines, % Oberhalb und unterhalb des Listings ist eine Linie
+showspaces=false,
+showtabs=false,
+breaklines=true,
+showstringspaces=false,
+breakatwhitespace=true,
+escapeinside={(*@}{@*)},
+commentstyle=\color{greencomments},
+morekeywords={partial, var, value, get, set},
+keywordstyle=\color{bluekeywords},
+stringstyle=\color{redstrings},
+basicstyle=\ttfamily\small,
+}
 
 \begin{document}
 %\sffamily
@@ -96,7 +138,8 @@
 }
 
 \pagestyle{plain}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Project Description
 \section{Project Description}
 The project we (i.e., Maarten Vandercammen and Christophe De Troyer) are using
 for this course is named ``CodeBox''. CodeBox is a project built by Christophe
@@ -104,6 +147,8 @@ De Troyer during his studies for a Bsc at Ghent College. It is a web
 application built using the Microsoft .NET web stack. It uses MVC 3 as architectural
 pattern, Entity Framework for the persistence layer and C\# as the language of
 choice. The views are constructed using the then-new markup language Razor.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Functionality
 \subsection{Functionality}
 \paragraph{Snippets}
 Codebox is basicly a clone of pastebin.net (or any other text-sharing
@@ -128,6 +173,139 @@ e-mail has to be a valid and existing user for the system to work.
 The last small feature of CodeBox is that users can edit their profile. It is
 possible to provide a full name (first and surname). The user can change his/her
 password and upload a profile picture.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Testability
+\section{Testability}
+The testability of this project is rather high. The main reason for this is that
+the project is built strictly according to the MVC pattern. This has a few key
+advantages when it comes to unit testing the application. First of all, a proper
+MVC application is loosly coupled. By definition, the MVC pattern decouples the
+application logic, display logic and persistence logic which is in sharp
+contrast to regular page rendering systems (E.g., ASP.Net Web Forms).
+
+We will discuss each important component and technique to show that there is
+indeed high testability in this particular application.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Ninject
+\subsection{Ninject}
+Ninject is a dependency injection framework for .Net. Using dependency injection
+it is possible to decouple the controllers from the actual data layer
+implementation. In Listing~\ref{lst:lst1} a small snippet shows how the
+\texttt{SnippetController} class is decoupled from actual implementation details
+of the repositories. In the context of testing this enables us to mock up a test
+repository with, for example, hardcoded values. Unit tests will not be aware of
+this and thus totally oblivious of the fact that it is working with fake data.
+
+
+\begin{lstlisting}[caption={Example of decoupling controller from data layer}, label={lst:lst1}]
+public class SnippetController : Controller
+{
+    private ISnippetRepository snipRepo;
+    private ILanguageRepository langRepo;
+    private IUserRepository userRepo;
+    private IGroupRepository groupRepo;
+
+    ...
+}
+\end{lstlisting}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Moq
+\subsection{Moq}
+As mentioned before, we use ``mocking'' implementations of data repositories to
+unit test controllers. This is all well enough for small tests. However, this
+approach does not scale properly. If you were to stest the number of invocations
+of a certain controller method one would simply add a field in the
+\texttt{FakeRepository.cs} class and increment it each time the fake method is
+called. This approach is problematic if the fake repositories grow too large to
+maintain. One might even say that it would need unit testing. To mitigate this,
+there is a thing called \texttt{Moq}. Moq is a library that allows one to easily
+create fake repositories. An example of creating a fake repository is given in
+Listing ~\ref{lst:moq}.
+
+In this example we ask Moq to give us a class that implements the
+\texttt{ISnippetRepository} interface. Moq then generates this class on the
+fly. To specify behaviour for each method we can use some LINQ magic. The last
+line in the example specifies that the method \texttt{m.GetSnippets()} should
+simply return the array of \texttt{Snippet}s.
+
+This way, we can easily generate test repositories. It is fairly obvious that
+this approach is much less error prone that manually writing all the test
+repositories.
+
+\begin{lstlisting}[caption={Creating a mocking repository using Moq.}, label={lst:moq}]
+Mock<ISnippetRepository> mock = new Mock<ISnippetRepository>();
+
+Snippet[] snippets = new Snippet[] 
+	{
+	new Snippet() { Name = ``SSL Decryption'', ``User''=''cdetroye'',..},
+	new Snippet() { Name = ``Windows Backdoor'', ``User''=''mvdcamme'',..},
+	new Snippet() { Name = ``GPG Bruteforce algo'', ``User''=''cdetroye'',..},
+	new Snippet() { Name = ``iCloud Hack'', ``User''=''mvdcamme'',..}
+	};
+
+mock.Setup(m => m.GetSnippets()).Returns(snippets);
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Controllers
+\subsection{Controllers}
+The key component of an MVC application is the controller. In this case testing
+it is a breeze. Testing a controller is as simple as mocking up the above
+mentioned repository for data. The unit test can then test if the returned model
+is correct by means of testing the data that it contains. This does mean that we
+can not test the actual representation. But this is rather an up- than
+downside. An example of how to test a controller is given in
+Listing~\ref{lst:testcontroller}. Note that it assumes the code of
+Listing~\ref{lst:lst1} and ~\ref{lst:moq}.
+
+\begin{lstlisting}[caption={Testing the model of a controller using Moq and Ninject.}, label={lst:testcontroller}]
+  SnippetController c = new SnippetController(mock.Object);
+  IEnumberable<Snippet> result = (IEnumberable<Snippet>)c.List(2).Model;
+
+  // Assertions
+  Snippet[] ss = result.ToArray();
+  Assert.IsTrue(ss.Length == 4);
+  Assert.AreEqual(ss[0].User, ``cdetroye'');
+  Assert.AreEqual(ss[1].Name, ``Windows Backdoor'');
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Controllers
+\subsection{Models}
+Unit testing a model is rather trivial. In a strict MVC application these
+classes do not contain any logic. They are merely carries of data. Thus, unit
+testing them would be as simple as writing some tests for a getter and a setter.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Controllers
+\subsection{Repositories}
+Testing the repositories is also fairly straightforward. To do this we should
+test the logic of the actual repositories. This can only be verified by actually
+running data insertions, deletions and retrievals. Again, these tests should
+prove to fairly straightforward. However, that might depend on the complexity of
+the actual persistency layer. In our case this is entity framework that is
+hooked up to a plain old SQL Server instance. This means that we keep raw SQL
+queries at a distance and just program against the Entity Framework model. Thus,
+relying on Entity Framework we can assume that testing beyond the interface of
+Entity Framework is not required.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Controllers
+\subsection{HTML}
+The final component of our application is the actual view. To test this we have
+te resort to technology such as Selenium. Selenium is a framework that is built
+for testing HTML user interfaces. Again, we can test each page seperatly.
+
+\subsection{Conclusion}
+We can conclude that by using all the frameworks and tools at hand it should be
+possible to have the highest possible test coverage. We have the MVC pattern to
+thank for this, as well as the top notch libraries like Moq and Ninject.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Test Strategy
 \section{Test Strategy}
 
 \subsection{Overall Test Strategy}
