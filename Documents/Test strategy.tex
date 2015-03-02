@@ -8,7 +8,35 @@
 \maketitle
 \section{Project Description}
 The project we (i.e., Maarten Vandercammen and Christophe De Troyer) are using
-for this course is named ``CodeBox''. CodeBox is a project uilt
+for this course is named ``CodeBox''. CodeBox is a project built by Christophe
+De Troyer during his studies for a Bsc at Ghent College. It is a web
+application built using the Microsoft .NET web stack. It uses MVC 3 as architectural
+pattern, Entity Framework for the persistence layer and C\# as the language of
+choice. The views are constructed using the then-new markup language Razor.
+\subsection{Functionality}
+\paragraph{Snippets}
+Codebox is basicly a clone of pastebin.net (or any other text-sharing
+website). The main idea of the website is to allow users to upload snippets of
+code using the webinterface and share them with other users. If wanted, the
+snippets can be kept private as well. Snippets can be given a title and
+description for future reference.
+
+\paragraph{Groups}
+To differentiate a bit from pastebin.net the notion of groups was
+introduced. This allows a user to create a group and add other members of
+CodeBox to that group. This allows one to share snippets not only with everyone
+(i.e., public) or nobody (i.e., private) but with groups as well. This allows
+every member of a group to view snippets shared in that specific group. Users
+are however not allowed to edit snippets created by a different user in that
+group.\\ Finally, groups have some sort of profile. Administrators of a group
+can modify the name, description and profile picure of a group. They can also
+invite new members to a group by adding their e-mail address to the list. This
+e-mail has to be a valid and existing user for the system to work.
+
+\paragraph{Users}
+The last small feature of CodeBox is that users can edit their profile. It is
+possible to provide a full name (first and surname). The user can change his/her
+password and upload a profile picture.
 \section{Test Strategy}
 
 \subsection{Overall Test Strategy}
