@@ -6,81 +6,152 @@
 \begin{document}
 
 \maketitle
- 
+\section{Project Description}
+The project we (i.e., Maarten Vandercammen and Christophe De Troyer) are using
+for this course is named ``CodeBox''. CodeBox is a project uilt
 \section{Test Strategy}
 
 \subsection{Overall Test Strategy}
-We plan on employing a wide array of different testing strategies, to maximize the quality of our delivered software, in accordance with the principles of agile programming. Testing will not happen ad-hoc, but will be structured and integrated directly into the core of our development process.
-In order to maximize the number of tests that can take place, we will mainly focus on creating tests that can be run and verified automatically, i.e., unit-tests.
-However, we will also dedicate ourselves in part to manually explore our application, to validate the overall quality of our software. This extends not only to finding and solving any bugs that may be present, but also to making sure that the runtime performance of our application is sufficiently high to remain responsive and that our graphical user interface is intuitive for new users.
+We plan on employing a wide array of different testing strategies, to maximize
+the quality of our delivered software, in accordance with the principles of
+agile programming. Testing will not happen ad-hoc, but will be structured and
+integrated directly into the core of our development process.  In order to
+maximize the number of tests that can take place, we will mainly focus on
+creating tests that can be run and verified automatically, i.e., unit-tests.
+However, we will also dedicate ourselves in part to manually explore our
+application, to validate the overall quality of our software. This extends not
+only to finding and solving any bugs that may be present, but also to making
+sure that the runtime performance of our application is sufficiently high to
+remain responsive and that our graphical user interface is intuitive for new
+users.
 
-Since it is in practice impossible to deliver an application completely free of any errors, we will have to divide our time and choose which aspects of our software will receive the most focus. We have therefore decided that the time spent on a feature directly corresponds with the priority level of that feature: high-priority features will receive the most attention, low-priority features the least.
+Since it is in practice impossible to deliver an application completely free of
+any errors, we will have to divide our time and choose which aspects of our
+software will receive the most focus. We have therefore decided that the time
+spent on a feature directly corresponds with the priority level of that feature:
+high-priority features will receive the most attention, low-priority features
+the least.
 
 Concretely, we plan on using the following testing strategies.
 
 \subsubsection*{Unit Testing}
-Unit-tests will form the backbone of our testing strategy. Each developper will create unit-tests simultaneously with implementing the various features.
-If the developper has finished writing the unit-test, the test will be run. If an error is reported, the error should be fixed immediately.
-Additionally, all unit-tests that have been created will be run overnight and any errors should be solved the following day.
+Unit-tests will form the backbone of our testing strategy. Each developper will
+create unit-tests simultaneously with implementing the various features.  If the
+developper has finished writing the unit-test, the test will be run. If an error
+is reported, the error should be fixed immediately.  Additionally, all
+unit-tests that have been created will be run overnight and any errors should be
+solved the following day.
 
 \subsubsection*{Feature Testing}
-In each iteration of our development process, we will release a number of new features in our application. Once a feature has been completed, we will perform manual testing on this feature to make sure it lives up to the expected standards with regards to errors, runtime performance and a qualitive GUI.
-Since we are developping a web-application, we will rely on the Selenium framework\footnote{http://docs.seleniumhq.org/} to automate our feature tests as much as possible.
+In each iteration of our development process, we will release a number of new
+features in our application. Once a feature has been completed, we will perform
+manual testing on this feature to make sure it lives up to the expected
+standards with regards to errors, runtime performance and a qualitive GUI.
+Since we are developping a web-application, we will rely on the Selenium
+framework\footnote{http://docs.seleniumhq.org/} to automate our feature tests as
+much as possible.
 
 \subsubsection*{System Testing}
-At the end of each iteration, we will execute manual, system-wide tests. These tests will mostly be focused on verifying and validating the newly implemented features, but they will also cover the existing features, in order to make sure that the whole application lives up to the standards we have set for it.
-While testing these existing features, we will especially focus on the high-priority features.
+At the end of each iteration, we will execute manual, system-wide tests. These
+tests will mostly be focused on verifying and validating the newly implemented
+features, but they will also cover the existing features, in order to make sure
+that the whole application lives up to the standards we have set for it.  While
+testing these existing features, we will especially focus on the high-priority
+features.
 
 \subsubsection*{Integration Testing}
-After completing or updating a module in our software, we will create automatic integration tests to verify whether this module correctly interacts with the other, already existing modules. Specific attention will be payed for mission-critical modules, or modules specifically created to implement high-priority features.
+After completing or updating a module in our software, we will create automatic
+integration tests to verify whether this module correctly interacts with the
+other, already existing modules. Specific attention will be payed for
+mission-critical modules, or modules specifically created to implement
+high-priority features.
 
 \subsection{Test Coverage}
-Below, we describe how we will maximize the test coverage for each of our user stories. We give an overview of the various tests we aim to create for these stories.
-Note that this set is only the minimum set of tests we will complete. It is likely that, as we progress, we will uncover additional opportunities for testing.
+Below, we describe how we will maximize the test coverage for each of our user
+stories. We give an overview of the various tests we aim to create for these
+stories.  Note that this set is only the minimum set of tests we will
+complete. It is likely that, as we progress, we will uncover additional
+opportunities for testing.
 
-We start by examining the highest-priority features and progressively move on to the lower-priority features.
+We start by examining the highest-priority features and progressively move on to
+the lower-priority features.
 
 \subsubsection*{Log in}
-The most important step to be tested in the 'Log in' user story is the validation of the log-in details, i.e., the e-mail address and the password.
-It should be possible to fully automate these kinds of tests, by storing dummy user-data in the database and checking whether the validation process succeeds when entering the correct details, and fails when entering incorrect data.
-The other steps in this user story can be verified with the Selenium framework.
+The most important step to be tested in the 'Log in' user story is the
+validation of the log-in details, i.e., the e-mail address and the password.  It
+should be possible to fully automate these kinds of tests, by storing dummy
+user-data in the database and checking whether the validation process succeeds
+when entering the correct details, and fails when entering incorrect data.  The
+other steps in this user story can be verified with the Selenium framework.
 
 \subsubsection*{Register}
-The most important task here is again the validation process. This time however, validation is more complex, since the application needs to make sure that no user with the given e-mail address has already been registered, that the password is strong enough and that the string that is provided as the given e-mail address can indeed be parsed as an e-mail address, for example by making use of a regular expressions matcher.
-All of these tasks can be fully automated, again by providing dummy data to the database. For the last task, we should analyze the regexp that will be used and determine where the corner cases of the expression lie.
+The most important task here is again the validation process. This time however,
+validation is more complex, since the application needs to make sure that no
+user with the given e-mail address has already been registered, that the
+password is strong enough and that the string that is provided as the given
+e-mail address can indeed be parsed as an e-mail address, for example by making
+use of a regular expressions matcher.  All of these tasks can be fully
+automated, again by providing dummy data to the database. For the last task, we
+should analyze the regexp that will be used and determine where the corner cases
+of the expression lie.
 
 \subsubsection*{Log out}
 For this user-story, we will rely almost exclusively on the Selenium framework.
 
 \subsubsection*{Create new snippet}
-For this story, we will focus mainly on the step where the user-input, i.e., the actual snippet along with all meta-data such as its name and id, are saved to the database.
-To this end, we will automatically generate snippets, store them in the database and retrieve them immediately afterwards. If all data can be retrieved, the test has succeeded.
+For this story, we will focus mainly on the step where the user-input, i.e., the
+actual snippet along with all meta-data such as its name and id, are saved to
+the database.  To this end, we will automatically generate snippets, store them
+in the database and retrieve them immediately afterwards. If all data can be
+retrieved, the test has succeeded.
 
 \subsubsection*{Show snippet}
-As with the other user stories, we will heavily rely on the Selenium framework to test the input/output actions. However, when viewing a snippet, we should make sure that syntax highlighting is correctly applied on the code that is shown.
-Because this syntax highlighting depends on the input language that was chosen, as well as the code that was entered, testing the correctness of this step will be an arduous task.
-At the moment, we do not know of any technique which would allow us to automatically verify whether syntax highlighting has been correctly applied given a specific input program and programming language.
+As with the other user stories, we will heavily rely on the Selenium framework
+to test the input/output actions. However, when viewing a snippet, we should
+make sure that syntax highlighting is correctly applied on the code that is
+shown.  Because this syntax highlighting depends on the input language that was
+chosen, as well as the code that was entered, testing the correctness of this
+step will be an arduous task.  At the moment, we do not know of any technique
+which would allow us to automatically verify whether syntax highlighting has
+been correctly applied given a specific input program and programming language.
 We will therefore have to rely on manual testing for this feature.
 
-Testing this user story would go well hand-in-hand with the 'Create new snippet' story: we could test the creation of one snippet and immediately afterwards check whether this snipper is correctly displayed.
-However, we do not wish to completely rely on this technique, since we would then have to wait until both features are fully implemented before we can start testing them. Furthermore, if one feature were to fail, we would have delay testing the other feature until the issue was fixed.
+Testing this user story would go well hand-in-hand with the 'Create new snippet'
+story: we could test the creation of one snippet and immediately afterwards
+check whether this snipper is correctly displayed.  However, we do not wish to
+completely rely on this technique, since we would then have to wait until both
+features are fully implemented before we can start testing them. Furthermore, if
+one feature were to fail, we would have delay testing the other feature until
+the issue was fixed.
 
 \subsubsection*{Edit user profile}
-Testing for this user story will be similar to the testing of the 'Register' story. We will again automatically generate mock data, use it to edit user profiles that also have been automatically generated, and check whether the correct changes have been made in the database.
+Testing for this user story will be similar to the testing of the 'Register'
+story. We will again automatically generate mock data, use it to edit user
+profiles that also have been automatically generated, and check whether the
+correct changes have been made in the database.
 
 \subsubsection*{Delete snippet}
-It should be fairly straighforward to test this user story. We will again automatically generate snippets and store them in the database. Afterwards, we delete them and verify whether they have indeed been correctly removed.
+It should be fairly straighforward to test this user story. We will again
+automatically generate snippets and store them in the database. Afterwards, we
+delete them and verify whether they have indeed been correctly removed.
 
 \subsubsection*{Add profile picture}
 
 \subsubsection*{Create new group}
-For this story map, the most important part to test is the saving of the details of the new group. This can be done in a similar matter as the other features where data is automatically generated, stored into and then retrieved from the database.
-The other aspects of this feature can be tested by using the Selenium framework.
+For this story map, the most important part to test is the saving of the details
+of the new group. This can be done in a similar matter as the other features
+where data is automatically generated, stored into and then retrieved from the
+database.  The other aspects of this feature can be tested by using the Selenium
+framework.
 
 \subsubsection*{Show groups for user}
-Since this feature should consist of no more than a simple database fetch, followed by showing the retrieved data, which can be tested through the Selenium framework, it should be trivial to create automatic tests for this feature.
+Since this feature should consist of no more than a simple database fetch,
+followed by showing the retrieved data, which can be tested through the Selenium
+framework, it should be trivial to create automatic tests for this feature.
 
 \subsubsection*{Invite user}
-As with the previous story map, it should be fairly straightforward to write automatic tests for this feature, since it mainly consists of reading input and showing output, for which we can use the Selenium framework.
+As with the previous story map, it should be fairly straightforward to write
+automatic tests for this feature, since it mainly consists of reading input and
+showing output, for which we can use the Selenium framework.
 
 \end{document}
