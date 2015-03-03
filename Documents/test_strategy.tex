@@ -433,9 +433,13 @@ automatically generate snippets and store them in the database. Afterwards, we
 delete them and verify whether they have indeed been correctly removed.
 
 \subsubsection*{Add profile picture}
+This user story should again be fairly straightforward to test. The most important part to test would again be the actual saving of the profile picture to the disk.
+Testing this can be accomplished by trying to upload a picture, checking whether the file-path to this picture has been correctly stored into the database, and corresponding the file at the file path with the image that was uploaded.
+The two files could be compared based on their meta-data.
+The various other steps of this story can again be tested through Selenium.
 
 \subsubsection*{Create new group}
-For this story map, the most important part to test is the saving of the details
+For this user story, the most important part to test is the saving of the details
 of the new group. This can be done in a similar matter as the other features
 where data is automatically generated, stored into and then retrieved from the
 database.  The other aspects of this feature can be tested by using the Selenium
