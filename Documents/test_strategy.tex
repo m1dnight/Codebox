@@ -134,14 +134,14 @@ basicstyle=\ttfamily\small,
   \fancyhf{}%
   \fancyhead[R]{\emph{\footnotesize \today}}
   \fancyfoot[R]{\emph{\footnotesize Page \thepage\ of \pageref{LastPage}}}%
-  \fancyfoot[C]{\emph{\footnotesize Christophe De Troyer}\\ \emph{\footnotesize 106490}}%
+  \fancyfoot[C]{\hspace*{-1.5cm} \emph{\footnotesize Christophe De Troyer} \hspace{2.7cm} \emph{\footnotesize Maarten Vandercammen} \\ \hspace*{-2cm} \emph{\footnotesize 106490} \hspace{4.5cm} \emph{\footnotesize 98341}}%
 }
 
 \pagestyle{plain}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Project Description
 \section{Project Description}
-The project we (i.e., Maarten Vandercammen and Christophe De Troyer) are using
+The project we (i.e., Christophe De Troyer and Maarten Vandercammen) are using
 for this course is named ``CodeBox''. CodeBox is a project built by Christophe
 De Troyer during his studies for a Bsc at Ghent College. It is a web
 application built using the Microsoft .NET web stack. It uses MVC 3 as architectural
@@ -151,23 +151,17 @@ choice. The views are constructed using the then-new markup language Razor.
 %%%% Functionality
 \subsection{Functionality}
 \paragraph{Snippets}
-Codebox is basicly a clone of pastebin.net (or any other text-sharing
+CodeBox is basically a clone of pastebin.net (or any other text-sharing
 website). The main idea of the website is to allow users to upload snippets of
 code using the webinterface and share them with other users. If wanted, the
 snippets can be kept private as well. Snippets can be given a title and
-description for future reference.
+description for future reference. Existing snippets can also be edited by their creator.
 
 \paragraph{Groups}
 To differentiate a bit from pastebin.net the notion of groups was
 introduced. This allows a user to create a group and add other members of
-CodeBox to that group. This allows one to share snippets not only with everyone
-(i.e., public) or nobody (i.e., private) but with groups as well. This allows
-every member of a group to view snippets shared in that specific group. Users
-are however not allowed to edit snippets created by a different user in that
-group.\\ Finally, groups have some sort of profile. Administrators of a group
-can modify the name, description and profile picure of a group. They can also
-invite new members to a group by adding their e-mail address to the list. This
-e-mail has to be a valid and existing user for the system to work.
+CodeBox to that group. This gives one the option to share snippets not only with everyone (i.e., public) or nobody (i.e., private) but with all members from the selected groups as well. 
+Users are however not allowed to edit snippets created by a different user in that group.\\ Finally, groups have some sort of profile. Administrators of a group can modify the name, description and profile picure of a group. They can also invite new members to a group by adding their e-mail address to the list. This e-mail has to be a valid and existing user for the system to work.
 
 \paragraph{Users}
 The last small feature of CodeBox is that users can edit their profile. It is
@@ -180,7 +174,7 @@ password and upload a profile picture.
 The testability of this project is rather high. The main reason for this is that
 the project is built strictly according to the MVC pattern. This has a few key
 advantages when it comes to unit testing the application. First of all, a proper
-MVC application is loosly coupled. By definition, the MVC pattern decouples the
+MVC application is loosely coupled. By definition, the MVC pattern decouples the
 application logic, display logic and persistence logic which is in sharp
 contrast to regular page rendering systems (E.g., ASP.Net Web Forms).
 
@@ -215,12 +209,12 @@ public class SnippetController : Controller
 \subsection{Moq}
 As mentioned before, we use ``mocking'' implementations of data repositories to
 unit test controllers. This is all well enough for small tests. However, this
-approach does not scale properly. If you were to stest the number of invocations
+approach does not scale properly. If you were to test the number of invocations
 of a certain controller method one would simply add a field in the
 \texttt{FakeRepository.cs} class and increment it each time the fake method is
 called. This approach is problematic if the fake repositories grow too large to
 maintain. One might even say that it would need unit testing. To mitigate this,
-there is a thing called \texttt{Moq}. Moq is a library that allows one to easily
+the \texttt{Moq} library was created. Moq allows one to easily
 create fake repositories. An example of creating a fake repository is given in
 Listing ~\ref{lst:moq}.
 
@@ -252,7 +246,7 @@ mock.Setup(m => m.GetSnippets()).Returns(snippets);
 %%%% Controllers
 \subsection{Controllers}
 The key component of an MVC application is the controller. In this case testing
-it is a breeze. Testing a controller is as simple as mocking up the above
+it is straightforward. Testing a controller is as simple as mocking up the above
 mentioned repository for data. The unit test can then test if the returned model
 is correct by means of testing the data that it contains. This does mean that we
 can not test the actual representation. But this is rather an up- than
@@ -275,7 +269,7 @@ Listing~\ref{lst:lst1} and ~\ref{lst:moq}.
 %%%% Controllers
 \subsection{Models}
 Unit testing a model is rather trivial. In a strict MVC application these
-classes do not contain any logic. They are merely carries of data. Thus, unit
+classes do not contain any logic but merely carry data. Thus, unit
 testing them would be as simple as writing some tests for a getter and a setter.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -319,8 +313,7 @@ However, we will also dedicate ourselves in part to manually explore our
 application, to validate the overall quality of our software. This extends not
 only to finding and solving any bugs that may be present, but also to making
 sure that the runtime performance of our application is sufficiently high to
-remain responsive and that our graphical user interface is intuitive for new
-users.
+remain responsive.
 
 Since it is in practice impossible to deliver an application completely free of
 any errors, we will have to divide our time and choose which aspects of our
@@ -343,9 +336,9 @@ solved the following day.
 In each iteration of our development process, we will release a number of new
 features in our application. Once a feature has been completed, we will perform
 manual testing on this feature to make sure it lives up to the expected
-standards with regards to errors, runtime performance and a qualitive GUI.
+standards with regards to errors and runtime performance.
 Since we are developping a web-application, we will rely on the Selenium
-framework\footnote{http://docs.seleniumhq.org/} to automate our feature tests as
+framework to automate our feature tests as
 much as possible.
 
 \subsubsection*{System Testing}
@@ -432,6 +425,9 @@ It should be fairly straighforward to test this user story. We will again
 automatically generate snippets and store them in the database. Afterwards, we
 delete them and verify whether they have indeed been correctly removed.
 
+\subsubsection*{Edit snippet}
+Testing that a snippet can be edited should be similar to testing whether a user profile can be edited, although the data to be generated and the records to be changed are different of course.
+
 \subsubsection*{Add profile picture}
 This user story should again be fairly straightforward to test. The most important part to test would again be the actual saving of the profile picture to the disk.
 Testing this can be accomplished by trying to upload a picture, checking whether the file-path to this picture has been correctly stored into the database, and corresponding the file at the file path with the image that was uploaded.
@@ -499,15 +495,15 @@ working project. This will contain the basic required functionality. This
 contains being able to login and register to the site, create code snippets and
 list personal snippets. We feel that other features are not as pressed to use this application.
 
-\paragraph{Second} The second release will complete the features surround
+\paragraph{Second} The second release will complete the features surrounding
 snippets. A user should be able to delete snippets and edit them as well. The
 reason we feel this is not high risk is that a user will probably want to use
 this site in a pastebin-like manner, i.e., paste it, share it and be done with
-it.
+it. In this release, we will also add a feature for editing user profiles.
 
 \paragraph{Third} The third and final release will introduce the notion of
 groups. This is the least important aspect of the entire application in our
-opinion. The notion of groups only adds to the comfort of the user, but removing this feature would not make this application any less usable.
+opinion. The notion of groups only adds to the comfort of the user, but removing this feature would not make this application any less usable. As a final feature to be introduced, we will allow users to upload profile pictures.
 
 
 % \begin{tabular}
