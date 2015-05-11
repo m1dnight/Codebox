@@ -4,6 +4,7 @@ CodeBox.WebUI/Bin
 CodeBox.WebUI/obj
 CodeBox.Domain/App.Config
 CodeBox.WebUI/Web.Config
+./packages
 
 _ReSharper.CodeBox
 *.aux
