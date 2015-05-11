@@ -1,8 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
-MinimumVisualStudioVersion = 10.0.40219.1
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBox.WebUI", "CodeBox.WebUI\CodeBox.WebUI.csproj", "{D6F6E1F8-2D79-4826-A8B6-4FB35EB8AF23}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBox.Domain", "CodeBox.Domain\CodeBox.Domain.csproj", "{89337627-8831-4275-A360-890F24E9ADE0}"

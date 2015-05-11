@@ -1,0 +1,16 @@
+﻿@model CodeBox.WebUI.Models.Admin.Widgets.UsersWidgetModel
+<div class="widget users">
+    @using (Html.BeginForm("UsersWidget", "Admin"))
+    {
+        <fieldset>
+            <legend>
+                Users
+            </legend>
+            @Html.DropDownListFor(model => model.SelectedItem, Model.Users)
+            <p>
+                <input type="submit" value="Edit" name="commandbutton"/>
+                <input type="submit" value="Delete" name="commandbutton"/>
+            </p>
+        </fieldset>
+    }
+</div>

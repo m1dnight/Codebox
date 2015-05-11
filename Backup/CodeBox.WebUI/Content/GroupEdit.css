@@ -1,0 +1,11 @@
+﻿/*----------------
+----Group Edit--*/
+input#Name, textarea#Description, input#Image {
+    width: 100%;
+}
+textarea#Description {
+    height: 90px;
+}
+input#Mail {
+    width: 50%;
+}

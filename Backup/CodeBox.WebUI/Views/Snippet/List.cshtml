@@ -1,0 +1,22 @@
+﻿@model IQueryable<CodeBox.Domain.Concrete.ORM.Snippet>
+
+@{
+    ViewBag.Title = "Your CodeBox";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+		<link href="@Url.Content("~/Content/SnippetList.css")" rel="stylesheet" type="text/css"></link>
+@section Title
+{
+    Your CodeBox
+}
+@if (!Model.Any())
+{
+    <p>There are no snippets in your CodeBox yet. @Html.ActionLink("Create a snippet now!", "Create", "Snippet")</p>
+}
+else
+{
+foreach (var p in Model)
+{
+    Html.RenderPartial("Snippet", p);
+}
+}

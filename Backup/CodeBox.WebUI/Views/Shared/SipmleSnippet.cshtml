@@ -1,0 +1,39 @@
+﻿@model CodeBox.Domain.Concrete.ORM.Snippet
+
+<fieldset>
+    <legend>Snippet</legend>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">Description</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+
+    <div class="display-label">CreationDate</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreationDate)
+    </div>
+
+    <div class="display-label">Code</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Code)
+    </div>
+
+
+    <div class="display-label">Public</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Public)
+    </div>
+</fieldset>
+<p>
+    @if (Model.User.Username == User.Identity.Name)
+    {
+        @Html.ActionLink("Edit", "Edit", new { snippetId = Model.SnippetId }) @:|
+    }
+    
+    @Html.ActionLink("Back to List", "Index")
+</p>

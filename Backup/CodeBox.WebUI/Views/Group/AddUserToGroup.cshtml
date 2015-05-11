@@ -1,0 +1,20 @@
+﻿@model CodeBox.WebUI.Models.Group.AddUserViewModel
+           
+<div id="adduser">
+    @using (Html.BeginForm("AddUserToGroup", "Group"))
+    {
+        <fieldset>
+            <legend>Add User By Mail</legend>
+            @Html.HiddenFor(x => x.GroupId)
+            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+            @Html.EditorFor(x => x.Mail)
+            
+            @if (TempData["error"] != null)
+            {
+                <span id="error">@TempData["error"]</span>
+            }
+            <p><input type="submit" value="Add"/></p>
+        </fieldset>
+    }
+</div>
+

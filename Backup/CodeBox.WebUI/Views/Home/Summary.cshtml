@@ -1,0 +1,62 @@
+﻿@model CodeBox.WebUI.Models.Home.IndexViewModel
+
+<fieldset>
+    <legend>Summary</legend>
+    <table width="100%">
+        <tr>
+            <th>Registered Users</th>
+            <th>Stored snippets</th>
+            <th>Users online</th>
+        </tr>
+        <tr>
+            <td align="center">@Model.Usercount</td>
+            <td align="center">@Model.SnippetCount</td>
+            <td align="center">@Model.UsersOnline</td>
+        </tr>
+    </table>
+    <p class="editor-label">Recent public snippets</p>
+    <br/>
+    <table width="100%">
+        <tr>
+            <th style="padding-bottom: 15px;">ID</th>
+            <th style="padding-bottom: 15px;">Language</th>
+            <th style="padding-bottom: 15px;">Title</th>
+            <th style="padding-bottom: 15px;">Description</th>
+            <th style="padding-bottom: 15px;">User</th>
+        </tr>
+        @foreach (var s in Model.PublicSnippets)
+        {
+            <tr>
+                <td align="center">
+                    @s.SnippetId
+                </td>
+                <td align="center">
+                    @s.Language.Name
+                </td>
+                <td align="center">
+                    <a href="@Url.Action("PublicSnippet", "Home", new { snippetId = s.SnippetId })">
+                        @if (s.Name.Length > 32)
+                        { 
+                            @s.Name.Substring(0, 29)
+                            @:...
+                            }
+                        else
+                        {
+                            @s.Name
+                        }
+                    </a>
+                </td>
+                <td align="center">                        @if (s.Description.Length > 32)
+                        { 
+                            @s.Description.Substring(0, 29)
+                            @:...        
+                    }
+                        else
+                        {
+                            @s.Name
+                        }</td>
+                <td align="center">@s.User.Username</td>
+            </tr>
+        }
+    </table>
+</fieldset>

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<CodeBox.Domain.Concrete.ORM.Group>
+@{
+    ViewBag.Title = "Index";
+}
+@section Title{
+Group Management
+}
+<p>
+    @Html.ActionLink("Create new group", "Create", "Group")
+</p>
+<table width="100%">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Admin?
+        </th>
+        <th>
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td align="center">
+               <a href="@Url.Action("Details", "Group", new { id = item.Id })">@Html.DisplayFor(modelItem => item.Name)</a>
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td align="center">
+                @(item.GroupAdmins.Any(g => g.User.Username == User.Identity.Name) ? Html.CheckBox("Admin", true, new { disabled = "disabled" }) : Html.CheckBox("Admin", false, new { disabled = "disabled" }))
+            </td>
+            <td>
+            @if (item.GroupAdmins.Any(g => g.User.Username == User.Identity.Name))
+            {
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) @:|
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) @:|
+            }
+                @Html.ActionLink("Leave", "LeaveGroup", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,67 @@
+﻿@model CodeBox.Domain.Concrete.ORM.Group
+@{
+    ViewBag.Title = "Snippets";
+}
+<link href="@Url.Content("~/Content/SnippetList.css")" rel="stylesheet" type="text/css" />
+@section Title
+{
+    Snippets for '@Model.Name'
+}
+@if (!Model.Snippets.Any())
+{
+    <p>
+        There are no snippets yet in @Model.Name! @Html.ActionLink("Create a snippet now!", "Create", "Snippet")</p>
+}
+else
+{
+    foreach (var p in Model.Snippets)
+    {
+    <div class="singleSnippet">
+        <div class="InnerTop">
+            <div class="date">
+                <div class="month">
+                    @if (p.CreationDate != null)
+                    {
+                        var d = (DateTime)p.CreationDate;
+                        @d.ToString("MMMM").Substring(0, 3)
+                    }
+                </div>
+                <div class="day">
+                    @if (p.CreationDate != null)
+                    {
+                        var d = (DateTime)p.CreationDate;
+                        @d.Day
+                    }
+                </div>
+                <div class="year">
+                    @if (p.CreationDate != null)
+                    {
+                        var d = (DateTime)p.CreationDate;
+                        @d.Year
+                    }
+                </div>
+            </div>
+            <div class="snippetlang">
+                @p.Language.Name
+            </div>
+            <div class="snippetTitle">
+                <a href="@Url.Action("View", "Snippet", new { id = p.SnippetId })">@p.Name (@p.User.Username)</a>
+            </div>
+            <div class="description">
+                <p>@p.Description</p>
+            </div>
+        </div>
+        <div class="menu">
+            @if (User.Identity.Name == p.User.Username)
+            {
+                <a href="@Url.Action("Edit", "Snippet", new { p.SnippetId })">
+                    <img src="@Url.Content("~/Content/images/icons/edit.png")" alt="edit"/>
+                </a><a href="@Url.Action("DeleteSnippet", "Snippet", new { p.SnippetId })">
+                    <img src="@Url.Content("~/Content/images/icons/delete.png")" alt="delete"/>
+                </a>
+            
+            }
+        </div>
+    </div>
+    }
+}

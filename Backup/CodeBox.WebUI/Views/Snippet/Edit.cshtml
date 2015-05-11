@@ -1,0 +1,83 @@
+﻿@model CodeBox.WebUI.Models.Snippet.SnippetCRUDViewModel
+@{
+    
+    if (Model.Snippet.SnippetId != 0)
+    {
+        ViewBag.Title = "Edit";
+    }
+    else
+    {
+        ViewBag.Title = "New Snippet";
+    }
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="@Url.Content("~/Content/SnippetEdit.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/base64.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    
+//works in firefox
+//    window.onload = function () {
+//        var decoded = atob(document.getElementById("Snippet_Code").value);
+//        document.getElementById("Snippet_Code").value = decoded;
+//    };
+
+//    function Execute() {
+//        var encoded = btoa(document.getElementById("Snippet_Code").value);
+//        document.getElementById("Snippet_Code").value = encoded;
+//    };
+    window.onload = function () {
+        var decoded = base64.decode(document.getElementById("Snippet_Code").value);
+        document.getElementById("Snippet_Code").value = decoded;
+    };
+
+    function Execute() {
+        var encoded = base64.encode(document.getElementById("Snippet_Code").value);
+        document.getElementById("Snippet_Code").value = encoded;
+    };
+</script>
+@section Title
+{
+    @if (Model.Snippet.SnippetId != 0)
+    {
+        @:Editing @Model.Snippet.Name
+}
+    else
+    {
+        @:New Snippet
+    }
+}
+@if (Model.Snippet.SnippetId != 0)
+{
+    <p>
+        <span class="title">ID:</span> @Model.Snippet.SnippetId</p>
+    <p>
+        <span class="title">Last modified:</span> @Model.Snippet.ModifiedDate</p>
+}
+@using (Html.BeginForm("Edit", "Snippet", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Values</legend>
+        <p>
+            @Html.EditorFor(model => model.Snippet)
+        </p>
+        <p class="editor-label">
+            Syntax:</p>
+        <p>
+            @Html.DropDownListFor(model => model.SelectedLanguageId, Model.Languages)
+        </p>
+        <p class="editor-label">
+            Share with group (optional):</p>
+        <p>
+            @Html.ListBoxFor(model => model.SelectedGroupId, Model.Groups)
+        </p>
+        <p>
+            <input type="submit" value="Save" id="SnippetSubmit" onclick="Execute();return true;" />
+        </p>
+    </fieldset>
+}
+<div>
+    @Html.ActionLink("Back to List", "List")
+</div>

@@ -1,0 +1,53 @@
+﻿@model CodeBox.Domain.Concrete.ORM.Group
+@section Title
+{
+    Details for @Model.Name
+}
+<fieldset>
+    <legend>Group</legend>
+    <div class="display-label">
+        Name</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    <div class="display-label">
+        Description</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+    <br/>
+    <table width="100%">
+        <tr>
+            <th >
+                Username
+            </th>
+            <th>
+                # Snippets
+            </th>
+            <th>
+                Admin?
+            </th>
+        </tr>
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td align="center">
+                    @Model.Snippets.Count(s => s.UserId == item.UserId)
+                </td>
+                <td align="center">
+                    @Html.CheckBox("Admin?", Model.GroupAdmins.Any(ga => ga.User.UserId == item.UserId), new {disabled = "disabled"})
+                </td>
+            </tr>
+        }
+    </table>
+</fieldset>
+<p>
+    @if (Model.GroupAdmins.Any(a => a.User.Username == User.Identity.Name))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) @:|
+    }
+    @Html.ActionLink("Back to List", "Index") | @Html.ActionLink("All Snippets", "Snippets", new{ id = Model.Id})
+</p>
