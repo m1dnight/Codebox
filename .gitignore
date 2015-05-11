@@ -2,6 +2,8 @@ CodeBox.Domain/bin
 CodeBox.Domain/obj
 CodeBox.WebUI/Bin
 CodeBox.WebUI/obj
+CodeBox.Domain/App.Config
+CodeBox.WebUI/Web.Config
 
 _ReSharper.CodeBox
 *.aux
