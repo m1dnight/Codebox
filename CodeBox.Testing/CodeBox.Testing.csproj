@@ -93,13 +93,18 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EFSnippetRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HomeControllerTests.cs" />
+    <Compile Include="SampleData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeBox.Domain\CodeBox.Domain.csproj">
       <Project>{89337627-8831-4275-A360-890F24E9ADE0}</Project>
       <Name>CodeBox.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeBox.WebUI\CodeBox.WebUI.csproj">
+      <Project>{D6F6E1F8-2D79-4826-A8B6-4FB35EB8AF23}</Project>
+      <Name>CodeBox.WebUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -25,3 +25,5 @@ C:\Users\ChristopheRosaFreddy\Documents\BitBucket\Codebox\CodeBox.Testing\bin\De
 C:\Users\ChristopheRosaFreddy\Documents\BitBucket\Codebox\CodeBox.Testing\obj\Debug\CodeBox.Testing.csprojResolveAssemblyReference.cache
 C:\Users\ChristopheRosaFreddy\Documents\BitBucket\Codebox\CodeBox.Testing\obj\Debug\CodeBox.Testing.dll
 C:\Users\ChristopheRosaFreddy\Documents\BitBucket\Codebox\CodeBox.Testing\obj\Debug\CodeBox.Testing.pdb
+C:\Users\ChristopheRosaFreddy\Documents\BitBucket\Codebox\CodeBox.Testing\bin\Debug\CodeBox.WebUI.dll
+C:\Users\ChristopheRosaFreddy\Documents\BitBucket\Codebox\CodeBox.Testing\bin\Debug\CodeBox.WebUI.pdb

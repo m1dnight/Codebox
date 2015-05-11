@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using CodeBox.Domain.Abstract;
 using CodeBox.WebUI.Models.Home;
+using System.Diagnostics;
 
 namespace CodeBox.WebUI.Controllers
 {
@@ -21,10 +21,17 @@ namespace CodeBox.WebUI.Controllers
         {
             return View();
         }
-
+        /// <summary>
+        /// Method that returns the index page with a summary. 
+        /// The summary will contain a list of all the public snippets, 
+        /// the total count of snippets in the database,
+        /// the total number of users and the total number of users online.
+        /// </summary>
+        /// <returns></returns>
         [ChildActionOnly]
-        public ActionResult Summary()
+        public PartialViewResult Summary()
         {
+            Debug.WriteLine("Summary()");
             var minutesago = DateTime.Now.Subtract(new TimeSpan(0, 0, 10, 0));
 
             var model = new IndexViewModel
@@ -36,11 +43,17 @@ namespace CodeBox.WebUI.Controllers
             };
             return PartialView(model);
         }
-
+        /// <summary>
+        /// Called when a user requests to view a public snippet. 
+        /// Users that are not logged in can view snippets through this method.
+        /// </summary>
+        /// <param name="snippetId">The snippet ID</param>
+        /// <returns>Redirects to the snippet or index if the snippet is not public.</returns>
         public ActionResult PublicSnippet(int snippetId)
         {
+            Debug.WriteLine("PublicSnippet(" + snippetId + ")");
             var snippet = _snipRepo.Snippets.FirstOrDefault(s => s.SnippetId == snippetId);
-            if(snippet != null && snippet.Public)
+            if (snippet != null && snippet.Public)
                 return View(snippet);
             return RedirectToAction("Index");
         }
