@@ -33,6 +33,18 @@ namespace CodeBox.Testing
                 Code = "this is the code",
                 Description = "This is the description",
                 Public = true
+            },
+            new Snippet
+            {
+                SnippetId = 3,
+                Name = "Test Snippet 3",
+                CreationDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                UserId = 1,
+                LanguageId = 1,
+                Code = "this is the code",
+                Description = "This is the description",
+                Public = false
             }
         };
 

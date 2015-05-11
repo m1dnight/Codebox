@@ -1,6 +1,0 @@
-C:\Users\ChristopheRosaFreddy\Documents\BitBucket\Codebox\Scratchpad\bin\Debug\Scratchpad.exe.config
-C:\Users\ChristopheRosaFreddy\Documents\BitBucket\Codebox\Scratchpad\bin\Debug\Scratchpad.exe
-C:\Users\ChristopheRosaFreddy\Documents\BitBucket\Codebox\Scratchpad\bin\Debug\Scratchpad.pdb
-C:\Users\ChristopheRosaFreddy\Documents\BitBucket\Codebox\Scratchpad\obj\Debug\Scratchpad.csprojResolveAssemblyReference.cache
-C:\Users\ChristopheRosaFreddy\Documents\BitBucket\Codebox\Scratchpad\obj\Debug\Scratchpad.exe
-C:\Users\ChristopheRosaFreddy\Documents\BitBucket\Codebox\Scratchpad\obj\Debug\Scratchpad.pdb

@@ -1,4 +1,6 @@
 CodeBox.Domain/bin
+CodeBox.Scratchpad/bin
+CodeBox.Scratchpad/obj
 CodeBox.Domain/obj
 CodeBox.WebUI/Bin
 CodeBox.WebUI/obj
