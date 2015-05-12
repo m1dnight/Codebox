@@ -6,6 +6,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using System.Xml.XPath;
 using CodeBox.Domain.Concrete.ORM;
 using CodeBox.WebUI.Models.Snippet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -137,8 +138,22 @@ namespace CodeBox.Testing
             result = controller.Edit(model);
             // If all went well we should get a redirect.
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            
+        }
+        [TestMethod]
+        public void CreateSnippetGetTest()
+        {
+            var controller = Helpers.CreateSnippetController();
+            var controllerContext = new Mock<ControllerContext>();
+            var principal = new Mock<IPrincipal>();
 
+            principal.Setup(p => p.IsInRole("admin")).Returns(true);
+            principal.SetupGet(x => x.Identity.Name).Returns("admin");
+            controllerContext.SetupGet(x => x.HttpContext.User).Returns(principal.Object);
+            controller.ControllerContext = controllerContext.Object;
+
+            ViewResult result = controller.Create();
+            var model = result.Model;
+            Assert.AreEqual("Edit", result.ViewName);
         }
     }
 }

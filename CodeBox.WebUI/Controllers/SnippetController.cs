@@ -134,6 +134,11 @@ namespace CodeBox.WebUI.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Allows creation of a snippet.
+        /// Redirects the user to an edit page of a blank snippet.
+        /// </summary>
+        /// <returns></returns>
         public ViewResult Create()
         {
             var groupSL = new List<SelectListItem>();
@@ -151,7 +156,7 @@ namespace CodeBox.WebUI.Controllers
                 .ToList());
             var model = new SnippetCRUDViewModel
                             {
-                                Snippet = new Domain.Concrete.ORM.Snippet(),
+                                Snippet = new Snippet(),
                                 Languages = langRepo.LangOptions,
                                 SelectedLanguageId = 0,
                                 Groups = groupSL
