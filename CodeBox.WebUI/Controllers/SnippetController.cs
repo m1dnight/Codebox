@@ -73,7 +73,13 @@ namespace CodeBox.WebUI.Controllers
             return RedirectToAction("Create");
 
         }
-
+        /// <summary>
+        /// Handles the post of editing a snippet.
+        /// A snippet can not have an empty name or body when editing.
+        /// The editing user has to exists as well.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Edit(SnippetCRUDViewModel model)
         {
@@ -108,7 +114,7 @@ namespace CodeBox.WebUI.Controllers
             if (string.IsNullOrEmpty(model.Snippet.Code))
                 ModelState.AddModelError("Snippet.Code", "No empty snippets allowed!");
 
-            //Add model languages and group optoins again
+            //Add model languages and group options again
             var groupSL = new List<SelectListItem>();
             groupSL.Add(new SelectListItem
                             {

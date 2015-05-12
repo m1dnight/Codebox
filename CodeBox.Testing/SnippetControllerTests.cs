@@ -67,5 +67,78 @@ namespace CodeBox.Testing
             result = controller.Edit(10000);
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
         }
+
+        [TestMethod]
+        public void EditPostTest()
+        {   
+            ////////////////////////////////////////
+            // Test posting an empty snippet name.//
+            ////////////////////////////////////////
+            var controller = Helpers.CreateSnippetController();
+            var controllerContext = new Mock<ControllerContext>();
+            var principal = new Mock<IPrincipal>();
+
+            principal.Setup(p => p.IsInRole("admin")).Returns(true);
+            principal.SetupGet(x => x.Identity.Name).Returns("admin");
+            controllerContext.SetupGet(x => x.HttpContext.User).Returns(principal.Object);
+            controller.ControllerContext = controllerContext.Object;
+
+
+            SnippetCRUDViewModel model = new SnippetCRUDViewModel();
+            model.Snippet = new Snippet(){Name = ""};
+            var result = controller.Edit(model);
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            var response = ((ViewResult) result);
+            // There should be an error in the viewdata
+            var viewdata = response.ViewData;
+            var errormsg = viewdata.ModelState["Snippet.Name"].Errors.First().ErrorMessage;
+            Assert.AreEqual("Name is required!", errormsg);
+            
+            /////////////////////////////////////
+            // Test posting empty code snippet //
+            /////////////////////////////////////
+            // The error message from above will still be in the ModelState!
+            // -> Create new controller from scratch.
+            controller = Helpers.CreateSnippetController();
+            controllerContext = new Mock<ControllerContext>();
+            principal = new Mock<IPrincipal>();
+
+            principal.Setup(p => p.IsInRole("admin")).Returns(true);
+            principal.SetupGet(x => x.Identity.Name).Returns("admin");
+            controllerContext.SetupGet(x => x.HttpContext.User).Returns(principal.Object);
+            controller.ControllerContext = controllerContext.Object;
+
+            model = new SnippetCRUDViewModel();
+            model.Snippet = new Snippet() { Name = "Unimportant name", Code = ""};
+            result = controller.Edit(model);
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            response = ((ViewResult)result);
+            // There should be an error in the viewdata
+            viewdata = response.ViewData;
+            errormsg = viewdata.ModelState["Snippet.Code"].Errors.First().ErrorMessage;
+            Assert.AreEqual("No empty snippets allowed!", errormsg);
+
+            //////////////////////////////
+            // Test modifying a snippet //
+            //////////////////////////////
+            // The error message from above will still be in the ModelState!
+            // -> Create new controller from scratch.
+            controller = Helpers.CreateSnippetController();
+            controllerContext = new Mock<ControllerContext>();
+            principal = new Mock<IPrincipal>();
+
+            principal.Setup(p => p.IsInRole("admin")).Returns(true);
+            principal.SetupGet(x => x.Identity.Name).Returns("admin");
+            controllerContext.SetupGet(x => x.HttpContext.User).Returns(principal.Object);
+            controller.ControllerContext = controllerContext.Object;
+
+            model = new SnippetCRUDViewModel();
+            model.Snippet = SampleData.SnippetList.First(); // We own the first snippet in that list (user admin).
+            result = controller.Edit(model);
+            // If all went well we should get a redirect.
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            
+
+        }
     }
 }
