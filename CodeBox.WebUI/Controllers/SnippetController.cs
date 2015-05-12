@@ -11,17 +11,17 @@ namespace CodeBox.WebUI.Controllers
     [Authorize(Roles = "Users, Administrators")]
     public class SnippetController : Controller
     {
-        private ISnippetRepository snipRepo;
-        private ILanguageRepository langRepo;
-        private IUserRepository userRepo;
-        private IGroupRepository groupRepo;
+        private readonly ISnippetRepository _snipRepo;
+        private readonly ILanguageRepository _langRepo;
+        private readonly IUserRepository _userRepo;
+        private readonly IGroupRepository _groupRepo;
 
         public SnippetController(IGroupRepository grepo, ISnippetRepository snippetSnipRepo, ILanguageRepository languageRepo, IUserRepository uRepo)
         {
-            snipRepo = snippetSnipRepo;
-            langRepo = languageRepo;
-            userRepo = uRepo;
-            groupRepo = grepo;
+            _snipRepo = snippetSnipRepo;
+            _langRepo = languageRepo;
+            _userRepo = uRepo;
+            _groupRepo = grepo;
         }
         /// <summary>
         /// Returns the list of all the currently logged in user's snippets, ordered according to date.
@@ -29,7 +29,7 @@ namespace CodeBox.WebUI.Controllers
         /// <returns></returns>
         public ViewResult List()
         {
-            return View(snipRepo.Snippets.Where(p => p.User.Username == User.Identity.Name).OrderByDescending(p => p.ModifiedDate));
+            return View(_snipRepo.Snippets.Where(p => p.User.Username == User.Identity.Name).OrderByDescending(p => p.ModifiedDate));
         }
         /// <summary>
         /// Returns the edit view for a specific snippet.
@@ -40,7 +40,7 @@ namespace CodeBox.WebUI.Controllers
         /// <returns></returns>
         public ActionResult Edit(int snippetId)
         {
-            var snippet = snipRepo.Snippets.FirstOrDefault(s => s.SnippetId == snippetId);
+            var snippet = _snipRepo.Snippets.FirstOrDefault(s => s.SnippetId == snippetId);
 
             if (snippet != null && User.Identity.Name == snippet.User.Username )
             {
@@ -51,7 +51,7 @@ namespace CodeBox.WebUI.Controllers
                     Text = "None",
                     Value = "-1"
                 });
-                groupSL.AddRange(groupRepo.GetGroupsForUsername(User.Identity.Name)
+                groupSL.AddRange(_groupRepo.GetGroupsForUsername(User.Identity.Name)
                     .Select(g => new SelectListItem
                     {
                         Text = g.Name,
@@ -61,7 +61,7 @@ namespace CodeBox.WebUI.Controllers
                 // Populate the View model.
                 var model = new SnippetCRUDViewModel
                 {
-                    Languages = langRepo.LangOptions,
+                    Languages = _langRepo.LangOptions,
                     Snippet = snippet,
                     SelectedLanguageId = snippet.Language.LanguageId,
                     Groups = groupSL,
@@ -86,8 +86,8 @@ namespace CodeBox.WebUI.Controllers
             if (ModelState.IsValid && !string.IsNullOrEmpty(model.Snippet.Name) && !string.IsNullOrEmpty(model.Snippet.Code))
             {
                 //model.Snippet.LanguageId = model.SelectedLanguageId;
-                var language = langRepo.Languages.FirstOrDefault(l => l.LanguageId == model.SelectedLanguageId);
-                var user = userRepo.Users.FirstOrDefault(u => u.Username == User.Identity.Name);
+                var language = _langRepo.Languages.FirstOrDefault(l => l.LanguageId == model.SelectedLanguageId);
+                var user = _userRepo.Users.FirstOrDefault(u => u.Username == User.Identity.Name);
 
                 if (user != null)
                     model.Snippet.UserId = user.UserId;
@@ -97,11 +97,11 @@ namespace CodeBox.WebUI.Controllers
                     model.Snippet.LanguageId = language.LanguageId;
                 }
                 model.Snippet.Groups.Clear();
-                snipRepo.SaveSnippet(model.Snippet);
+                _snipRepo.SaveSnippet(model.Snippet);
 
                 //Add it to the groups
                 if(model.SelectedGroupId != null)
-                groupRepo.UpdateGroupsWithSnippet(model.SelectedGroupId, model.Snippet);
+                _groupRepo.UpdateGroupsWithSnippet(model.SelectedGroupId, model.Snippet);
 
 
                 TempData["message"] = string.Format("{0} has been saved!", model.Snippet.Name);
@@ -121,7 +121,7 @@ namespace CodeBox.WebUI.Controllers
                                 Text = "None",
                                 Value = "-1"
                             });
-            groupSL.AddRange(groupRepo.GetGroupsForUsername(User.Identity.Name)
+            groupSL.AddRange(_groupRepo.GetGroupsForUsername(User.Identity.Name)
                 .Select(g => new SelectListItem
                 {
                     Text = g.Name,
@@ -129,7 +129,7 @@ namespace CodeBox.WebUI.Controllers
                 })
                 .ToList());
             model.Groups = groupSL;
-            model.Languages = langRepo.LangOptions;
+            model.Languages = _langRepo.LangOptions;
 
             return View(model);
         }
@@ -147,7 +147,7 @@ namespace CodeBox.WebUI.Controllers
                 Text = "None",
                 Value = "-1"
             });
-            groupSL.AddRange(groupRepo.GetGroupsForUsername(User.Identity.Name)
+            groupSL.AddRange(_groupRepo.GetGroupsForUsername(User.Identity.Name)
                 .Select(g => new SelectListItem
                 {
                     Text = g.Name,
@@ -157,7 +157,7 @@ namespace CodeBox.WebUI.Controllers
             var model = new SnippetCRUDViewModel
                             {
                                 Snippet = new Snippet(),
-                                Languages = langRepo.LangOptions,
+                                Languages = _langRepo.LangOptions,
                                 SelectedLanguageId = 0,
                                 Groups = groupSL
                             };
@@ -166,11 +166,11 @@ namespace CodeBox.WebUI.Controllers
 
         public ActionResult DeleteSnippet(int snippetId)
         {
-            var snippet = snipRepo.Snippets.FirstOrDefault(s => s.SnippetId == snippetId);
+            var snippet = _snipRepo.Snippets.FirstOrDefault(s => s.SnippetId == snippetId);
             if (snippet != null)
             {
                 var snippetName = snippet.Name;
-                snipRepo.DeleteSnippet(snippet);
+                _snipRepo.DeleteSnippet(snippet);
                 TempData["message"] = string.Format("{0} has been deleted!", snippetName);
                 return RedirectToAction("List");
             }
@@ -180,16 +180,17 @@ namespace CodeBox.WebUI.Controllers
 
         public ActionResult View(int id)
         {
-            var snippet = snipRepo.Snippets.FirstOrDefault(s => s.SnippetId == id);
+            var snippet = _snipRepo.Snippets.FirstOrDefault(s => s.SnippetId == id);
             if (snippet != null)
             {
                 //Check to see if the user is allowed to see it
-                var IsSnippetInUserHisGroups = false;
+                var isSnippetInUserHisGroups = false;
+                //TODO: This code is fugly.
                 foreach (var g in snippet.Groups.Where(g => g.Users.Any(u => u.Username == User.Identity.Name)))
                 {
-                    IsSnippetInUserHisGroups = true;
+                    isSnippetInUserHisGroups = true;
                 }
-                if (snippet.User.Username == User.Identity.Name || IsSnippetInUserHisGroups || snippet.Public)
+                if (snippet.User.Username == User.Identity.Name || isSnippetInUserHisGroups || snippet.Public)
                 {
                     return View("View", snippet);
                 }

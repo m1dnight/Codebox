@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Data.Objects.DataClasses;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
@@ -109,6 +110,77 @@ namespace CodeBox.Testing
                 Code = "this is the code",
                 Description = "This is the description",
                 Public = false,
+                User = new User
+                {
+                    UserId = 2,
+                    Name = "notadmin",
+                    CreationDate = DateTime.Now,
+                    Snippets = null,
+                    Approved = true,
+                    Comment = "no comment",
+                    Username = "notadmin"
+                },
+                Language = new Language
+                {
+                    Name = "Scheme",
+                    Description = "Some language",
+                    Snippets = null,
+                }
+            },
+            new Snippet
+            {
+                Groups = new EntityCollection<Group>()
+                {
+                    new Group
+                    {
+                        Name = "Test Group",
+                        Users = new EntityCollection<User>()
+                        {
+                            new User
+                            {
+                                Username = "admin"
+                            }
+                        }
+                    }
+                },
+                SnippetId = 11,
+                Name = "Test Snippet 1",
+                CreationDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                UserId = 2,
+                LanguageId = 1,
+                Code = "this is the code",
+                Description = "This is the description",
+                Public = false,
+                User = new User
+                {
+                    UserId = 2,
+                    Name = "notadmin",
+                    CreationDate = DateTime.Now,
+                    Snippets = null,
+                    Approved = true,
+                    Comment = "no comment",
+                    Username = "notadmin"
+                },
+                Language = new Language
+                {
+                    Name = "Scheme",
+                    Description = "Some language",
+                    Snippets = null,
+                }
+            },
+            new Snippet
+            {
+                Groups = null,
+                SnippetId = 12,
+                Name = "Test Snippet 1",
+                CreationDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                UserId = 999,
+                LanguageId = 1,
+                Code = "this is the code",
+                Description = "This is the description",
+                Public = true,
                 User = new User
                 {
                     UserId = 2,

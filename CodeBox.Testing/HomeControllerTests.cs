@@ -28,10 +28,10 @@ namespace CodeBox.Testing
             // Call the summary method.
             IndexViewModel x = (IndexViewModel)hc.Summary().Model;
             // Assertions of the summary based on the sample data.
-            Assert.AreEqual(x.PublicSnippets.Count, 2);
-            Assert.AreEqual(x.SnippetCount, 4);
-            Assert.AreEqual(x.Usercount, 1);
-            Assert.AreEqual(x.UsersOnline, 0);
+            Assert.AreEqual(3, x.PublicSnippets.Count);
+            Assert.AreEqual(6, x.SnippetCount);
+            Assert.AreEqual(1, x.Usercount);
+            Assert.AreEqual(0, x.UsersOnline);
         }
 
 
