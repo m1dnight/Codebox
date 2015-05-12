@@ -29,7 +29,7 @@ namespace CodeBox.Testing
             IndexViewModel x = (IndexViewModel)hc.Summary().Model;
             // Assertions of the summary based on the sample data.
             Assert.AreEqual(x.PublicSnippets.Count, 2);
-            Assert.AreEqual(x.SnippetCount, 3);
+            Assert.AreEqual(x.SnippetCount, 4);
             Assert.AreEqual(x.Usercount, 1);
             Assert.AreEqual(x.UsersOnline, 0);
         }

@@ -30,6 +30,7 @@ namespace CodeBox.Testing
             moqUsers.Setup(m => m.Users).Returns(SampleData.UserList.AsQueryable());
             var moqLanguages = new Mock<ILanguageRepository>();
             moqLanguages.Setup(m => m.Languages).Returns(SampleData.LanguagesList.AsQueryable());
+            moqLanguages.Setup(m => m.LangOptions).Returns(SampleData.LangOptionsList);
 
             SnippetController sc = new SnippetController(moqGroups.Object, moqSnippets.Object, moqLanguages.Object, moqUsers.Object);
 

@@ -23,18 +23,28 @@ namespace CodeBox.WebUI.Controllers
             userRepo = uRepo;
             groupRepo = grepo;
         }
-
+        /// <summary>
+        /// Returns the list of all the currently logged in user's snippets, ordered according to date.
+        /// </summary>
+        /// <returns></returns>
         public ViewResult List()
         {
             return View(snipRepo.Snippets.Where(p => p.User.Username == User.Identity.Name).OrderByDescending(p => p.ModifiedDate));
         }
-
+        /// <summary>
+        /// Returns the edit view for a specific snippet.
+        /// Only works if the user is logged in and owns the snippet.
+        /// 
+        /// </summary>
+        /// <param name="snippetId"></param>
+        /// <returns></returns>
         public ActionResult Edit(int snippetId)
         {
             var snippet = snipRepo.Snippets.FirstOrDefault(s => s.SnippetId == snippetId);
 
             if (snippet != null && User.Identity.Name == snippet.User.Username )
             {
+                // Populate the groups list such that user can add the snippet to a group.
                 var groupSL = new List<SelectListItem>();
                 groupSL.Add(new SelectListItem
                 {
@@ -48,7 +58,7 @@ namespace CodeBox.WebUI.Controllers
                         Value = g.Id.ToString()
                     })
                     .ToList());
-
+                // Populate the View model.
                 var model = new SnippetCRUDViewModel
                 {
                     Languages = langRepo.LangOptions,

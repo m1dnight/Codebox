@@ -1,7 +1,9 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 using CodeBox.Domain.Concrete.ORM;
 
 namespace CodeBox.Testing
@@ -12,6 +14,7 @@ namespace CodeBox.Testing
         {
             new Snippet
             {
+                Groups = null,
                 SnippetId = 1,
                 Name = "Test Snippet 1",
                 CreationDate = DateTime.Now,
@@ -22,15 +25,21 @@ namespace CodeBox.Testing
                 Description = "This is the description",
                 Public = true,
                 User = new User
-                        {
-                            UserId = 1,
-                            Name = "admin",
-                            CreationDate = DateTime.Now,
-                            Snippets = null,
-                            Approved = true,
-                            Comment = "no comment",
-                            Username = "admin"
-                        }
+                {
+                    UserId = 1,
+                    Name = "admin",
+                    CreationDate = DateTime.Now,
+                    Snippets = null,
+                    Approved = true,
+                    Comment = "no comment",
+                    Username = "admin"
+                },
+                Language = new Language
+                {
+                    Name = "Scheme",
+                    Description = "Some language",
+                    Snippets = null,
+                }
             },
             new Snippet
             {
@@ -44,15 +53,21 @@ namespace CodeBox.Testing
                 Description = "This is the description",
                 Public = true,
                 User = new User
-                        {
-                            UserId = 1,
-                            Name = "admin",
-                            CreationDate = DateTime.Now,
-                            Snippets = null,
-                            Approved = true,
-                            Comment = "no comment",
-                            Username = "admin"
-                        }
+                {
+                    UserId = 1,
+                    Name = "admin",
+                    CreationDate = DateTime.Now,
+                    Snippets = null,
+                    Approved = true,
+                    Comment = "no comment",
+                    Username = "admin"
+                },
+                Language = new Language
+                {
+                    Name = "Scheme",
+                    Description = "Some language",
+                    Snippets = null,
+                }
             },
             new Snippet
             {
@@ -66,16 +81,51 @@ namespace CodeBox.Testing
                 Description = "This is the description",
                 Public = false,
                 User = new User
-                        {
-                            UserId = 1,
-                            Name = "admin",
-                            CreationDate = DateTime.Now,
-                            Snippets = null,
-                            Approved = true,
-                            Comment = "no comment",
-                            Username = "admin"
-                        }
-            }
+                {
+                    UserId = 1,
+                    Name = "admin",
+                    CreationDate = DateTime.Now,
+                    Snippets = null,
+                    Approved = true,
+                    Comment = "no comment",
+                    Username = "admin"
+                },
+                Language = new Language
+                {
+                    Name = "Scheme",
+                    Description = "Some language",
+                    Snippets = null,
+                }
+            },
+            new Snippet
+            {
+                Groups = null,
+                SnippetId = 10,
+                Name = "Test Snippet 1",
+                CreationDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                UserId = 2,
+                LanguageId = 1,
+                Code = "this is the code",
+                Description = "This is the description",
+                Public = false,
+                User = new User
+                {
+                    UserId = 2,
+                    Name = "notadmin",
+                    CreationDate = DateTime.Now,
+                    Snippets = null,
+                    Approved = true,
+                    Comment = "no comment",
+                    Username = "notadmin"
+                },
+                Language = new Language
+                {
+                    Name = "Scheme",
+                    Description = "Some language",
+                    Snippets = null,
+                }
+            },
         };
 
         public static List<User> UserList = new List<User>()
@@ -100,8 +150,8 @@ namespace CodeBox.Testing
                 Snippets = null,
                 Id = 1
             }
-
         };
+
         public static List<Language> LanguagesList = new List<Language>()
         {
             new Language
@@ -111,7 +161,8 @@ namespace CodeBox.Testing
                 InfoUrl = "http://www.wikipedia.org/Scheme",
                 LanguageId = 1
             }
-
         };
+
+        public static List<SelectListItem> LangOptionsList = new List<SelectListItem>();
     }
 }
