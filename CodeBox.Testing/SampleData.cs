@@ -8,7 +8,7 @@ namespace CodeBox.Testing
 {
     internal class SampleData
     {
-        public static List<Snippet> SnippetList  =  new List<Snippet>()
+        public static List<Snippet> SnippetList = new List<Snippet>()
         {
             new Snippet
             {
@@ -20,7 +20,17 @@ namespace CodeBox.Testing
                 LanguageId = 1,
                 Code = "this is the code",
                 Description = "This is the description",
-                Public = true
+                Public = true,
+                User = new User
+                        {
+                            UserId = 1,
+                            Name = "admin",
+                            CreationDate = DateTime.Now,
+                            Snippets = null,
+                            Approved = true,
+                            Comment = "no comment",
+                            Username = "admin"
+                        }
             },
             new Snippet
             {
@@ -32,7 +42,17 @@ namespace CodeBox.Testing
                 LanguageId = 1,
                 Code = "this is the code",
                 Description = "This is the description",
-                Public = true
+                Public = true,
+                User = new User
+                        {
+                            UserId = 1,
+                            Name = "admin",
+                            CreationDate = DateTime.Now,
+                            Snippets = null,
+                            Approved = true,
+                            Comment = "no comment",
+                            Username = "admin"
+                        }
             },
             new Snippet
             {
@@ -44,11 +64,21 @@ namespace CodeBox.Testing
                 LanguageId = 1,
                 Code = "this is the code",
                 Description = "This is the description",
-                Public = false
+                Public = false,
+                User = new User
+                        {
+                            UserId = 1,
+                            Name = "admin",
+                            CreationDate = DateTime.Now,
+                            Snippets = null,
+                            Approved = true,
+                            Comment = "no comment",
+                            Username = "admin"
+                        }
             }
         };
 
-        public static List<User> userdata = new List<User>()
+        public static List<User> UserList = new List<User>()
         {
             new User
             {
@@ -59,6 +89,29 @@ namespace CodeBox.Testing
                 Approved = true,
                 Comment = "no comment",
             }
+        };
+
+        public static List<Group> GroupList = new List<Group>()
+        {
+            new Group
+            {
+                Name = "Test Group",
+                Description = "Test Group Description",
+                Snippets = null,
+                Id = 1
+            }
+
+        };
+        public static List<Language> LanguagesList = new List<Language>()
+        {
+            new Language
+            {
+                Description = "The best language ever made.",
+                Name = "Scheme",
+                InfoUrl = "http://www.wikipedia.org/Scheme",
+                LanguageId = 1
+            }
+
         };
     }
 }

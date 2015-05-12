@@ -7,6 +7,7 @@ CodeBox.WebUI/obj
 CodeBox.Domain/App.Config
 CodeBox.WebUI/Web.Config
 ./packages
+*.FileListAbsolute.txt
 
 _ReSharper.CodeBox
 *.aux

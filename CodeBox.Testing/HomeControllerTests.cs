@@ -24,7 +24,7 @@ namespace CodeBox.Testing
         [TestMethod]
         public void SummaryTest()
         {
-            var hc = CreateHomeController();
+            var hc = Helpers.CreateHomeController();
             // Call the summary method.
             IndexViewModel x = (IndexViewModel)hc.Summary().Model;
             // Assertions of the summary based on the sample data.
@@ -42,7 +42,7 @@ namespace CodeBox.Testing
         [TestMethod]
         public void PublicSnippetTest()
         {
-            var hc = CreateHomeController();
+            var hc = Helpers.CreateHomeController();
             ////////////////////////////
             // Test a public snippet. //
             ////////////////////////////
@@ -58,22 +58,6 @@ namespace CodeBox.Testing
             ////////////////////////////
             snipp = hc.PublicSnippet(3);
             Assert.IsInstanceOfType(snipp, typeof(RedirectToRouteResult));
-        }
-
-        ///////////////
-        /// HELPERS ///
-        ///////////////
-        private static HomeController CreateHomeController()
-        {
-            // Create a fake repository.
-            var moqSnippets = new Mock<ISnippetRepository>();
-            moqSnippets.Setup(m => m.Snippets).Returns(SampleData.SnippetList.AsQueryable());
-            var moqUsers = new Mock<IUserRepository>();
-            moqUsers.Setup(m => m.Users).Returns(SampleData.userdata.AsQueryable());
-
-            // Create the home controller.
-            HomeController hc = new HomeController(moqSnippets.Object, moqUsers.Object);
-            return hc;
         }
     }
 }
