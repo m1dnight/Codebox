@@ -206,6 +206,8 @@ namespace CodeBox.Testing
             {
                 UserId = 1,
                 Name = "Mock user",
+                Username = "admin",
+                Password = "c18f3e0599590d1f028ac69563d25c03f83f3a4981afab4a040a0137c4f9fb78",
                 CreationDate = DateTime.Now,
                 Snippets = null,
                 Approved = true,

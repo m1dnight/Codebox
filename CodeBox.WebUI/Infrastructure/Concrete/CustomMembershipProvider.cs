@@ -10,7 +10,7 @@ using Ninject;
 
 namespace CodeBox.WebUI.Infrastructure.Concrete
 {
-	class CustomMembershipProvider : MembershipProvider
+	public class CustomMembershipProvider : MembershipProvider
 	{
 		[Inject]
 		public IUserRepository UserRepo { get; set; }

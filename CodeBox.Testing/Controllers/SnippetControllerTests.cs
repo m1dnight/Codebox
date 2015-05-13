@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
-using System.Text;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using System.Xml.XPath;
 using CodeBox.Domain.Concrete.ORM;
 using CodeBox.WebUI.Models.Snippet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace CodeBox.Testing
+namespace CodeBox.Testing.Controllers
 {
     [TestClass]
     public class SnippetControllerTests

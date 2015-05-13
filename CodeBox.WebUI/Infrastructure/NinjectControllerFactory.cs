@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using CodeBox.Domain.Abstract;
 using CodeBox.Domain.Concrete;
+using CodeBox.WebUI.Infrastructure.Abstract;
 using CodeBox.WebUI.Infrastructure.Concrete;
 using Ninject;
 
@@ -33,6 +34,7 @@ namespace CodeBox.WebUI.Infrastructure
             ninjectKernel.Bind<IRoleRepository>().To<EFRoleRepository>();
             ninjectKernel.Bind<IGroupRepository>().To<EFGroupRepository>();
             ninjectKernel.Bind<MembershipProvider>().To<CustomMembershipProvider>();
+            ninjectKernel.Bind<IAuthProvider>().To<FormsAuthProvider>();
             
         }
     }
