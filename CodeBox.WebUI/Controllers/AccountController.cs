@@ -46,7 +46,7 @@ namespace CodeBox.WebUI.Controllers
                 if (_userRepo.IsUserLockedOut(model.Username))
                     ModelState.AddModelError("", "Authentication failed!");
                 if (_userRepo.Users.FirstOrDefault(u => u.Username == model.Username) == null)
-                    ModelState.AddModelError("Username", "User does not exists!");
+                    ModelState.AddModelError("Username", "User does not exist!");
                 if (!_userRepo.IsUserLockedOut(model.Username) &&
                     _userRepo.Users.FirstOrDefault(u => u.Username == model.Username) != null)
                     ModelState.AddModelError("Password", "The password is not correct!");
