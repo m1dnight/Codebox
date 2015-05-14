@@ -21,5 +21,22 @@ namespace CodeBox.Testing
             AccountController ac = new AccountController(moqMemProvider.Object, moqUsers.Object, moqAuthProvider.Object);
             return ac;
         }
+        public static SnippetController CreateSnippetController()
+        {
+            var moqGroups = new Mock<IGroupRepository>();
+            moqGroups.Setup(m => m.Groups).Returns(SampleData.GroupList.AsQueryable());
+            var moqSnippets = new Mock<ISnippetRepository>();
+            moqSnippets.Setup(m => m.Snippets).Returns(SampleData.SnippetList.AsQueryable());
+            var moqUsers = new Mock<IUserRepository>();
+            moqUsers.Setup(m => m.Users).Returns(SampleData.UserList.AsQueryable());
+            var moqLanguages = new Mock<ILanguageRepository>();
+            moqLanguages.Setup(m => m.Languages).Returns(SampleData.LanguagesList.AsQueryable());
+            moqLanguages.Setup(m => m.LangOptions).Returns(SampleData.LangOptionsList);
+
+            SnippetController sc = new SnippetController(moqGroups.Object, moqSnippets.Object, moqLanguages.Object, moqUsers.Object);
+
+            return sc;
+        }
     }
+
 }
