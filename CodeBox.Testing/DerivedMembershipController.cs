@@ -11,6 +11,7 @@ namespace CodeBox.Testing
     {
         public void ValidatePassword(ValidatePasswordEventArgs args)
         {
+                
             base.OnValidatingPassword(args);
         }
     }

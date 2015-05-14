@@ -96,6 +96,8 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountControllerTest.cs" />
     <Compile Include="Controllers\SnippetControllerTests.cs" />
+    <Compile Include="Controllers\VariousTests.cs" />
+    <Compile Include="DerivedMembershipController.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleData.cs" />
