@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using CodeBox.Domain.Abstract;
+using CodeBox.WebUI.Infrastructure.Abstract;
 using CodeBox.WebUI.Infrastructure.Concrete;
 using CodeBox.WebUI.Models.Account;
 
@@ -13,16 +14,18 @@ namespace CodeBox.WebUI.Controllers
 {
     public class AccountController : Controller
     {
-        private MembershipProvider members;
-        private IUserRepository userRepo;
-
-        public AccountController(MembershipProvider mem, IUserRepository usrep)
+        private MembershipProvider _members;
+        private IUserRepository _userRepo;
+        private IAuthProvider _authProvider;
+        public AccountController(MembershipProvider members, IUserRepository userRepo, IAuthProvider authProvider)
         {
-            members = mem;
-            userRepo = usrep;
+            _members = members;
+            _userRepo = userRepo;
+            _authProvider = authProvider;
         }
 
         #region Login
+
         public ActionResult LogIn()
         {
             return View();
@@ -33,37 +36,41 @@ namespace CodeBox.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (members.ValidateUser(model.Username, model.Password))
+                if (_members.ValidateUser(model.Username, model.Password))
                 {
-                    FormsAuthentication.SetAuthCookie(model.Username, false);
+                    _authProvider.SetAuthCookie(model.Username);
                     return RedirectToAction("List", "Snippet");
                 }
 
                 //Check to see what's wrong 
-                if (userRepo.IsUserLockedOut(model.Username))
+                if (_userRepo.IsUserLockedOut(model.Username))
                     ModelState.AddModelError("", "Authentication failed!");
-                if (userRepo.Users.FirstOrDefault(u => u.Username == model.Username) == null)
-                    ModelState.AddModelError("Username", "User does not exists!");
-                if (!userRepo.IsUserLockedOut(model.Username) && userRepo.Users.FirstOrDefault(u => u.Username == model.Username) != null)
+                if (_userRepo.Users.FirstOrDefault(u => u.Username == model.Username) == null)
+                    ModelState.AddModelError("Username", "User does not exist!");
+                if (!_userRepo.IsUserLockedOut(model.Username) &&
+                    _userRepo.Users.FirstOrDefault(u => u.Username == model.Username) != null)
                     ModelState.AddModelError("Password", "The password is not correct!");
                 return View(model);
             }
             return View(model);
-        } 
+        }
+
         #endregion
 
         #region Registration
+
         public ViewResult Register()
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
                 MembershipCreateStatus status;
-                members.CreateUser(model.Username, model.Password, model.Mail, "", "", true, null, out status);
+                _members.CreateUser(model.Username, model.Password, model.Mail, "", "", true, null, out status);
                 if (status == MembershipCreateStatus.Success)
                 {
                     //FormsAuthentication.Authenticate(model.Username, model.Password);
@@ -72,16 +79,17 @@ namespace CodeBox.WebUI.Controllers
                 ModelState.AddModelError("", AccountValidation.ErrorCodeToString(status));
             }
             return View(model);
-        } 
+        }
+
         #endregion
 
         #region Account management
+
         public ActionResult EditAccountDetails()
         {
-
             if (User.Identity.IsAuthenticated)
             {
-                var user = userRepo.GetUserByUsername(User.Identity.Name);
+                var user = _userRepo.GetUserByUsername(User.Identity.Name);
                 var model = new EditAccountDetailsViewModel
                 {
                     Name = user.Name,
@@ -98,13 +106,14 @@ namespace CodeBox.WebUI.Controllers
 
             return RedirectToAction("LogIn");
         }
+
         [HttpPost]
         public ActionResult EditAccountDetails(EditAccountDetailsViewModel model, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
                 //Fetch User entity from database
-                var user = userRepo.Users.FirstOrDefault(u => u.UserId == model.UserId);
+                var user = _userRepo.Users.FirstOrDefault(u => u.UserId == model.UserId);
 
                 //Add new values to entity
                 if (user != null)
@@ -128,16 +137,17 @@ namespace CodeBox.WebUI.Controllers
                     //Change possible new password
                     if (!string.IsNullOrEmpty(model.Password) && !string.IsNullOrEmpty(model.OldPassword))
                     {
-                        var succes = members.ChangePassword(User.Identity.Name, model.OldPassword, model.Password);
+                        var succes = _members.ChangePassword(User.Identity.Name, model.OldPassword, model.Password);
                         if (!succes)
                         {
-                            ModelState.AddModelError("", "Password did not change! Is it strong (6 characters, 1 number and 1 special character) enough? ");
+                            ModelState.AddModelError("",
+                                "Password did not change! Is it strong (6 characters, 1 number and 1 special character) enough? ");
                             return View(model);
                         }
                     }
 
                     //Save Entity
-                    userRepo.UpdateUser(user);
+                    _userRepo.UpdateUser(user);
                     var username = user.Username;
 
                     TempData["message"] = string.Format("{0}, your profile has been updated!", username);
@@ -147,18 +157,21 @@ namespace CodeBox.WebUI.Controllers
                 return RedirectToAction("Index", "Home");
             }
             return View(model);
-        } 
+        }
+
         #endregion
 
         #region Other
+
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
+
         public FileContentResult GetImage(int userId)
         {
-            var user = userRepo.Users.FirstOrDefault(u => u.UserId == userId);
+            var user = _userRepo.Users.FirstOrDefault(u => u.UserId == userId);
             if (user != null && user.ImageData != null && user.ImageMimeType != null)
             {
                 return File(user.ImageData, user.ImageMimeType);
@@ -171,11 +184,12 @@ namespace CodeBox.WebUI.Controllers
             }
             return File(image, "image/png");
         }
+
         public FileContentResult GetAvatarForLayout()
         {
             if (User.Identity.IsAuthenticated)
             {
-                var user = userRepo.Users.FirstOrDefault(u => u.Username == User.Identity.Name);
+                var user = _userRepo.Users.FirstOrDefault(u => u.Username == User.Identity.Name);
                 if (user != null)
                 {
                     if (user.ImageData != null)
@@ -190,9 +204,8 @@ namespace CodeBox.WebUI.Controllers
                 }
             }
             return null;
+        }
 
-        } 
         #endregion
-
     }
 }
