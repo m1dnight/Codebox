@@ -212,6 +212,7 @@ namespace CodeBox.Testing
                 Snippets = null,
                 Approved = true,
                 Comment = "no comment",
+                Mail =  "testmail@mail.com"
             }
         };
 
@@ -222,7 +223,22 @@ namespace CodeBox.Testing
                 Name = "Test Group",
                 Description = "Test Group Description",
                 Snippets = null,
-                Id = 1
+                Id = 1,
+                Users = new EntityCollection<User>
+                {
+                    new User
+                {
+                    UserId = 1,
+                    Name = "Mock user",
+                    Username = "someuser",
+                    Password = "c18f3e0599590d1f028ac69563d25c03f83f3a4981afab4a040a0137c4f9fb78",
+                    CreationDate = DateTime.Now,
+                    Snippets = null,
+                    Approved = true,
+                    Comment = "no comment",
+                    Mail = "someemail@mail.com"
+                }
+                }
             }
         };
 
