@@ -123,6 +123,39 @@ namespace CodeBox.Testing.Controllers
 
         }
 
+        [TestMethod]
+        public void EditProfileInvalidInputPost()
+        {
+            var controller = Helpers.CreateAccountController();
+            var controllerContext = new Mock<ControllerContext>();
+            var principal = new Mock<IPrincipal>();
+
+            principal.Setup(p => p.IsInRole("admin")).Returns(true);
+            principal.SetupGet(x => x.Identity.Name).Returns("admin");
+            controllerContext.SetupGet(x => x.HttpContext.User).Returns(principal.Object);
+            controller.ControllerContext = controllerContext.Object;
+
+            EditAccountDetailsViewModel model = new EditAccountDetailsViewModel
+            {
+                ImageData = null,
+                ImageMimetype = "MimeType",
+                Mail = "foo@bar.com",
+                Name = "Test Name",
+                OldPassword = "wrongoldpassword",
+                Password = "abc123",
+                Surname = "De Troyer",
+                UserId = 1
+            };
+            var result = controller.EditAccountDetails(model, null);
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            var response = ((ViewResult)result);
+            // There should be an error in the viewdata
+            var viewdata = response.ViewData;
+            var errormsg = viewdata.ModelState[""].Errors.First().ErrorMessage;
+            Assert.AreEqual("Password did not change! Is it strong (6 characters, 1 number and 1 special character) enough? ", errormsg);
+
+        }
+
         public void AssertRedirect(RedirectToRouteResult redirect, String action, String controller)
         {
             Assert.IsTrue(redirect.RouteValues.ContainsKey("action"));
