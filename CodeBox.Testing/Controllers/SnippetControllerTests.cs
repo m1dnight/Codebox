@@ -152,6 +152,43 @@ namespace CodeBox.Testing.Controllers
             var model = result.Model;
             Assert.AreEqual("Edit", result.ViewName);
         }
+        [TestMethod]
+        public void DeleteSnippetTest()
+        {
+            /////////////////////////////
+            // Delete existing snippet //
+            /////////////////////////////
+            var controller = Helpers.CreateSnippetController();
+            var controllerContext = new Mock<ControllerContext>();
+            var principal = new Mock<IPrincipal>();
 
+            principal.Setup(p => p.IsInRole("admin")).Returns(true);
+            principal.SetupGet(x => x.Identity.Name).Returns("admin");
+            controllerContext.SetupGet(x => x.HttpContext.User).Returns(principal.Object);
+            controller.ControllerContext = controllerContext.Object;
+
+            var result = controller.DeleteSnippet(1);
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            var tempdatamessage = controller.TempData["message"];
+
+            Assert.AreEqual(tempdatamessage, SampleData.SnippetList.First().Name + " has been deleted!");
+            /////////////////////////////////
+            // Delete non-existing snippet //
+            /////////////////////////////////
+            result = controller.DeleteSnippet(1000);
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            tempdatamessage = controller.TempData["message"];
+
+            Assert.AreEqual(tempdatamessage, "Nothing found for ID 1000!");
+
+            // Delete not logged in //
+            controller = Helpers.CreateSnippetController();
+
+            result = controller.DeleteSnippet(1);
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            tempdatamessage = controller.TempData["message"];
+
+            Assert.AreEqual(tempdatamessage, SampleData.SnippetList.First().Name + " has been deleted!");
+        }
     }
 }
