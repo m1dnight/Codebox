@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Principal;
 using System.Web.Mvc;
 using CodeBox.WebUI.Models.Account;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace CodeBox.Testing.Controllers
 {
@@ -84,12 +86,41 @@ namespace CodeBox.Testing.Controllers
             AssertRedirect(redirect, "LogIn", "Account");
         }
 
-
         [TestMethod]
         public void RegisterInvalidInput()
         {
             // Testing invalid input does not make sense as all the logic is contained within the CustomMembership provider.
             // Unit tests for that class will satisfy.e
+        }
+
+        [TestMethod]
+        public void EditProfileValidInputPost()
+        {
+            var controller = Helpers.CreateAccountController();
+            var controllerContext = new Mock<ControllerContext>();
+            var principal = new Mock<IPrincipal>();
+
+            principal.Setup(p => p.IsInRole("admin")).Returns(true);
+            principal.SetupGet(x => x.Identity.Name).Returns("admin");
+            controllerContext.SetupGet(x => x.HttpContext.User).Returns(principal.Object);
+            controller.ControllerContext = controllerContext.Object;
+
+            EditAccountDetailsViewModel model = new EditAccountDetailsViewModel
+            {
+                ImageData = null,
+                ImageMimetype = "MimeType",
+                Mail = "foo@bar.com",
+                Name = "Test Name",
+                OldPassword = "abc123",
+                Password = "abc123",
+                Surname = "De Troyer",
+                UserId = 1
+            };
+            var result = controller.EditAccountDetails(model, null);
+            // Assert the pop to be correct.
+            var tempdatamessage = controller.TempData["message"];
+            Assert.AreEqual("admin, your profile has been updated!", tempdatamessage);
+
         }
 
         public void AssertRedirect(RedirectToRouteResult redirect, String action, String controller)
