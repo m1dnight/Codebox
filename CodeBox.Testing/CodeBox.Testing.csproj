@@ -114,6 +114,8 @@
     <Compile Include="Views\Home.cs" />
     <Compile Include="Views\LogIn.cs" />
     <Compile Include="Views\Register.cs" />
+    <Compile Include="Views\SnippetList.cs" />
+    <Compile Include="Views\SnippetNew.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeBox.Domain\CodeBox.Domain.csproj">
