@@ -33,5 +33,32 @@ namespace CodeBox.Testing.Views
             StringAssert.Contains(expectedUrl, driver.Url);
             driver.Navigate().Back();
         }
+
+        public static void PerformLogIn(IWebDriver driver, string userName, string passWord)
+        {
+            IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
+            IWebElement userNameBox = mainContent.FindElement(By.Id("Username"));
+            IWebElement passwordBox = mainContent.FindElement(By.Id("Password"));
+            IWebElement submitButton = mainContent.FindElement(By.XPath("//div[1]/form[1]/fieldset[1]/p[1]/input[1]"));
+            userNameBox.SendKeys(userName);
+            passwordBox.SendKeys(passWord);
+            submitButton.Click();
+        }
+
+        public static void LogInRandomPerson007()
+        {
+            chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Account/LogIn");
+            string userName = "randomperson007";
+            string password = "v3ry_str0ng_password!";
+            PerformLogIn(chromeDriver, userName, password);
+        }
+
+        public static void LogOut()
+        {
+            chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Account/LogIn");
+            IWebElement logOutButton = chromeDriver.FindElement(By.XPath("//*[@id=\"logout\"]/a"));
+            logOutButton.Click();
+        }
+
     }
 }
