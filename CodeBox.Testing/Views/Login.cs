@@ -12,13 +12,11 @@ namespace CodeBox.Testing.Views
     [TestClass]
     public class LogIn
     {
-
-        private const string LOG_IN_PAGE = Common.HOME_URL + "Account/LogIn";
-
+        
         [TestInitialize]
         public void NavigateToLogInPage()
         {
-            Common.chromeDriver.Navigate().GoToUrl(LOG_IN_PAGE);
+            Common.chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Account/LogIn");
         }
 
         private void LogOut()
@@ -46,17 +44,6 @@ namespace CodeBox.Testing.Views
             Common.CheckLink(driver, homeLink, Common.HOME_URL);
         }
 
-        private void PerformLogIn(IWebDriver driver, string userName, string passWord)
-        {
-            IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
-            IWebElement userNameBox = mainContent.FindElement(By.Id("Username"));
-            IWebElement passwordBox = mainContent.FindElement(By.Id("Password"));
-            IWebElement submitButton = mainContent.FindElement(By.XPath("//div[1]/form[1]/fieldset[1]/p[1]/input[1]"));
-            userNameBox.SendKeys(userName);
-            passwordBox.SendKeys(passWord);
-            submitButton.Click();
-        }
-
         private void CheckMenuLinks(IWebDriver driver, IWebElement menu)
         {
             IWebElement newLink = menu.FindElement(By.XPath("//li[1]/a[2]"));
@@ -79,7 +66,7 @@ namespace CodeBox.Testing.Views
         {
             string userName = "administrator";
             string password = "abc123";
-            PerformLogIn(driver, userName, password);
+            Common.PerformLogIn(driver, userName, password);
             StringAssert.Contains(Common.HOME_URL + "Snippet/List", driver.Url);
             IWebElement topBar = driver.FindElement(By.Id("TopBar"));
             IWebElement menu = topBar.FindElement(By.Id("TopBar"));
@@ -105,9 +92,7 @@ namespace CodeBox.Testing.Views
 
         private void ValidLogInRegular(IWebDriver driver)
         {
-            string userName = "randomperson007";
-            string password = "v3ry_str0ng_password!";
-            PerformLogIn(driver, userName, password);
+            Common.LogInRandomPerson007();
 
             StringAssert.Contains(Common.HOME_URL + "Snippet/List", driver.Url);
             IWebElement topBar = driver.FindElement(By.Id("TopBar"));
@@ -123,7 +108,7 @@ namespace CodeBox.Testing.Views
         {
             string userName = "randomperson007";
             string password = "wrong";
-            PerformLogIn(driver, userName, password);
+            Common.PerformLogIn(driver, userName, password);
 
             IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
             IWebElement errorMessage = mainContent.FindElement(By.XPath("//div[1]/form[1]/fieldset[1]/div[4]/span[1]"));
@@ -135,7 +120,7 @@ namespace CodeBox.Testing.Views
         {
             string userName = "doesnotexist";
             string password = "whatever";
-            PerformLogIn(driver, userName, password);
+            Common.PerformLogIn(driver, userName, password);
             
             IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
             IWebElement errorMessage = mainContent.FindElement(By.XPath("//div[1]/form[1]/fieldset[1]/div[2]/span[1]"));
