@@ -10,12 +10,10 @@ namespace CodeBox.Testing.Views
     [TestClass]
     public class Register
     {
-        private const string REGISTRATION_PAGE = Common.HOME_URL + "Account/Register";
-
         [TestInitialize]
         public void NavigateToRegistrationPage()
         {
-            Common.chromeDriver.Navigate().GoToUrl(REGISTRATION_PAGE);
+            Common.chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Account/Register");
         }
 
         private void CheckTopError(IWebDriver driver, string expectedError)
