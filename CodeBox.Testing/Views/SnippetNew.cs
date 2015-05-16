@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,22 +12,41 @@ namespace CodeBox.Testing.Views
     public class SnippetNew
     {
 
-        [ClassInitialize]
-        public static void LogIn(TestContext context)
+        [TestInitialize]
+        public void LogIn()
         {
             Common.LogInRandomPerson007();
+            Common.chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Snippet/Create");
         }
 
-        [ClassCleanup]
-        public static void LogOut()
+        [TestCleanup]
+        public void LogOut()
         {
             Common.LogOut();
         }
 
-        [TestInitialize]
-        public void NavigateToCreatePage()
+        public static void CreateSnippet(IWebDriver driver, SimpleSnippet snippet)
         {
-            Common.chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "/Snippet/Create");
+            Common.chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Snippet/Create");
+
+            IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
+            IWebElement nameBox = mainContent.FindElement(By.Id("Snippet_Name"));
+            IWebElement descriptionBox = mainContent.FindElement(By.Id("Snippet_Description"));
+            IWebElement codeBox = mainContent.FindElement(By.Id("Snippet_Code"));
+            IWebElement publicCheckmark = mainContent.FindElement(By.Id("Snippet_Public"));
+            IWebElement languageBox = mainContent.FindElement(By.Id("SelectedLanguageId"));
+            IWebElement saveButton = mainContent.FindElement(By.Id("SnippetSubmit"));
+
+            nameBox.SendKeys(snippet._name);
+            descriptionBox.SendKeys(snippet._description);
+            codeBox.SendKeys(snippet._code);
+            if (snippet._isPublic)
+            {
+                publicCheckmark.Click();
+            }
+            SelectElement languagesSelect = new SelectElement(languageBox);
+            languagesSelect.SelectByText(snippet._language);
+            saveButton.Click();
         }
 
         private void CheckSnippet(IWebDriver driver, string code, string description, string name, string language)
@@ -38,8 +58,17 @@ namespace CodeBox.Testing.Views
             IWebElement insertionSucceededMessage = driver.FindElement(By.Id("message"));
             StringAssert.Contains(description, descriptionText.Text);
             StringAssert.Contains(language, languageText.Text);
-            StringAssert.Contains(capitalizedName, nameText.Text);
+            StringAssert.Contains(capitalizedName + " (0)", nameText.Text);
             StringAssert.Contains(name + " has been saved!", insertionSucceededMessage.Text);
+        }
+
+        private void DeleteSnippet(IWebDriver driver, int snippetNr)
+        {
+            IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
+            string xPath = "//div/div[" + snippetNr + "]/div[2]/a[2]";
+            IWebElement selectedSnippetDeleteLink = mainContent.FindElement(By.XPath(xPath));
+            string link = selectedSnippetDeleteLink.GetAttribute("href");
+            driver.Navigate().GoToUrl(Common.HOME_URL + link.Substring(1));
         }
 
         private void SnippetNewContent(IWebDriver driver)
@@ -80,11 +109,8 @@ namespace CodeBox.Testing.Views
 
         private void SnippetNewEmptyNameInsert(IWebDriver driver)
         {
-            IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
-            IWebElement saveButton = mainContent.FindElement(By.Id("SnippetSubmit"));
-            IWebElement descriptionBox = mainContent.FindElement(By.Id("Snippet_Description"));
-            descriptionBox.SendKeys("a");
-            saveButton.Click();
+            SimpleSnippet snippet = new SimpleSnippet("", "", "a");
+            CreateSnippet(driver, snippet);
 
             IWebElement nameError = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/form/fieldset/div[2]/span/span"));
             StringAssert.Contains("A Name is required!", nameError.Text);
@@ -94,22 +120,16 @@ namespace CodeBox.Testing.Views
         {
             IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
 
-            IWebElement nameBox = mainContent.FindElement(By.Id("Snippet_Name"));
-            IWebElement descriptionBox = mainContent.FindElement(By.Id("Snippet_Description"));
-            IWebElement codeBox = mainContent.FindElement(By.Id("Snippet_Code"));
-            IWebElement saveButton = mainContent.FindElement(By.Id("SnippetSubmit"));
 
             string code = "a";
             string description = "a";
             string name = "a";
-
-            nameBox.SendKeys(name);
-            descriptionBox.SendKeys(description);
-            codeBox.SendKeys(code);
-            saveButton.Click();
+            SimpleSnippet snippet = new SimpleSnippet(name, code, description);
+            CreateSnippet(driver, snippet);
 
             StringAssert.Contains(Common.HOME_URL + "Snippet/List", driver.Url);
             CheckSnippet(driver, code, description, name, "None");
+            DeleteSnippet(driver, 1);
         }
 
         [TestMethod]
