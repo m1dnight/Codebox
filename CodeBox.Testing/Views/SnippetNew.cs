@@ -28,38 +28,20 @@ namespace CodeBox.Testing.Views
         public static void CreateSnippet(IWebDriver driver, SimpleSnippet snippet)
         {
             Common.chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Snippet/Create");
-
-            IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
-            IWebElement nameBox = mainContent.FindElement(By.Id("Snippet_Name"));
-            IWebElement descriptionBox = mainContent.FindElement(By.Id("Snippet_Description"));
-            IWebElement codeBox = mainContent.FindElement(By.Id("Snippet_Code"));
-            IWebElement publicCheckmark = mainContent.FindElement(By.Id("Snippet_Public"));
-            IWebElement languageBox = mainContent.FindElement(By.Id("SelectedLanguageId"));
-            IWebElement saveButton = mainContent.FindElement(By.Id("SnippetSubmit"));
-
-            nameBox.SendKeys(snippet._name);
-            descriptionBox.SendKeys(snippet._description);
-            codeBox.SendKeys(snippet._code);
-            if (snippet._isPublic)
-            {
-                publicCheckmark.Click();
-            }
-            SelectElement languagesSelect = new SelectElement(languageBox);
-            languagesSelect.SelectByText(snippet._language);
-            saveButton.Click();
+            Common.SaveSnippet(driver, snippet);
         }
 
-        private void CheckSnippet(IWebDriver driver, string code, string description, string name, string language)
+        private void CheckSnippet(IWebDriver driver, SimpleSnippet snippet)
         {
-            string capitalizedName = name.First().ToString().ToUpper() + String.Join("", name.Skip(1));
+            string capitalizedName = snippet._name.First().ToString().ToUpper() + String.Join("", snippet._name.Skip(1));
             IWebElement descriptionText = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/div/div[1]/div[4]/p"));
             IWebElement languageText = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/div/div[1]/div[2]"));
             IWebElement nameText = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/div/div[1]/div[3]/a"));
             IWebElement insertionSucceededMessage = driver.FindElement(By.Id("message"));
-            StringAssert.Contains(description, descriptionText.Text);
-            StringAssert.Contains(language, languageText.Text);
+            StringAssert.Contains(snippet._description, descriptionText.Text);
+            StringAssert.Contains(snippet._language, languageText.Text);
             StringAssert.Contains(capitalizedName + " (0)", nameText.Text);
-            StringAssert.Contains(name + " has been saved!", insertionSucceededMessage.Text);
+            StringAssert.Contains(snippet._name + " has been saved!", insertionSucceededMessage.Text);
         }
 
         private void DeleteSnippet(IWebDriver driver, int snippetNr)
@@ -67,8 +49,7 @@ namespace CodeBox.Testing.Views
             IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
             string xPath = "//div/div[" + snippetNr + "]/div[2]/a[2]";
             IWebElement selectedSnippetDeleteLink = mainContent.FindElement(By.XPath(xPath));
-            string link = selectedSnippetDeleteLink.GetAttribute("href");
-            driver.Navigate().GoToUrl(Common.HOME_URL + link.Substring(1));
+            selectedSnippetDeleteLink.Click();
         }
 
         private void SnippetNewContent(IWebDriver driver)
@@ -128,7 +109,7 @@ namespace CodeBox.Testing.Views
             CreateSnippet(driver, snippet);
 
             StringAssert.Contains(Common.HOME_URL + "Snippet/List", driver.Url);
-            CheckSnippet(driver, code, description, name, "None");
+            CheckSnippet(driver, snippet);
             DeleteSnippet(driver, 1);
         }
 
