@@ -37,7 +37,6 @@ namespace CodeBox.Testing.Views
 
         public static void LogInRandomPerson007()
         {
-            chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Account/LogIn");
             string userName = "randomperson007";
             string password = "v3ry_str0ng_password!";
             PerformLogIn(chromeDriver, userName, password);
@@ -45,17 +44,16 @@ namespace CodeBox.Testing.Views
 
         public static void LogOut()
         {
-            chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Account/LogIn");
             IWebElement logOutButton = chromeDriver.FindElement(By.XPath("//*[@id=\"logout\"]/a"));
             logOutButton.Click();
         }
 
         public static void PerformLogIn(IWebDriver driver, string userName, string passWord)
         {
-            IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
-            IWebElement userNameBox = mainContent.FindElement(By.Id("Username"));
-            IWebElement passwordBox = mainContent.FindElement(By.Id("Password"));
-            IWebElement submitButton = mainContent.FindElement(By.XPath("//div[1]/form[1]/fieldset[1]/p[1]/input[1]"));
+            chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Account/LogIn");
+            IWebElement userNameBox = driver.FindElement(By.Id("Username"));
+            IWebElement passwordBox = driver.FindElement(By.Id("Password"));
+            IWebElement submitButton = driver.FindElement(By.XPath("//div[1]/form[1]/fieldset[1]/p[1]/input[1]"));
             userNameBox.SendKeys(userName);
             passwordBox.SendKeys(passWord);
             submitButton.Click();
@@ -63,13 +61,12 @@ namespace CodeBox.Testing.Views
 
         public static void SaveSnippet(IWebDriver driver, SimpleSnippet snippet)
         {
-            IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
-            IWebElement nameBox = mainContent.FindElement(By.Id("Snippet_Name"));
-            IWebElement descriptionBox = mainContent.FindElement(By.Id("Snippet_Description"));
-            IWebElement codeBox = mainContent.FindElement(By.Id("Snippet_Code"));
-            IWebElement publicCheckmark = mainContent.FindElement(By.Id("Snippet_Public"));
-            IWebElement languageBox = mainContent.FindElement(By.Id("SelectedLanguageId"));
-            IWebElement saveButton = mainContent.FindElement(By.Id("SnippetSubmit"));
+            IWebElement nameBox = driver.FindElement(By.Id("Snippet_Name"));
+            IWebElement descriptionBox = driver.FindElement(By.Id("Snippet_Description"));
+            IWebElement codeBox = driver.FindElement(By.Id("Snippet_Code"));
+            IWebElement publicCheckmark = driver.FindElement(By.Id("Snippet_Public"));
+            IWebElement languageBox = driver.FindElement(By.Id("SelectedLanguageId"));
+            IWebElement saveButton = driver.FindElement(By.Id("SnippetSubmit"));
 
             nameBox.Clear();
             nameBox.SendKeys(snippet._name);

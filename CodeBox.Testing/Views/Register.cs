@@ -7,6 +7,20 @@ using System.Text;
 
 namespace CodeBox.Testing.Views
 {
+    public class RegisterInfo
+    {
+        public string username;
+        public string password;
+        public string email;
+
+        public RegisterInfo(string username, string password, string email)
+        {
+            this.username = username;
+            this.password = password;
+            this.email = email;
+        }
+    }
+
     [TestClass]
     public class Register
     {
@@ -14,6 +28,14 @@ namespace CodeBox.Testing.Views
         public void NavigateToRegistrationPage()
         {
             Common.chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Account/Register");
+        }
+
+        public static RegisterInfo CreateRandomRegisterInfo(string password)
+        {
+            int randomNumber = new Random().Next(1000000);
+            string username = "dude_" + randomNumber;
+            string email = "some_" + randomNumber + "@email.com";
+            return new RegisterInfo(username, password, email);
         }
 
         private void CheckTopError(IWebDriver driver, string expectedError)
@@ -28,17 +50,19 @@ namespace CodeBox.Testing.Views
             StringAssert.Contains("", passwordInput.Text);
         }
 
-        private void PerformRegistration(IWebDriver driver, string username, string password, string email)
+        public static void PerformRegistration(IWebDriver driver, RegisterInfo registerInfo)
         {
+            Common.chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Account/Register");
+            
             IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
             IWebElement userNameInput = mainContent.FindElement(By.XPath("//div[1]/form[1]/fieldset[1]/div[2]/input[1]"));
             IWebElement passwordInput = mainContent.FindElement(By.XPath("//div[1]/form[1]/fieldset[1]/div[4]/input[1]"));
             IWebElement emailAddressInput = mainContent.FindElement(By.XPath("//div[1]/form[1]/fieldset[1]/div[6]/input[1]"));
             IWebElement createButton = mainContent.FindElement(By.XPath("//div[1]/form[1]/fieldset[1]/p[2]/input[1]"));
 
-            userNameInput.SendKeys(username);
-            passwordInput.SendKeys(password);
-            emailAddressInput.SendKeys(email);
+            userNameInput.SendKeys(registerInfo.username);
+            passwordInput.SendKeys(registerInfo.password);
+            emailAddressInput.SendKeys(registerInfo.email);
             createButton.Click();
         }
 
@@ -67,8 +91,9 @@ namespace CodeBox.Testing.Views
             string username = "";
             string password = "";
             string email = "";
+            RegisterInfo registerInfo = new RegisterInfo(username, password, email);
 
-            PerformRegistration(driver, username, password, email);
+            PerformRegistration(driver, registerInfo);
 
             IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
 
@@ -89,8 +114,9 @@ namespace CodeBox.Testing.Views
             string username = "randomperson007";
             string password = "v3ry_str0ng_password!";
             string email = "random@person.com";
+            RegisterInfo registerInfo = new RegisterInfo(username, password, email);
 
-            PerformRegistration(driver, username, password, email);
+            PerformRegistration(driver, registerInfo);
             CheckTopError(driver, "Username already exists. Please enter a different user name.");
         }
 
@@ -99,8 +125,9 @@ namespace CodeBox.Testing.Views
             string username = "aaa";
             string password = "v";
             string email = "some@email.com";
+            RegisterInfo registerInfo = new RegisterInfo(username, password, email);
 
-            PerformRegistration(driver, username, password, email);
+            PerformRegistration(driver, registerInfo);
             CheckTopError(driver, "Password must be at least 6 characters long and contain at least one number and one special character.");
         }
 
@@ -109,19 +136,17 @@ namespace CodeBox.Testing.Views
             string username = "a";
             string password = "v3ry_str0ng_password!";
             string email = "some@email.com";
+            RegisterInfo registerInfo = new RegisterInfo(username, password, email);
 
-            PerformRegistration(driver, username, password, email);
+            PerformRegistration(driver, registerInfo);
             CheckTopError(driver, "The user name provided is invalid. Please check the value and try again.");
         }
 
         private void RegisterValidUser(IWebDriver driver)
         {
-            int randomNumber = new Random().Next(1000000);
-            string username = "dude_" + randomNumber;
-            string password = "an0ther#strongPassword";
-            string email = "some_" + randomNumber + "@email.com";
+            RegisterInfo registerInfo = CreateRandomRegisterInfo("an0ther#strongPassword");
 
-            PerformRegistration(driver, username, password, email);
+            PerformRegistration(driver, registerInfo);
             StringAssert.Contains(Common.HOME_URL + "Account/LogIn", driver.Url);
         }
 
