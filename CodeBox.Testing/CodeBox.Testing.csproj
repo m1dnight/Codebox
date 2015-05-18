@@ -115,6 +115,7 @@
     <Compile Include="Views\LogIn.cs" />
     <Compile Include="Views\Register.cs" />
     <Compile Include="Views\SimpleSnippet.cs" />
+    <Compile Include="Views\SnippetEdit.cs" />
     <Compile Include="Views\SnippetView.cs" />
     <Compile Include="Views\SnippetNew.cs" />
   </ItemGroup>
