@@ -46,33 +46,6 @@ namespace CodeBox.Testing.Views
             driver.Navigate().GoToUrl(linkToPage);
         }
 
-        private void SnippetEditContent(IWebDriver driver)
-        {
-            // Edit the first snippet
-            IWebElement editIcon = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/div[1]/div[2]/a[1]/img"));
-            int height = editIcon.Size.Height;
-            int width = editIcon.Size.Width;
-            Assert.AreEqual(0, height);
-            Assert.AreEqual(0, width);
-
-            // http://stackoverflow.com/questions/6245690/mouse-hover-on-webelement-using-selenium-2-in-java
-            IWebElement hoverableArea = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/div[1]/div[1]"));
-            Actions builder = new Actions(driver);
-            Actions hoverOverRegistrar = builder.MoveToElement(hoverableArea);
-            hoverOverRegistrar.Perform();
-
-            // Refind this element to be sure we're using the correct one
-            editIcon = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/div[1]/div[2]/a[1]/img"));
-
-            height = editIcon.Size.Height;
-            width = editIcon.Size.Width;
-            Assert.IsTrue(height > 0);
-            Assert.IsTrue(width > 0);
-            editIcon.Click();
-
-            StringAssert.StartsWith(driver.Url, Common.HOME_URL + "Snippet/Edit?SnippetId=");
-        }
-
         private void SnippetEditValid1(IWebDriver driver)
         {
             SimpleSnippet newSnippet = new SimpleSnippet("edit", "edit", "edit", "C", false);
@@ -92,12 +65,6 @@ namespace CodeBox.Testing.Views
             SimpleSnippet newSnippet = new SimpleSnippet("hello world", "print \"hello world\"", "hello world in Python", "HTML", true);
             SimpleSnippet editedSnippet = new SimpleSnippet("hello world", "Console.WriteLine(\"hello world\");", "hello world in C#", "C#", false);
             CreateEditAndCheckSnippet(driver, newSnippet, editedSnippet);
-        }
-
-        [TestMethod]
-        public void TestSnippetEditContent()
-        {
-            SnippetEditContent(Common.chromeDriver);
         }
 
         [TestMethod]

@@ -44,14 +44,6 @@ namespace CodeBox.Testing.Views
             StringAssert.Contains(snippet._name + " has been saved!", insertionSucceededMessage.Text);
         }
 
-        private void DeleteSnippet(IWebDriver driver, int snippetNr)
-        {
-            IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
-            string xPath = "//div/div[" + snippetNr + "]/div[2]/a[2]";
-            IWebElement selectedSnippetDeleteLink = mainContent.FindElement(By.XPath(xPath));
-            selectedSnippetDeleteLink.Click();
-        }
-
         private void SnippetNewContent(IWebDriver driver)
         {
             IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
@@ -110,7 +102,7 @@ namespace CodeBox.Testing.Views
 
             StringAssert.Contains(Common.HOME_URL + "Snippet/List", driver.Url);
             CheckSnippet(driver, snippet);
-            DeleteSnippet(driver, 1);
+            SnippetDelete.DeleteSnippet(driver, 1);
         }
 
         [TestMethod]
