@@ -8,30 +8,68 @@ namespace CodeBox.Testing.Views
     public class SimpleSnippet
     {
 
-        public string _name { get; set; }
-        public string _code { get; set; }
-        public string _description { get; set; }
-        public string _language { get; set; }
-        public bool _isPublic { get; set; }
+        private string name;
+        private string code;
+        private string description;
+        private string language;
+        private bool isPublic;
+        private string group;
 
         public SimpleSnippet(string name,
                              string code,
                              string description) : this(name, code, description, "None", false)
-        {
-        }
+        {}
 
         public SimpleSnippet(string name,
                              string code,
                              string description,
                              string language,
-                             bool isPublic)
-        {
-            _name = name;
-            _code = code;
-            _description = description;
-            _language = language;
-            _isPublic = isPublic;
+                             bool isPublic) : this(name, code, description, language, isPublic, "None")
+        { }
 
+        public SimpleSnippet(string name,
+                             string code,
+                             string description,
+                             string language,
+                             bool isPublic,
+                             string group)
+        {
+            this.name = name;
+            this.code = code;
+            this.description = description;
+            this.language = language;
+            this.isPublic = isPublic;
+            this.group = group;
+        }
+
+        public string Name()
+        {
+            return name;
+        }
+
+        public string Description()
+        {
+            return description;
+        }
+
+        public string Code()
+        {
+            return code;
+        }
+
+        public string Language()
+        {
+            return language;
+        }
+
+        public bool IsPublic()
+        {
+            return isPublic;
+        }
+
+        public string Group()
+        {
+            return group;
         }
 
     }

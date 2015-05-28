@@ -114,6 +114,7 @@
     <Compile Include="Views\Common.cs" />
     <Compile Include="Views\Group.cs" />
     <Compile Include="Views\GroupCreate.cs" />
+    <Compile Include="Views\GroupEdit.cs" />
     <Compile Include="Views\Home.cs" />
     <Compile Include="Views\LogIn.cs" />
     <Compile Include="Views\Register.cs" />

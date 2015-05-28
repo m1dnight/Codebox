@@ -42,11 +42,11 @@ namespace CodeBox.Testing.Views
             IWebElement languageElement = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/fieldset/div[12]"));
             IWebElement codeElement = driver.FindElement(By.XPath("//*[@id=\"codefield\"]/ol/li/span/span"));
 
-            StringAssert.Contains(snippet._name, nameElement.Text);
-            StringAssert.Contains(snippet._code, codeElement.Text);
-            StringAssert.Contains(snippet._description, descriptionElement.Text);
-            StringAssert.Contains(snippet._language, languageElement.Text);
-            Assert.AreEqual(snippet._isPublic, isPublicElement.Selected);
+            StringAssert.Contains(snippet.Name(), nameElement.Text);
+            StringAssert.Contains(snippet.Code(), codeElement.Text);
+            StringAssert.Contains(snippet.Description(), descriptionElement.Text);
+            StringAssert.Contains(snippet.Language(), languageElement.Text);
+            Assert.AreEqual(snippet.IsPublic(), isPublicElement.Selected);
         }
 
         private void SnippetViewValidInsert1(IWebDriver driver)

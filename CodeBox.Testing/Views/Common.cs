@@ -47,6 +47,13 @@ namespace CodeBox.Testing.Views
             PerformLogIn(chromeDriver, userName, password);
         }
 
+        public static void LogInRandomPerson008()
+        {
+            string userName = "randomperson008";
+            string password = "v3ry_str0ng_password!";
+            PerformLogIn(chromeDriver, userName, password);
+        }
+
         public static void LogOut()
         {
             IWebElement logOutButton = chromeDriver.FindElement(By.XPath("//*[@id=\"logout\"]/a"));
@@ -71,29 +78,39 @@ namespace CodeBox.Testing.Views
             IWebElement codeBox = driver.FindElement(By.Id("Snippet_Code"));
             IWebElement publicCheckmark = driver.FindElement(By.Id("Snippet_Public"));
             IWebElement languageBox = driver.FindElement(By.Id("SelectedLanguageId"));
+            IWebElement groupBox = driver.FindElement(By.Id("SelectedGroupId"));
             IWebElement saveButton = driver.FindElement(By.Id("SnippetSubmit"));
 
             nameBox.Clear();
-            nameBox.SendKeys(snippet._name);
+            nameBox.SendKeys(snippet.Name());
 
             descriptionBox.Clear();
-            descriptionBox.SendKeys(snippet._description);
+            descriptionBox.SendKeys(snippet.Description());
 
             codeBox.Clear();
-            codeBox.SendKeys(snippet._code);
+            codeBox.SendKeys(snippet.Code());
 
             // Want to select checkmark but it's not selected yet -> click it
             // or the checkmark has been selected already but you want it deselected -> click it
-            if ((publicCheckmark.Selected && (!snippet._isPublic)) ||
-                ((!publicCheckmark.Selected) && snippet._isPublic))
+            if ((publicCheckmark.Selected && (!snippet.IsPublic())) ||
+                ((!publicCheckmark.Selected) && snippet.IsPublic()))
             {
                 publicCheckmark.Click();
             }
+
             SelectElement languagesSelect = new SelectElement(languageBox);
             foreach (IWebElement selectedElement in languagesSelect.AllSelectedOptions ) {
                 languagesSelect.DeselectByText(selectedElement.Text);
             }
-            languagesSelect.SelectByText(snippet._language);
+            languagesSelect.SelectByText(snippet.Language());
+
+            SelectElement groupsSelect = new SelectElement(groupBox);
+            foreach (IWebElement selectedElement in groupsSelect.AllSelectedOptions)
+            {
+                groupsSelect.DeselectByText(selectedElement.Text);
+            }
+            groupsSelect.SelectByText(snippet.Group());
+
             saveButton.Click();
         }
 

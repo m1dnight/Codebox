@@ -33,15 +33,15 @@ namespace CodeBox.Testing.Views
 
         private void CheckSnippet(IWebDriver driver, SimpleSnippet snippet)
         {
-            string capitalizedName = snippet._name.First().ToString().ToUpper() + String.Join("", snippet._name.Skip(1));
+            string capitalizedName = snippet.Name().First().ToString().ToUpper() + String.Join("", snippet.Name().Skip(1));
             IWebElement descriptionText = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/div/div[1]/div[4]/p"));
             IWebElement languageText = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/div/div[1]/div[2]"));
             IWebElement nameText = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/div/div[1]/div[3]/a"));
             IWebElement insertionSucceededMessage = driver.FindElement(By.Id("message"));
-            StringAssert.Contains(snippet._description, descriptionText.Text);
-            StringAssert.Contains(snippet._language, languageText.Text);
+            StringAssert.Contains(snippet.Description(), descriptionText.Text);
+            StringAssert.Contains(snippet.Language(), languageText.Text);
             StringAssert.Contains(capitalizedName + " (0)", nameText.Text);
-            StringAssert.Contains(snippet._name + " has been saved!", insertionSucceededMessage.Text);
+            StringAssert.Contains(snippet.Name() + " has been saved!", insertionSucceededMessage.Text);
         }
 
         private void SnippetNewContent(IWebDriver driver)

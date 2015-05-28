@@ -15,13 +15,25 @@ namespace CodeBox.Testing.Views
         public void LogIn()
         {
             Common.LogInRandomPerson007();
-            Common.GoToUrl(Common.HOME_URL + "Group");
+            GoToGroupListView();
         }
 
         [TestCleanup]
         public void LogOut()
         {
             Common.LogOut();
+        }
+
+        public static void GoToGroupListView()
+        {
+            Common.GoToUrl(Common.HOME_URL + "Group");
+        }
+
+        public static void GoToLastGroupView(IWebDriver driver)
+        {
+            GoToGroupListView();
+            IWebElement groupLink = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/table/tbody/tr[last()]/td[1]/a"));
+            groupLink.Click();
         }
 
         private void GroupContent(IWebDriver driver)

@@ -90,6 +90,46 @@
 	 VALUES
 		   (2
 		   ,2)
+		   INSERT INTO [CodeBox].[dbo].[Users]
+		   ([Name]
+		   ,[Surname]
+		   ,[Username]
+		   ,[Password]
+		   ,[LastSeen]
+		   ,[Mail]
+		   ,[passwordQuestion]
+		   ,[Comment]
+		   ,[Approved]
+		   ,[LockedOut]
+		   ,[CreationDate]
+		   ,[lastLoginDate]
+		   ,[LastPasswordChangeDate]
+		   ,[LastLockOutDate]
+		   ,[ProviderName]
+		   ,[LastActivityDate])
+	 VALUES
+		   ('random2'
+		   ,'person2'
+		   ,'randomperson008'
+		   ,'e517bc0d87b72f38ebcd3b087de6d447acdaa89b542041fd4d72bd14f5223eda'
+		   ,null
+		   ,'random2@person.com'
+		   ,null
+		   ,null
+		   ,1
+		   ,0
+		   ,'2015-05-16'
+		   ,'2015-05-16'
+		   ,'2015-05-16'
+		   ,'2015-05-16'
+		   ,'CustomMembershipProvider'
+		   ,'2015-05-16')
+		   INSERT INTO [CodeBox].[dbo].[UserRole]
+		   ([Users_UserId]
+		   ,[Roles_RoleId])
+	 VALUES
+		   (3
+		   ,2)
 		   INSERT INTO [CodeBox].[dbo].[Languages]
 		   ([Name]
 		   ,[Description])

@@ -24,12 +24,12 @@ namespace CodeBox.Testing.Views
             Common.LogOut();
         }
 
-        private void GoToGroupCreateView()
+        private static void GoToGroupCreateView()
         {
             Common.GoToUrl(Common.HOME_URL + "Group/Create");
         }
 
-        private void PerformCreation(IWebDriver driver, SimpleGroup group)
+        public static void PerformCreation(IWebDriver driver, SimpleGroup group)
         {
             GoToGroupCreateView();
             IWebElement nameBox = driver.FindElement(By.XPath("//*[@id=\"Name\"]"));
