@@ -142,6 +142,26 @@ namespace CodeBox.Testing.Views
             CreateEditAndCheckUserAccount(driver, editedUser);
         }
 
+        private void UserEditValidUploadAvatar(IWebDriver driver)
+        {
+            Common.LogInRandomPerson007();
+            string pathToImage = "C:\\Maarten\\2 Ma\\Thesis\\Thesis\\Figures\\CESK_tracing_interface original.png";
+            GoToUserEditView(driver);
+
+            IWebElement avatarSelectionButton = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/form/fieldset/p[1]/input"));
+            IWebElement saveButton = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/form/fieldset/p[2]/input"));
+
+            avatarSelectionButton.SendKeys(pathToImage);
+            saveButton.Click();
+
+            IWebElement message = driver.FindElement(By.XPath("//*[@id=\"message\"]"));
+            StringAssert.Contains("randomperson007, your profile has been updated!", message.Text);
+
+            Common.GoToUrl(Common.HOME_URL);
+            IWebElement avatar = driver.FindElement(By.XPath("//*[@id=\"UserAvatar\"]"));
+            StringAssert.Contains(avatar.TagName, "img");
+        }
+
         [TestMethod]
         public void TestUserEditContent()
         {
@@ -176,6 +196,11 @@ namespace CodeBox.Testing.Views
         public void TestUserEditValid2()
         {
             UserEditValid2(Common.chromeDriver);
+        }
+
+        [TestMethod]
+        public void TestUserEditValidUploadAvatar() {
+            UserEditValidUploadAvatar(Common.chromeDriver);
         }
 
     }
