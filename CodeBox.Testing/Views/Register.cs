@@ -27,7 +27,7 @@ namespace CodeBox.Testing.Views
         [TestInitialize]
         public void NavigateToRegistrationPage()
         {
-            Common.chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Account/Register");
+            Common.GoToUrl(Common.HOME_URL + "Account/Register");
         }
 
         public static RegisterInfo CreateRandomRegisterInfo(string password)
@@ -52,7 +52,7 @@ namespace CodeBox.Testing.Views
 
         public static void PerformRegistration(IWebDriver driver, RegisterInfo registerInfo)
         {
-            Common.chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Account/Register");
+            Common.GoToUrl(Common.HOME_URL + "Account/Register");
             
             IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
             IWebElement userNameInput = mainContent.FindElement(By.XPath("//div[1]/form[1]/fieldset[1]/div[2]/input[1]"));

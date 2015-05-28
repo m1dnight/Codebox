@@ -35,6 +35,11 @@ namespace CodeBox.Testing.Views
             driver.Navigate().Back();
         }
 
+        public static void GoToUrl(string url)
+        {
+            chromeDriver.Navigate().GoToUrl(url);
+        }
+
         public static void LogInRandomPerson007()
         {
             string userName = "randomperson007";

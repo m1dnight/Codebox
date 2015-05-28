@@ -16,7 +16,7 @@ namespace CodeBox.Testing.Views
         [TestInitialize]
         public void NavigateToLogInPage()
         {
-            Common.chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Account/LogIn");
+            Common.GoToUrl(Common.HOME_URL + "Account/LogIn");
         }
 
         private void LogOut()

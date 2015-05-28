@@ -16,7 +16,7 @@ namespace CodeBox.Testing.Views
         public void LogIn()
         {
             Common.LogInRandomPerson007();
-            Common.chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Snippet/List");
+            Common.GoToUrl(Common.HOME_URL + "Snippet/List");
         }
 
         [TestCleanup]

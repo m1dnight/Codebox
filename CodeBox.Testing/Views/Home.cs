@@ -19,7 +19,7 @@ namespace CodeBox.Testing.Views
         /// the home-screen visible to a user that is not logged in.
         /// </summary>
         /// <param name="driver"></param>
-        private void homeContents(IWebDriver driver)
+        private void HomeContent(IWebDriver driver)
         {
             driver.Navigate().GoToUrl(Common.HOME_URL);
             IWebElement topBar = driver.FindElement(By.Id("TopBar"));
@@ -36,7 +36,7 @@ namespace CodeBox.Testing.Views
         /// Test whether the link to the login page works
         /// </summary>
         /// <param name="driver"></param>
-        private void loginLink(IWebDriver driver)
+        private void LoginLink(IWebDriver driver)
         {
             //Navigate to login page
             driver.Navigate().GoToUrl(Common.HOME_URL);
@@ -58,19 +58,19 @@ namespace CodeBox.Testing.Views
         }
 
         [TestMethod]
-        public void testHomeContents()
+        public void TestHomeContent()
         {
-            homeContents(Common.chromeDriver);
+            HomeContent(Common.chromeDriver);
         }
 
         [TestMethod]
-        public void testLoginlink()
+        public void TestLoginlink()
         {
-            loginLink(Common.chromeDriver);
+            LoginLink(Common.chromeDriver);
         }
 
         [TestMethod]
-        public void testSignUplink()
+        public void TestSignUplink()
         {
             SignUpLink(Common.chromeDriver);
         }

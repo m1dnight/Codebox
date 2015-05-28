@@ -112,9 +112,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleData.cs" />
     <Compile Include="Views\Common.cs" />
+    <Compile Include="Views\Group.cs" />
+    <Compile Include="Views\GroupCreate.cs" />
     <Compile Include="Views\Home.cs" />
     <Compile Include="Views\LogIn.cs" />
     <Compile Include="Views\Register.cs" />
+    <Compile Include="Views\SimpleGroup.cs" />
     <Compile Include="Views\SimpleSnippet.cs" />
     <Compile Include="Views\SimpleUser.cs" />
     <Compile Include="Views\SnippetDelete.cs" />

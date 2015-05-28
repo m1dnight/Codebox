@@ -16,7 +16,7 @@ namespace CodeBox.Testing.Views
         public void LogIn()
         {
             Common.LogInRandomPerson007();
-            Common.chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Snippet/Create");
+            Common.GoToUrl(Common.HOME_URL + "Snippet/Create");
         }
 
         [TestCleanup]
@@ -27,7 +27,7 @@ namespace CodeBox.Testing.Views
 
         public static void CreateSnippet(IWebDriver driver, SimpleSnippet snippet)
         {
-            Common.chromeDriver.Navigate().GoToUrl(Common.HOME_URL + "Snippet/Create");
+            Common.GoToUrl(Common.HOME_URL + "Snippet/Create");
             Common.SaveSnippet(driver, snippet);
         }
 
@@ -46,34 +46,31 @@ namespace CodeBox.Testing.Views
 
         private void SnippetNewContent(IWebDriver driver)
         {
-            IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
-            StringAssert.Contains("New Snippet", mainContent.FindElement(By.XPath("//h1[1]")).Text);
-
+            StringAssert.Contains("New Snippet", driver.FindElement(By.XPath("//h1[1]")).Text);
             StringAssert.Contains("Name", driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/form/fieldset/div[1]/label")).Text);
             StringAssert.Contains("Description", driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/form/fieldset/div[3]/label")).Text);
             StringAssert.Contains("Code", driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/form/fieldset/div[5]/label")).Text);
             StringAssert.Contains("Public", driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/form/fieldset/p[1]")).Text);
             StringAssert.Contains("Syntax:", driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/form/fieldset/p[3]")).Text);
             StringAssert.Contains("Share with group (optional):", driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/form/fieldset/p[5]")).Text);
-            IWebElement nameBox = mainContent.FindElement(By.Id("Snippet_Name"));
-            IWebElement descriptionBox = mainContent.FindElement(By.Id("Snippet_Description"));
-            IWebElement codeBox = mainContent.FindElement(By.Id("Snippet_Code"));
-            IWebElement publicCheckmark = mainContent.FindElement(By.Id("Snippet_Public"));
-            IWebElement languageBox = mainContent.FindElement(By.Id("SelectedLanguageId"));
-            IWebElement groupBox = mainContent.FindElement(By.Id("SelectedGroupId"));
-            IWebElement saveButton = mainContent.FindElement(By.Id("SnippetSubmit"));
-            IWebElement listLink = mainContent.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/div/a"));
+            IWebElement nameBox = driver.FindElement(By.Id("Snippet_Name"));
+            IWebElement descriptionBox = driver.FindElement(By.Id("Snippet_Description"));
+            IWebElement codeBox = driver.FindElement(By.Id("Snippet_Code"));
+            IWebElement publicCheckmark = driver.FindElement(By.Id("Snippet_Public"));
+            IWebElement languageBox = driver.FindElement(By.Id("SelectedLanguageId"));
+            IWebElement groupBox = driver.FindElement(By.Id("SelectedGroupId"));
+            IWebElement saveButton = driver.FindElement(By.Id("SnippetSubmit"));
+            IWebElement listLink = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/div/a"));
             Common.CheckLink(driver, listLink, Common.HOME_URL + "Snippet/List");
         }
 
         private void SnippetNewEmptyCodeInsert(IWebDriver driver)
         {
-            IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
-            IWebElement nameBox = mainContent.FindElement(By.Id("Snippet_Name"));
-            IWebElement descriptionBox = mainContent.FindElement(By.Id("Snippet_Description"));
+            IWebElement nameBox = driver.FindElement(By.Id("Snippet_Name"));
+            IWebElement descriptionBox = driver.FindElement(By.Id("Snippet_Description"));
             nameBox.SendKeys("a");
             descriptionBox.SendKeys("a");
-            IWebElement saveButton = mainContent.FindElement(By.Id("SnippetSubmit"));
+            IWebElement saveButton = driver.FindElement(By.Id("SnippetSubmit"));
             saveButton.Click();
 
             IWebElement codeError = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/form/fieldset/div[6]/span"));
@@ -91,9 +88,6 @@ namespace CodeBox.Testing.Views
 
         private void SnippetNewValidInsert(IWebDriver driver)
         {
-            IWebElement mainContent = driver.FindElement(By.Id("ContentMain"));
-
-
             string code = "a";
             string description = "a";
             string name = "a";
