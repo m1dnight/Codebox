@@ -148,7 +148,9 @@ Creating automated GUI tests can then be accomplished by modelling the input tha
 
 GUI tests consist of both valid actions performed by the user, such as successfully creating a new user account, logging in or creating new snippets, and invalid actions, such as logging in unsuccessfully, creating invalid snippets, etc.
 
-In this project, GUI tests will be written from a black-box perspective. Although we aim to make the GUI tests fine-grained, we will not check the exact errors raised by the application. We only check how these errors are presented to the user.
+In this project, all GUI tests will be written from a black-box perspective.
+We believe that our GUI tests must accurately model a user's actions while using Codebox
+ Although we aim to make the GUI tests fine-grained, we will not check the exact errors raised by the application. We only check how these errors are presented to the user.
 
 \subsection{User management}
 
@@ -184,7 +186,34 @@ Logging out the user should result in a redirect to the home page of the applica
 \subsection{Snippet management}
 
 \subsubsection*{Create new snippet}
+We will again create unit-tests to check the creation of both valid and invalid snippets.
+A valid snippet must have at least a name and a code fragment. The name of a snippet does not need to be unique.
+To create a code snippet, the user must first be logged in.
+A GUI test that checks the creation of a valid snippet must therefore also first simulate a user logging in.
+To accomplish this, the test logs in into Codebox using a known user account. It then navigates to the correct webpage, enters values for the snippet to create, e.g., a name, a code fragment, description, programming language etc., and clicks the 'Save' button.
+
+To check that the creation has succeeded and that the correct snippet was created, the test will then automatically navigate to the page where it expects this snippet to appear and compare the expected attributes of the snippet, i.e., the values that were just entered when creating this snippet, with the attributes that are visible on the snippet's webpage.
+The attributes of a snippet are: its name, description, language, whether or not the snippet will be publicly visible, the groups in which this snippet will be shared and the actual code fragment.
+
+This will cause some overlap between testing this user-story and testing the 'Show snippet' story because both tests involve viewing the attributes of a snippet.
+A certain overlap between both user-stories seems unavoidable however, because in order to test whether the creation was completely successful, it is imperative that we test whether the correct attributes were selected.
+If we stick to our principle of applying black-box testing for our GUI tests, then the only way of checking these attributes is by navigating to the correct snippet page and verifying whether the corresponding attributes are visible.
+
+We will test the creation of multiple snippets, but it is of course infeasible to test for every combination of all values that can be given to the snippet's attributes.
+We will however explore the range of values that can be given to each attribute, e.g., a short or a long name, code fragments consisting of multiple lines versus fragments consisting of only one line etc.
+Every attribute can take an arbitrary value: it is entirely possible for a name or description to consist of non-alphabetical characters.
+
+Apart from testing the creation of valid snippets, we also test how Codebox handles the creation of invalid snippets.
+Specifically, we will test how the system handles the case where no name or code fragment is given to the snippet before submitting the creation form.
+Currently, we foresee that not providing either of these attributes is the only possible cause of performing an unsuccessful snippet creation. 
 
 \subsubsection*{Show snippet}
+
+Testing whether a snippet is displayed correctly can be performed by navigating to the webpage where the snippet is shown and comparing the snippet's attributes that are visible there with the known attributes of the snippet.
+We therefore first need to create a number of snippets, so that we can test whether their attributes are correctly visualized.
+
+One way to do this would be to automatically insert a number of snippets into the database but this would again go against our principal of only using black-box testing for he GUI tests.
+We therefore automatically create a new snippet in each GUI test for this user-story, and subsequently navigate to the new snippet's webpage and automatically verify its attributes.
+Since a snippet's attributes are visualized in the form of DOM-elements, verifying its attributes is simply a matter of checking whether the corresponding DOM-elements have the correct state.
 
 \end{document}
