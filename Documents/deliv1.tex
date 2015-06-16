@@ -141,11 +141,47 @@ basicstyle=\ttfamily\small,
 
 \section{Detailed test strategy}
 
+Unit-tests for the GUI of each user story will be created with the use of the Selenium framework \footnote{http://www.seleniumhq.org/}.
+This framework can be used to simulate a user's interaction with the website. Specifically, it offers mechanisms to send mouse-clicks to DOM-elements, navigate a website, or send keyboard input through input forms.
+Conversely, it also offers mechanisms to check the complete state of a DOM-element.
+Creating automated GUI tests can then be accomplished by modelling the input that can be send by user and checking whether the DOM-elements which are expected to change have been correctly manipulated.
+
+GUI tests consist of both valid actions performed by the user, such as successfully creating a new user account, logging in or creating new snippets, and invalid actions, such as logging in unsuccessfully, creating invalid snippets, etc.
+
+In this project, GUI tests will be written from a black-box perspective. Although we aim to make the GUI tests fine-grained, we will not check the exact errors raised by the application. We only check how these errors are presented to the user.
+
+\subsection{User management}
+
 \subsubsection*{Log in}
+The result of the action of a user logging in can be categorized in three main scenario's: either the log-in was successful, either it was unsuccessful because a non-existing username was provided, or it was unsuccessful because an incorrect password was entered.
+We will test these three scenario's with the use of Selenium.
+We navigate to the home page of Codebox, navigate from there to the log-in page, find the DOM-elements that correspond with the textboxes where users enter their username and password, enter some credentials and subsequently click the 'Log in' button.
+A successful log-in can be validated by checking whether the system redirected to the correct webpage and is showing the correct credentials.
+An invalid log-in can be tested by checking whether the expected error message appears on the screen.
+Since an error message is just another DOM-element, we can attempt to locate the error message and check whether it contains the expected text message.
+
+The first scenario requires that at least one user account has already been created in Codebox, so that a log-in can be performed using this account.
+For this reason, we will insert one or multiple user profiles directly into the database of Codebox and check whether it is possible to log in using the username and password of the respective users.
+By inserting these profiles directly into the database, we can test the 'Log in' user-story separately from e.g., the 'Register' user-story.
 
 \subsubsection*{Register}
+From a high-level point of view, there are only two possible results when registering a new user account: either the registration succeeded or it failed.
+
+Automatically testing a successful registration can be problematic, because the username of each account must be unique.
+When testing the creation of a new account, we can therefore not simply hardcode the username that must be registered, since this test would always fail after it was run the first time.
+The same holds for e-mail addresses
+We therefore automatically generate a new, unique username and e-mail address every time we test a valid registration.
+The actual test will be similar to how we test the 'Log in' user-story: we navigate from Codebox' homepage to the registration page, enter the generated username, e-mail address and password in their corresponding textboxes and click the 'Create' button.
+A successful registration causes Codebox to redirect to the log-in page. We will therefore check whether this redirect has occurred, and if so, immediately try to log in using the credentials we just generated.
+
+We will also test how unsuccessful registrations are handled by Codebox. We will test how Codebox handles registrations that use an already existing username or e-mail address, how it handles usernames or passwords that are considered too short, or how it handles the case where the textboxes containing the required information are empty when the user submits the form.
 
 \subsubsection*{Log out}
+
+We will write GUI tests for logging out a user. Because each webpage that is shown by Codebox always contains a link in the upper-right corner to log out the user, we will write a GUI test that checks the expected behaviour when this link is clicked.
+Logging out the user should result in a redirect to the home page of the application, so our test will check whether this redirect has indeed been performed.
+
+\subsection{Snippet management}
 
 \subsubsection*{Create new snippet}
 
