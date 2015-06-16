@@ -153,17 +153,20 @@ The account controller's functionality is comprised of two important operations:
 logging in and registering a new account.
 
 \begin{itemize}
+
 \item[\textbf{Login}]To test the login process it requires some special
   testing. The implementation notifies the user of a wrong password or wrong
   email address. As such tests need to be written to assure that the system
   detects which piece of information is wrong: the username or the password and
   notifies the user as such. And finally we need to test that proper login also
   work.
+
 \item[\textbf{Registration}] To test the registration process one has to test
   the registration process. However, this process is not contained within the
   controller but within the \texttt{Custom\-Member\-ship\-Provider}. The only
   thing to test in the \texttt{HomeController} itself was a registration with
   proper credentials.
+
 \end{itemize}
 
 
@@ -174,7 +177,9 @@ logging in and registering a new account.
 The main code unit to test for snippets was again the snippet controller. The
 implemented features in this sprint were the listing of snippets and the
 creation of snippets.
+
 \begin{itemize}
+
 \item[Listing] To test the creation of snippets one has to check the validity of the
   input at the controller. Hence, tests need to be created to edit snippets and
   to view snippets. The latter is a simple test to make sure the controller does
@@ -183,11 +188,10 @@ creation of snippets.
   the edits are processed properly by the controller. The storage of snippets
   can not be tested however. The application uses Entity Framework as its
   backend and thus we find that this software should not be tested.
+
 \item[Editing] To properly unit test the listing of snippets it suffices to tes
   that the controller returns a list of all the valid snippets when a user
   requests a list.
+
 \end{itemize}
-
-
-
 \end{document}
