@@ -1,0 +1,193 @@
+\documentclass[10pt,a4paper,BCOR12mm, headexclude, footexclude,
+  twoside, openright]{scrartcl}
+\usepackage[scaled]{helvet}
+\usepackage[british]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{ifthen}
+\usepackage{amsmath,amsfonts,amsthm}
+\usepackage{sfmath}
+\usepackage{makecell}
+\usepackage{booktabs}
+\usepackage{sectsty}
+\usepackage{url} %url in footnote
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{graphicx}
+
+%% Listings
+\usepackage{listings}
+\usepackage{xcolor}
+
+\graphicspath{ {images/} }
+
+%\KOMAoptions{optionenliste}
+%\KOMAoptions{Option}{Werteliste}
+
+
+\addtokomafont{caption}{\small}
+%\setkomafont{descriptionlabel}{\normalfont
+%   \bfseries}
+\setkomafont{captionlabel}{\normalfont
+    \bfseries}
+\let\oldtabular\tabular
+\renewcommand{\tabular}{\sffamily\oldtabular}
+\KOMAoptions{abstract=true}
+%\setkomafont{footnote}{\sffamily}
+%\KOMAoptions{twoside=true}
+%\KOMAoptions{headsepline=true}
+%\KOMAoptions{footsepline=true}
+\renewcommand\familydefault{\sfdefault}
+\renewcommand{\arraystretch}{1.1}
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
+\setlength{\textheight}{230mm}
+\allsectionsfont{\centering \normalfont\scshape}
+\let\tmp\oddsidemargin
+\let\oddsidemargin\evensidemargin
+\let\evensidemargin\tmp
+\reversemarginpar
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt}
+
+%%%% Listings
+% C#
+%\setmonofont{Consolas} %to be used with XeLaTeX or LuaLaTeX
+\definecolor{bluekeywords}{rgb}{0,0,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.64,0.08,0.08}
+\definecolor{xmlcomments}{rgb}{0.5,0.5,0.5}
+\definecolor{types}{rgb}{0.17,0.57,0.68}
+
+\usepackage{listings}
+\lstset{language=[Sharp]C,
+captionpos=b,
+%numbers=left, %Nummerierung
+%numberstyle=\tiny, % kleine Zeilennummern
+frame=lines, % Oberhalb und unterhalb des Listings ist eine Linie
+showspaces=false,
+showtabs=false,
+breaklines=true,
+showstringspaces=false,
+breakatwhitespace=true,
+escapeinside={(*@}{@*)},
+commentstyle=\color{greencomments},
+morekeywords={partial, var, value, get, set},
+keywordstyle=\color{bluekeywords},
+stringstyle=\color{redstrings},
+basicstyle=\ttfamily\small,
+}
+
+\begin{document}
+%\sffamily
+\fancypagestyle{plain}
+{%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0.5pt}
+  \fancyhf{}%
+  \fancyfoot[R]{\emph{\footnotesize Page \thepage\ of \pageref{LastPage}}}%
+  \fancyfoot[C]{\emph{\footnotesize Christophe De Troyer and Maarten Vandercammen}}%
+}
+
+\thispagestyle{plain}
+
+\titlehead
+{
+    Vrije Universiteit Brussel\\%
+    Pleinlaan 2\\%
+    Software Languages Lab - Dept. Of Computer Science\hfill
+    Master Studies%
+}
+\subject{\vspace{-1ex} \horrule{2pt}\\[0.15cm]
+  {\textsc{\texttt{Capita Selecta: Software Engineering}}}}
+\title{Project Software Engineering\\[0.5cm]}
+\subtitle{\textsc{\texttt{Deliverable 1}}\\\horrule{2pt}\\[0.5cm]}
+\author{
+  \bfseries{Christophe De Troyer}\vspace{-2ex}
+  \and
+  \bfseries{Maarten Vandercammen}\vspace{-2ex} 
+}
+\date{\begin{tabular}{cc}
+  \textsc{Date:}& \textsc{\emph{\today}}\\
+  \textsc{Due :}& \textsc{\emph{17th June 2015}}\vspace{3ex}
+\end{tabular}}
+\maketitle
+
+%\begin{abstract}
+%\end{abstract}
+\newpage
+
+\tableofcontents
+
+\newpage
+
+%-------------------------------
+\fancypagestyle{plain} {%
+  \renewcommand{\headrulewidth}{0.5pt}%
+  \renewcommand{\footrulewidth}{0.5pt} \fancyhf{}%
+  \fancyhead[R]{\emph{\footnotesize \today}} \fancyfoot[R]{\emph{\footnotesize
+      Page \thepage\ of \pageref{LastPage}}}%
+  \fancyfoot[C]{\hspace*{-1.5cm} \emph{\footnotesize Christophe De Troyer}
+    \hspace{2.7cm} \emph{\footnotesize Maarten Vandercammen} \\ \hspace*{-2cm}
+    \emph{\footnotesize 106490} \hspace{4.5cm} \emph{\footnotesize 98341}}%
+}
+
+\pagestyle{plain}
+
+\section{Detailed test strategy}
+In order to assure proper workings of the back-end it is needed to create unit
+tests that cover all of the controllers. Since this sprint will only implement
+features of the high priority slice only two controllers need proper testing:
+the account controller and the snippet controller.
+
+\section{Accounts}
+
+\paragraph{Unit Tests}
+
+The account controller's functionality is comprised of two important operations:
+logging in and registering a new account.
+
+\begin{itemize}
+\item[\textbf{Login}]To test the login process it requires some special
+  testing. The implementation notifies the user of a wrong password or wrong
+  email address. As such tests need to be written to assure that the system
+  detects which piece of information is wrong: the username or the password and
+  notifies the user as such. And finally we need to test that proper login also
+  work.
+\item[\textbf{Registration}] To test the registration process one has to test
+  the registration process. However, this process is not contained within the
+  controller but within the \texttt{Custom\-Member\-ship\-Provider}. The only
+  thing to test in the \texttt{HomeController} itself was a registration with
+  proper credentials.
+\end{itemize}
+
+
+
+\section{Snippets}
+\paragraph{Unit Tests}
+
+The main code unit to test for snippets was again the snippet controller. The
+implemented features in this sprint were the listing of snippets and the
+creation of snippets.
+\begin{itemize}
+\item[Listing] To test the creation of snippets one has to check the validity of the
+  input at the controller. Hence, tests need to be created to edit snippets and
+  to view snippets. The latter is a simple test to make sure the controller does
+  a proper redirect or returns the proper snippet. The former needs to verify
+  the user can only request to edit or create snippets he has access to and that
+  the edits are processed properly by the controller. The storage of snippets
+  can not be tested however. The application uses Entity Framework as its
+  backend and thus we find that this software should not be tested.
+\item[Editing] To properly unit test the listing of snippets it suffices to tes
+  that the controller returns a list of all the valid snippets when a user
+  requests a list.
+\end{itemize}
+
+
+
+\end{document}
