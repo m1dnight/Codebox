@@ -1,0 +1,184 @@
+\documentclass[10pt,a4paper,BCOR12mm, headexclude, footexclude,
+  twoside, openright]{scrartcl}
+\usepackage[scaled]{helvet}
+\usepackage[british]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{ifthen}
+\usepackage{amsmath,amsfonts,amsthm}
+\usepackage{sfmath}
+\usepackage{makecell}
+\usepackage{booktabs}
+\usepackage{sectsty}
+\usepackage{url} %url in footnote
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{graphicx}
+
+%% Listings
+\usepackage{listings}
+\usepackage{xcolor}
+
+\graphicspath{ {images/} }
+
+%\KOMAoptions{optionenliste}
+%\KOMAoptions{Option}{Werteliste}
+
+
+\addtokomafont{caption}{\small}
+%\setkomafont{descriptionlabel}{\normalfont
+%   \bfseries}
+\setkomafont{captionlabel}{\normalfont
+    \bfseries}
+\let\oldtabular\tabular
+\renewcommand{\tabular}{\sffamily\oldtabular}
+\KOMAoptions{abstract=true}
+%\setkomafont{footnote}{\sffamily}
+%\KOMAoptions{twoside=true}
+%\KOMAoptions{headsepline=true}
+%\KOMAoptions{footsepline=true}
+\renewcommand\familydefault{\sfdefault}
+\renewcommand{\arraystretch}{1.1}
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
+\setlength{\textheight}{230mm}
+\allsectionsfont{\centering \normalfont\scshape}
+\let\tmp\oddsidemargin
+\let\oddsidemargin\evensidemargin
+\let\evensidemargin\tmp
+\reversemarginpar
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt}
+
+%%%% Listings
+% C#
+%\setmonofont{Consolas} %to be used with XeLaTeX or LuaLaTeX
+\definecolor{bluekeywords}{rgb}{0,0,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.64,0.08,0.08}
+\definecolor{xmlcomments}{rgb}{0.5,0.5,0.5}
+\definecolor{types}{rgb}{0.17,0.57,0.68}
+
+\usepackage{listings}
+\lstset{language=[Sharp]C,
+captionpos=b,
+%numbers=left, %Nummerierung
+%numberstyle=\tiny, % kleine Zeilennummern
+frame=lines, % Oberhalb und unterhalb des Listings ist eine Linie
+showspaces=false,
+showtabs=false,
+breaklines=true,
+showstringspaces=false,
+breakatwhitespace=true,
+escapeinside={(*@}{@*)},
+commentstyle=\color{greencomments},
+morekeywords={partial, var, value, get, set},
+keywordstyle=\color{bluekeywords},
+stringstyle=\color{redstrings},
+basicstyle=\ttfamily\small,
+}
+
+\begin{document}
+%\sffamily
+\fancypagestyle{plain}
+{%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0.5pt}
+  \fancyhf{}%
+  \fancyfoot[R]{\emph{\footnotesize Page \thepage\ of \pageref{LastPage}}}%
+  \fancyfoot[C]{\emph{\footnotesize Christophe De Troyer and Maarten Vandercammen}}%
+}
+
+\thispagestyle{plain}
+
+\titlehead
+{
+    Vrije Universiteit Brussel\\%
+    Pleinlaan 2\\%
+    Software Languages Lab - Dept. Of Computer Science\hfill
+    Master Studies%
+}
+\subject{\vspace{-1ex} \horrule{2pt}\\[0.15cm]
+  {\textsc{\texttt{Capita Selecta: Software Engineering}}}}
+\title{Project Software Engineering\\[0.5cm]}
+\subtitle{\textsc{\texttt{Deliverable 1}}\\\horrule{2pt}\\[0.5cm]}
+\author{
+  \bfseries{Christophe De Troyer}\vspace{-2ex}
+  \and
+  \bfseries{Maarten Vandercammen}\vspace{-2ex} 
+}
+\date{\begin{tabular}{cc}
+  \textsc{Date:}& \textsc{\emph{\today}}\\
+  \textsc{Due :}& \textsc{\emph{17th June 2015}}\vspace{3ex}
+\end{tabular}}
+\maketitle
+
+%\begin{abstract}
+%\end{abstract}
+\newpage
+
+\tableofcontents
+
+\newpage
+
+%-------------------------------
+\fancypagestyle{plain}
+{%
+  \renewcommand{\headrulewidth}{0.5pt}%
+  \renewcommand{\footrulewidth}{0.5pt}
+  \fancyhf{}%
+  \fancyhead[R]{\emph{\footnotesize \today}}
+  \fancyfoot[R]{\emph{\footnotesize Page \thepage\ of \pageref{LastPage}}}%
+  \fancyfoot[C]{\hspace*{-1.5cm} \emph{\footnotesize Christophe De Troyer} \hspace{2.7cm} \emph{\footnotesize Maarten Vandercammen} \\ \hspace*{-2cm} \emph{\footnotesize 106490} \hspace{4.5cm} \emph{\footnotesize 98341}}%
+}
+
+\pagestyle{plain}
+
+\section{Detailed test strategy}
+
+Similar to the first iteration, all GUI tests will be performed using the Selenium framework\footnote{http://www.seleniumhq.org/}.
+
+Similar to the first iteration, we will perform all GUI testing from a black-box perspective, so that we can model a user's experience as accurately as possible.
+Specifically, this means that we will avoid inserting or updating values, such as user accounts or code snippets, directly from the database wherever possible.
+Instead, we will perform these actions through the webinterface, similar to how a user would accomplish this.
+However, we will insert one user account directly into the database, because most user-stories, e.g., creating, viewing or editing snippets, require the user to be logged in.
+It would be undesirable to first register a user, log in with this new user account, perform the desired test and log out again, because these tests would then hinge completely on whether the 'Register' user-story succeeded.
+
+We therefore choose to insert this user account directly into the database.
+
+\subsection{User management}
+
+\subsubsection*{Edit profile data}
+
+This user-story consists of editing an existing user account by changing certain attributes, such as the name, e-mail address or password. If users wish to make any changes to their password, they must verify themselves by again entering their current password.
+To test this user-story, we will take two approaches. 
+For tests that check invalid edit actions, e.g., not providing the correct password when necessary, entering an invalid e-mail address etc., we will log in using the user account that was inserted into the database, try to change the desired attribute and check whether the correct error message is displayed.
+For tests that should succeed, we will first create an automatically generated user account, log in using this account, make the required changes and check whether they have persisted by logging out and back in, and verifying the respective attributes.
+We split our tests over these two approaches because we expect that it will be undesirable to make any lasting changes to the user account that was stored directly in the database.
+This account is used not only for testing this user-story, but also e.g. the 'Create snippet', 'View snippet' or 'Edit snippet' stories.
+Testing this user-story might inadvertently corrupt this central user account. This would mean that the tests for our other user-stories would be unable to use this account to log in into Codebox.
+
+As with other user-stories, we will also check invalid edits to a user account, such as entering an invalid password, entering an invalid new password or an incorrect current password, leaving all textboxes blank etc.
+\subsection{Snippet management}
+
+\subsubsection*{Delete snippet}
+
+Testing the deletion of a snippet can be accomplished by creating a new, automatically generated snippet, navigating to the snippet overview page and simulate a mouseclick on the delete-link of this snippet.
+If successful, a message should appear that the snippet has been deleted and the snippet should be removed from the overview.
+All of this can be accomplished with the use of the Selenium framework: we only have to make sure that the correct DOM-element appears, and that the link to the deleted snippet is removed from the overview.
+
+\subsubsection*{Edit snippet}
+
+Creating a GUI test that checks if snippets are correctly edited can be accomplished by automatically generating and creating new snippets, clicking on the link to the edit-page for the newly created snippet, altering the desired attributes and clicking the 'Save' button. We will then check whether the attributes were correctly updated by navigating back to the webpage of this snippet and checking on the value of the attributes that were altered.
+The webform that is used to edit snippets is identical to the form used to create snippets, so we expect that most code for filling in these forms can be reused from the GUI tests for the 'Create snippet' user-story.
+
+A snippet can take a completely arbitrary value for any of its attributes, but its name and code fragment must be non-empty.
+Therefore, similar to the 'Create new snippet' user-story, the only way of incorrectly editing an existing snippet is by erasing its name or code fragment and attempting to save these changes.
+We will check this scenario by doing exactly this and verifying whether the correct error messages appear.
+
+\end{document}
