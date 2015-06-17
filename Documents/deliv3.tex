@@ -141,6 +141,17 @@ basicstyle=\ttfamily\small,
 
 \section{Detailed test strategy}
 
+\subsection{Overview}
+In this iteration, we develop all user-stories belonging to the third slice: the user-stories of the lowest priority. 
+Specifically, these features are: uploading a profile picture, creating groups for users, editing these group and inviting other users into these groups.
+These groups are used as a mechanism to share snippets with other users.
+When creating a snippet, users can opt to share the snippet among all members of one or more specific groups.
+This allows the other members of these groups to view this snippet. These members cannot edit or delete these snippets however.
+
+\subsubsection*{Back-end tests}
+In order to assure proper workings of the back-end it is needed to create unit tests that cover all of the controllers. Since this iteration will only implement features of the low priority slice only a single controller needs testing: the group controller.
+
+\subsubsection*{GUI tests}
 Similar to the first iteration, all GUI tests will be performed using the Selenium framework\footnote{http://www.seleniumhq.org/}.
 
 Similar to the first iteration, we will perform all GUI testing from a black-box perspective, so that we can model a user's experience as accurately as possible.
@@ -164,8 +175,15 @@ If both hashsums are the same, the images are also identical.
 
 \subsection{Group management}
 
-Users can create groups, invite other members into this group and edit some attributes of a group, such as its name and description.
-Code snippets can be shared between all members of a group. Shared code snippets are visible to all members of the group, but cannot be edited or deleted by other members.
+Writing back-end tests for all group management user stories is fairly trivial.
+We therefore first discuss how these tests can be performed in general. Afterwards, we discuss how we can develop GUI tests for these features.
+
+\subsubsection*{Back-end tests}
+To make sure the group controller acts as it is supposed to it has to be tested on each function.
+The group controller is used to create, edit and delete groups. As such, to achieve optimal coverage we will test all of these functions. 
+
+The main strategy for testing is in line with the strategy that was applied to the other controllers. Test creating with correct data and faulty data. Deletion will be tested to make sure the user has appropriate authorization to remove.
+Ensure that the deletion is actually performed and check that modifications are actually executed.
 
 \subsubsection*{Create new group}
 
@@ -198,5 +216,19 @@ A GUI test for this user-story will be created by writing a test that automatica
 When creation is successful, a message should appear and the group's attributes should be updated.
 We verify whether this message did indeed appear, and we also navigate to the page where an overview is given of this group.
 We can then check whether the attributes that are shown on this page correspond to the values of the attributes we just altered.
+
+\section{Evaluation of previous planning}
+The planned tasks were executed within the set timeslot. As such we can safely
+state that the previous planning was correct.
+\subsection{Unit Tests}
+The planned tasks have been executed in the time we planned for them in the
+previous deliverable. Again there was a small hurdle in the implementation of
+the project that required refactoring. This time the
+\texttt{CustomMembershiProvider} implemented \texttt{protected} methods. These
+methods were thus not accessible from within the unit tests. As such a derived
+class was created from the \texttt{CustomMembershipProvider} which publishes the
+methods in a public fashion. Except that hurdle the tests were straightforward
+as they were a variation on the previously written tests.
+\end{document}
 
 \end{document}
