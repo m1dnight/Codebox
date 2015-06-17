@@ -19,17 +19,23 @@ namespace CodeBox.Testing.Views
 
         private void GoToLastGroupEditView(IWebDriver driver)
         {
-            IWebElement editLink = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/table/tbody/tr[last()]/td[4]/a[1]"));
-            editLink.Click();
+            IWebElement link = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/table/tbody/tr[last()]/td[4]/a[1]"));
+            link.Click();
+        }
+
+        private void GoToLastGroupShowView(IWebDriver driver)
+        {
+            IWebElement link = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/table/tbody/tr[last()]/td[1]/a[1]"));
+            link.Click();
         }
 
         private void CheckGroup(IWebDriver driver, SimpleGroup group)
         {
-            IWebElement nameBox = driver.FindElement(By.XPath("//*[@id=\"Name\"]"));
-            IWebElement descriptionBox = driver.FindElement(By.XPath("//*[@id=\"Description\"]"));
+            IWebElement nameElement = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/fieldset/div[2]"));
+            IWebElement descriptionElement = driver.FindElement(By.XPath("//*[@id=\"ContentMain\"]/div/fieldset/div[4]"));
 
-            StringAssert.Contains(nameBox.Text, group.Name());
-            StringAssert.Contains(descriptionBox.Text, group.Description());
+            StringAssert.Contains(nameElement.Text, group.Name());
+            StringAssert.Contains(descriptionElement.Text, group.Description());
         }
 
         private void CreateEditAndCheckGroup(IWebDriver driver, SimpleGroup editedGroup)
@@ -44,6 +50,10 @@ namespace CodeBox.Testing.Views
             IWebElement editSuccessfulMessage = driver.FindElement(By.XPath("//*[@id=\"message\"]"));
             string expectedMessage = "Group '" + editedGroup.Name() + "' has been updated!";
             StringAssert.Contains(expectedMessage, editSuccessfulMessage.Text);
+
+            driver.Navigate().GoToUrl(Common.HOME_URL + "Group");
+            GoToLastGroupShowView(driver);
+            CheckGroup(driver, editedGroup);
         }
 
         private void PerformAddUserToGroup(IWebDriver driver, string email)

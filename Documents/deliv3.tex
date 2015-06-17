@@ -155,12 +155,48 @@ We therefore choose to insert this user account directly into the database.
 
 \subsubsection*{Add profile picture}
 
+Users can upload a profile picture which serves as their virtual avatar. This is performed by going to the edit page for their user account and uploading an image there.
+
+We can create a GUI test for this user-story by logging in to our central user account, navigating to its profile edit page and uploading a valid, pre-existing image. If successful, a message should be displayed and the image should become visible as the user's online avatar.
+All of these actions, including the uploading of the image and the verification of whether the avatar has been correctly altered, can be automated.
+To verify that the new avatar is displayed correctly, we will calculate a hashsum of the avatar and compare it with the known hashsum associated with the image that was uploaded.
+If both hashsums are the same, the images are also identical.
+
 \subsection{Group management}
+
+Users can create groups, invite other members into this group and edit some attributes of a group, such as its name and description.
+Code snippets can be shared between all members of a group. Shared code snippets are visible to all members of the group, but cannot be edited or deleted by other members.
 
 \subsubsection*{Create new group}
 
+We will create GUI tests for this user-story. These tests will automatically log in to the central user, navigate to the group creation page, simulate the user's actions of creating a new group, e.g., entering an automatically generated name and description into the corresponding textboxes on this page, and click the 'Create' button.
+A successful creation should cause this newly created group to be added to the overview page where all groups in which this central user is a member.
+We will therefore test whether this new group, with the correct name and description, have been added.
+
+We will also develop GUI tests that check how Codebox handles the case where the group that is to be created is invalid, e.g., because its name or description were left blank.
+An invalid group creation should cause Codebox to show an appropriate error message. Testing these error messages can be done through selenium.
+
 \subsubsection*{Invite user to group}
 
-\subsubsection*{Show groups}
+GUI tests will be created for this user-story.
+To test this user-story we require the existence of at least two user accounts, because one user must invite the other into a group.
+Our central user account can play the role of one of these users. The other role can be fulfilled by a newly created user.
+We will therefore require a new user to be inserted into the database. This insertion will be performed directly, similar to how we created the central user account.
+
+We also require the existence of at least one group, so that another user can be invited to this group. This group will either be created by directly inserting it into the database or by simply manually creating the group, before starting the development of the GUI tests.
+
+Concretely, the GUI test for this user account will be implemented by letting the test log in using the central user account, navigate to the group page of the group that was created for this purpose and inviting the other user(s) by entering their e-mail address(es).
+If the invitation is successful, a message should be displayed.
+These actions can all be automated using Selenium.
+
+We will also test an invalid group invitation, for example by entering a non-existing e-mail address and verifying whether the correct error message is displayed.
+
+\subsubsection*{Edit group}
+
+Editing a group can only be done by the user who created this group.
+A GUI test for this user-story will be created by writing a test that automatically logs in to the central user account, creates a new group, navigates to this new group's edit page and alters some attributes.
+When creation is successful, a message should appear and the group's attributes should be updated.
+We verify whether this message did indeed appear, and we also navigate to the page where an overview is given of this group.
+We can then check whether the attributes that are shown on this page correspond to the values of the attributes we just altered.
 
 \end{document}
