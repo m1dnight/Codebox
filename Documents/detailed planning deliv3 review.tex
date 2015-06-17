@@ -134,18 +134,35 @@ basicstyle=\ttfamily\small,
 \section{Evaluation of previous planning}
 
 \subsection{Back-end tests}
+Writing the tests for the Group controller was more straight forward than
+anticipated. The controller allowed itself for easy testing and we did not hit
+any hurdles like we did with the other controllers. As such we finish in
+time. However, there are some tests that have suffered under the time pressure
+of our theses. As such tests for editing and deleting a group are not
+implemented. However, we plan on doing them afterwards. 
 
 \subsection{GUI tests}
-As expected, writing the GUI tests for the third iteration was complicated because of the fact that we had to spend a lot of time finishing up our master's theses.
+As expected, writing the GUI tests for the third iteration was complicated
+because of the fact that we had to spend a lot of time finishing up our master's
+theses.
 
-We had planned on writing all GUI tests for the third iteration in three days. We were able to accomplish this, but we had to drop one aspect of our GUI tests for the 'Upload profile picture' user-story.
+We had planned on writing all GUI tests for the third iteration in three
+days. We were able to accomplish this, but we had to drop one aspect of our GUI
+tests for the 'Upload profile picture' user-story.
 
-Originally, we planned on verifying whether users could correctly upload an image by letting our tests upload a fixed image, calculate the hashsum of the image that became visible, and compare this with the known hashsum of that image.
-However, implementing this was very tricky and we were plagued by unexpected errors that we could not manage to resolve.
+Originally, we planned on verifying whether users could correctly upload an
+image by letting our tests upload a fixed image, calculate the hashsum of the
+image that became visible, and compare this with the known hashsum of that
+image.  However, implementing this was very tricky and we were plagued by
+unexpected errors that we could not manage to resolve.
 
-Because we could not spend any more time on developing this test, due to our theses, we made the decision to drop this part of the test.
-Instead, we now verify this user-story in a much less intricate, but also less failproof, way: we check whether a web-element is created at the expected location, and whether all attributes of this element, i.e., its type, width, height etc., are correct.
+Because we could not spend any more time on developing this test, due to our
+theses, we made the decision to drop this part of the test.  Instead, we now
+verify this user-story in a much less intricate, but also less failproof, way:
+we check whether a web-element is created at the expected location, and whether
+all attributes of this element, i.e., its type, width, height etc., are correct.
 
-Although this does not provide any solid guarantees that the user-story is implemented correctly, it should offer some basic guarantees.
+Although this does not provide any solid guarantees that the user-story is
+implemented correctly, it should offer some basic guarantees.
 
 \end{document}
