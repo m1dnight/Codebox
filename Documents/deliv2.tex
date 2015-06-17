@@ -174,13 +174,20 @@ As with other user-stories, we will also check invalid edits to a user account, 
 \subsection{Snippet management}
 
 \subsubsection*{Delete snippet}
+\paragraph{Back-end tests}
+To delete a snippet three things need to be in order: the deleter is allowed to delete, the program fetches delete instruction on non-existing identifiers and the delete operation actually deletes the snippet.
+All this can be tested by writing unit tests against the snippet controller.
 
+\paragraph{GUI tests}
 Testing the deletion of a snippet can be accomplished by creating a new, automatically generated snippet, navigating to the snippet overview page and simulate a mouseclick on the delete-link of this snippet.
 If successful, a message should appear that the snippet has been deleted and the snippet should be removed from the overview.
 All of this can be accomplished with the use of the Selenium framework: we only have to make sure that the correct DOM-element appears, and that the link to the deleted snippet is removed from the overview.
 
 \subsubsection*{Edit snippet}
 
+\paragraph{Back-end tests}
+
+\paragraph{GUI tests}
 Creating a GUI test that checks if snippets are correctly edited can be accomplished by automatically generating and creating new snippets, clicking on the link to the edit-page for the newly created snippet, altering the desired attributes and clicking the 'Save' button. We will then check whether the attributes were correctly updated by navigating back to the webpage of this snippet and checking on the value of the attributes that were altered.
 The webform that is used to edit snippets is identical to the form used to create snippets, so we expect that most code for filling in these forms can be reused from the GUI tests for the 'Create snippet' user-story.
 
@@ -215,18 +222,5 @@ website. As such it was impossible to use \texttt{Moq} to override the
 behaviour. To mitigate this issue it suffices to wrap the class in a non-static
 version and inject it using \texttt{Ninject}. This little hurdle was resolved
 rather quickly by means of some Google-Fu.
-
-
-\section{Snippets}
-\paragraph{Unit Tests}
-
-\begin{itemize}
-
-\item[\textbf{Delete Snippet}] To delete a snippet three things need to be in
-  order: the deleter is allowed to delete, the program fetches delete
-  instruction on non-existing identifiers and the delete operation actually
-  deletes the snippet. All this can be tested by writing unit tests against the
-  snippet controller.
-\end{itemize}
 
 \end{document}
