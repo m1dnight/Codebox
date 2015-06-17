@@ -172,4 +172,32 @@ methods were thus not accessible from within the unit tests. As such a derived
 class was created from the \texttt{CustomMembershipProvider} which publishes the
 methods in a public fashion. Except that hurdle the tests were straightforward
 as they were a variation on the previously written tests.
+
+\section{Evaluation of previous planning}
+The initial project setup was rather difficult. Since this project is a group
+effor we had to synchronize on how to setup the source repository. The first
+time consuming task was getting Maarten's laptop setup properly. His laptop did
+not have any of the required software installed. The second time consuming issue
+was the configuration of the repository. Neither of the group members had
+extensive experience with version controlling .net projects and as such we ran
+into some issues with the dependency management of packages. After this initial
+hurdle was overcome we could start on our own individual tasks.
+
+\subsection{Unit Tests}
+The unit tests went according to plan. There was however one issue that had to
+be resolved. To unit test the \texttt{FormsAuthentication} is a static
+class. The class serves the purpose of managing authentication on the
+website. As such it was impossible to use \texttt{Moq} to override the
+behaviour. To mitigate this issue it suffices to wrap the class in a non-static
+version and inject it using \texttt{Ninject}. This little hurdle was resolved
+rather quickly by means of some Google-Fu.
+
+\section{Estimates}
+\subsection{Unit Tests}
+For the unit tests two days will be planned in again. To make sure there is time
+to fix any possible bugs while writing the unit tests. Since the final slice is
+comprised of all the group functionality we dont intend to make a detailed
+planning as the initial setup might take longer than anticipated. Hence, we plan
+to do all the work necessary in 2 days without further details in planning.
+\subsection{Interface Tests}
 \end{document}
