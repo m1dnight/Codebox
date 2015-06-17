@@ -244,7 +244,7 @@ We therefore automatically create a new snippet in each GUI test for this user-s
 Since a snippet's attributes are visualized in the form of DOM-elements, verifying its attributes is simply a matter of checking whether the corresponding DOM-elements have the correct state.
 
 \section{Estimates}
-\subsection{Unit Tests}
+\subsection{Back-end tests}
 The above described unit tests require the first initial setup and exploration
 of the \texttt{Moq} framework and \texttt{Ninject}. As such we expect some
 additional time to be spent on figuring out how everything will be done.
@@ -254,6 +254,15 @@ and possible configuration. For the actual tests we will assume that one or two
 full days should be enough to write all the tests. We predict that the testing
 for the editing and listing each will be done in a single day. A day is planned
 for each due to the fact that possible bugs may have to be fixed.
-\subsection{Interface Tests}
+\subsection{GUI tests}
+We rely on the Selenium framework to develop all GUI tests. Because we do not have any prior experience with this framework, we plan on spending half a day to figure out how the framework works and how decent GUI tests can be written.
+This framework is widely used, so we expect a lot of documentation and working examples to be available on the internet.
+
+Because this first iteration consists of the highest-priority user-stories, which require the most focus, and because of our inexperience with the Selenium framework, we expect to need three days to write all GUI tests proper.
+The tests for the user management stories will be implemented first, followed by the tests for all snippet management stories.
+The user management stories should be fairly straightforward to test, so we plan on devoting one full day to these tests.
+The other two days will be dedicated to writing tests for the snippet management.
+
+We therefore expect to require three and a half day to write all GUI tests.
 
 \end{document}
