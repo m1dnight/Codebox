@@ -118,14 +118,6 @@ basicstyle=\ttfamily\small,
 \end{tabular}}
 \maketitle
 
-%\begin{abstract}
-%\end{abstract}
-\newpage
-
-\tableofcontents
-
-\newpage
-
 %-------------------------------
 \fancypagestyle{plain}
 {%
@@ -141,9 +133,19 @@ basicstyle=\ttfamily\small,
 
 \section{Detailed test strategy}
 
-Similar to the first iteration, all GUI tests will be performed using the Selenium framework\footnote{http://www.seleniumhq.org/}.
+\subsection{Overview}
+In the second iterations, we test three user-stories: editing user accounts, deleting an existing code snippet and editing an existing code snippet.
+For each of these user-stories, we will create both automated GUI tests and automated back-end tests.
 
-Similar to the first iteration, we will perform all GUI testing from a black-box perspective, so that we can model a user's experience as accurately as possible.
+\subsubsection*{Back-end tests}
+In order to assure proper workings of the back-end it is needed to create unit
+tests that cover all of the controllers. Since this sprint will only implement
+features of the medium priority slice only two controllers need proper testing:
+the account controller and the snippet controller.
+
+\subsubsection*{GUI tests}
+Similar to the first iteration, all GUI tests will be performed using the Selenium framework\footnote{http://www.seleniumhq.org/}.
+GUI testing will be done from a black-box perspective, so that we can model a user's experience as accurately as possible.
 Specifically, this means that we will avoid inserting or updating values, such as user accounts or code snippets, directly from the database wherever possible.
 Instead, we will perform these actions through the webinterface, similar to how a user would accomplish this.
 However, we will insert one user account directly into the database, because most user-stories, e.g., creating, viewing or editing snippets, require the user to be logged in.
@@ -153,8 +155,12 @@ We therefore choose to insert this user account directly into the database.
 
 \subsection{User management}
 
-\subsubsection*{Edit profile data}
+\subsubsection*{Edit account}
 
+\paragraph{Back-end tests}
+To edit an account all that is needed really is checking the valid input and then making sure that this input is processed correctly by the repository.
+
+\paragraph{GUI tests}
 This user-story consists of editing an existing user account by changing certain attributes, such as the name, e-mail address or password. If users wish to make any changes to their password, they must verify themselves by again entering their current password.
 To test this user-story, we will take two approaches. 
 For tests that check invalid edit actions, e.g., not providing the correct password when necessary, entering an invalid e-mail address etc., we will log in using the user account that was inserted into the database, try to change the desired attribute and check whether the correct error message is displayed.
@@ -164,6 +170,7 @@ This account is used not only for testing this user-story, but also e.g. the 'Cr
 Testing this user-story might inadvertently corrupt this central user account. This would mean that the tests for our other user-stories would be unable to use this account to log in into Codebox.
 
 As with other user-stories, we will also check invalid edits to a user account, such as entering an invalid password, entering an invalid new password or an incorrect current password, leaving all textboxes blank etc.
+
 \subsection{Snippet management}
 
 \subsubsection*{Delete snippet}
@@ -180,5 +187,46 @@ The webform that is used to edit snippets is identical to the form used to creat
 A snippet can take a completely arbitrary value for any of its attributes, but its name and code fragment must be non-empty.
 Therefore, similar to the 'Create new snippet' user-story, the only way of incorrectly editing an existing snippet is by erasing its name or code fragment and attempting to save these changes.
 We will check this scenario by doing exactly this and verifying whether the correct error messages appear.
+
+
+\section{Estimates}
+\subsection{Unit Tests}
+For the unit tests two days will be planned in again. To make sure there is time
+to fix any possible bugs while writing the unit tests. Hence, day one will be
+used to implement the editing of accounts and the second day will be used to
+implement the unit tests for the deletion of snippets.
+\subsection{Interface Tests}
+
+\section{Evaluation of previous planning}
+The initial project setup was rather difficult. Since this project is a group
+effor we had to synchronize on how to setup the source repository. The first
+time consuming task was getting Maarten's laptop setup properly. His laptop did
+not have any of the required software installed. The second time consuming issue
+was the configuration of the repository. Neither of the group members had
+extensive experience with version controlling .net projects and as such we ran
+into some issues with the dependency management of packages. After this initial
+hurdle was overcome we could start on our own individual tasks.
+
+\subsection{Unit Tests}
+The unit tests went according to plan. There was however one issue that had to
+be resolved. To unit test the \texttt{FormsAuthentication} is a static
+class. The class serves the purpose of managing authentication on the
+website. As such it was impossible to use \texttt{Moq} to override the
+behaviour. To mitigate this issue it suffices to wrap the class in a non-static
+version and inject it using \texttt{Ninject}. This little hurdle was resolved
+rather quickly by means of some Google-Fu.
+
+
+\section{Snippets}
+\paragraph{Unit Tests}
+
+\begin{itemize}
+
+\item[\textbf{Delete Snippet}] To delete a snippet three things need to be in
+  order: the deleter is allowed to delete, the program fetches delete
+  instruction on non-existing identifiers and the delete operation actually
+  deletes the snippet. All this can be tested by writing unit tests against the
+  snippet controller.
+\end{itemize}
 
 \end{document}
