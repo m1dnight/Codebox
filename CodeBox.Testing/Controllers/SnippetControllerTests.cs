@@ -180,8 +180,9 @@ namespace CodeBox.Testing.Controllers
             tempdatamessage = controller.TempData["message"];
 
             Assert.AreEqual(tempdatamessage, "Nothing found for ID 1000!");
-
+            //////////////////////////
             // Delete not logged in //
+            //////////////////////////
             controller = Helpers.CreateSnippetController();
 
             result = controller.DeleteSnippet(1);

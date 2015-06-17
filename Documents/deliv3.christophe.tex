@@ -1,0 +1,162 @@
+\documentclass[10pt,a4paper,BCOR12mm, headexclude, footexclude,
+  twoside, openright]{scrartcl}
+\usepackage[scaled]{helvet}
+\usepackage[british]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{ifthen}
+\usepackage{amsmath,amsfonts,amsthm}
+\usepackage{sfmath}
+\usepackage{makecell}
+\usepackage{booktabs}
+\usepackage{sectsty}
+\usepackage{url} %url in footnote
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{graphicx}
+
+%% Listings
+\usepackage{listings}
+\usepackage{xcolor}
+
+\graphicspath{ {images/} }
+
+%\KOMAoptions{optionenliste}
+%\KOMAoptions{Option}{Werteliste}
+
+
+\addtokomafont{caption}{\small}
+%\setkomafont{descriptionlabel}{\normalfont
+%   \bfseries}
+\setkomafont{captionlabel}{\normalfont
+    \bfseries}
+\let\oldtabular\tabular
+\renewcommand{\tabular}{\sffamily\oldtabular}
+\KOMAoptions{abstract=true}
+%\setkomafont{footnote}{\sffamily}
+%\KOMAoptions{twoside=true}
+%\KOMAoptions{headsepline=true}
+%\KOMAoptions{footsepline=true}
+\renewcommand\familydefault{\sfdefault}
+\renewcommand{\arraystretch}{1.1}
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
+\setlength{\textheight}{230mm}
+\allsectionsfont{\centering \normalfont\scshape}
+\let\tmp\oddsidemargin
+\let\oddsidemargin\evensidemargin
+\let\evensidemargin\tmp
+\reversemarginpar
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt}
+
+%%%% Listings
+% C#
+%\setmonofont{Consolas} %to be used with XeLaTeX or LuaLaTeX
+\definecolor{bluekeywords}{rgb}{0,0,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.64,0.08,0.08}
+\definecolor{xmlcomments}{rgb}{0.5,0.5,0.5}
+\definecolor{types}{rgb}{0.17,0.57,0.68}
+
+\usepackage{listings}
+\lstset{language=[Sharp]C,
+captionpos=b,
+%numbers=left, %Nummerierung
+%numberstyle=\tiny, % kleine Zeilennummern
+frame=lines, % Oberhalb und unterhalb des Listings ist eine Linie
+showspaces=false,
+showtabs=false,
+breaklines=true,
+showstringspaces=false,
+breakatwhitespace=true,
+escapeinside={(*@}{@*)},
+commentstyle=\color{greencomments},
+morekeywords={partial, var, value, get, set},
+keywordstyle=\color{bluekeywords},
+stringstyle=\color{redstrings},
+basicstyle=\ttfamily\small,
+}
+
+\begin{document}
+%\sffamily
+\fancypagestyle{plain}
+{%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0.5pt}
+  \fancyhf{}%
+  \fancyfoot[R]{\emph{\footnotesize Page \thepage\ of \pageref{LastPage}}}%
+  \fancyfoot[C]{\emph{\footnotesize Christophe De Troyer and Maarten Vandercammen}}%
+}
+
+\thispagestyle{plain}
+
+\titlehead
+{
+    Vrije Universiteit Brussel\\%
+    Pleinlaan 2\\%
+    Software Languages Lab - Dept. Of Computer Science\hfill
+    Master Studies%
+}
+\subject{\vspace{-1ex} \horrule{2pt}\\[0.15cm]
+  {\textsc{\texttt{Capita Selecta: Software Engineering}}}}
+\title{Project Software Engineering\\[0.5cm]}
+\subtitle{\textsc{\texttt{Deliverable 2}}\\\horrule{2pt}\\[0.5cm]}
+\author{
+  \bfseries{Christophe De Troyer}\vspace{-2ex}
+  \and
+  \bfseries{Maarten Vandercammen}\vspace{-2ex} 
+}
+\date{\begin{tabular}{cc}
+  \textsc{Date:}& \textsc{\emph{\today}}\\
+  \textsc{Due :}& \textsc{\emph{17th June 2015}}\vspace{3ex}
+\end{tabular}}
+\maketitle
+
+%\begin{abstract}
+%\end{abstract}
+\newpage
+
+\tableofcontents
+
+\newpage
+
+%-------------------------------
+\fancypagestyle{plain} {%
+  \renewcommand{\headrulewidth}{0.5pt}%
+  \renewcommand{\footrulewidth}{0.5pt} \fancyhf{}%
+  \fancyhead[R]{\emph{\footnotesize \today}} \fancyfoot[R]{\emph{\footnotesize
+      Page \thepage\ of \pageref{LastPage}}}%
+  \fancyfoot[C]{\hspace*{-1.5cm} \emph{\footnotesize Christophe De Troyer}
+    \hspace{2.7cm} \emph{\footnotesize Maarten Vandercammen} \\ \hspace*{-2cm}
+    \emph{\footnotesize 106490} \hspace{4.5cm} \emph{\footnotesize 98341}}%
+}
+
+\pagestyle{plain}
+
+\section{Detailed test strategy}
+In order to assure proper workings of the back-end it is needed to create unit
+tests that cover all of the controllers. Since this sprint will only implement
+features of the low priority slice only a single controller needs testing: the
+group controller.
+
+
+
+\section{Groups}
+\paragraph{Unit Tests}
+To make sure the group controller acts as it is supposed to it has to be tested
+on each function. The group controller is used to create, edit and delete
+groups. As such, to achieve optimal coverage we will test all of these
+functions. 
+
+The main strategy for testing is in line with the strategy that was applied to
+the other controllers. Test creating with correct data and faulty data. Deletion
+will be tested to make sure the user has appropriate authorization to
+remove. Ensure that the deletion is actually performed and check that
+modifications are actually executed.
+\end{document}
