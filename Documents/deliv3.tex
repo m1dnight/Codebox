@@ -209,6 +209,22 @@ When creation is successful, a message should appear and the group's attributes 
 We verify whether this message did indeed appear, and we also navigate to the page where an overview is given of this group.
 We can then check whether the attributes that are shown on this page correspond to the values of the attributes we just altered.
 
+\section{Estimates}
+Because the deadline for our master thesis is getting near, which greatly interferes with our work for this project, coming up with a detailed planning proved to be a challenging task.
+We expect that this planning might be less accurate than the estimations we have created in previous iterations.
+
+\subsection{Back-end tests}
+
+\subsection{GUI tests}
+Since no GUI tests have been written yet for the user-stories of group management, we expect to spend quite some time setting up some common auxiliary code that can be shared between all tests.
+Furthermore, testing these features might require quite some work, because when a user is invited to a group, we must ensure that any new code snippet that is shared in this group, becomes visible to this user.
+Testing this feature therefore requires us to switch between several users, always navigating to the correct page and subsequently ensuring that the snippet correctly shows up.
+
+Furthermore, it might also prove somewhat complex to test GUI of the 'Upload profile picture' user-story, because we have to calculate an hashsum of the image that serves as the user's avatar.
+We do not have any experience with performing such tasks in this framework, so we expect to spend a fair amount of time researching how this can be accomplished.
+
+For these reasons, we plan on devoting three days to write all GUI tests.
+
 \section{Evaluation of previous planning}
 The planned tasks were executed within the set timeslot. As such we can safely
 state that the previous planning was correct.
