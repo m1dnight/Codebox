@@ -233,6 +233,7 @@ Currently, we foresee that not providing either of these attributes is the only 
 
 \subsubsection*{Show snippet}
 \paragraph{Back-end tests}
+To properly unit test the listing of snippets it suffices to test that the controller returns a list of all the valid snippets when a user requests a list.
 
 \paragraph{GUI tests}
 Testing whether a snippet is displayed correctly can be performed by navigating to the webpage where the snippet is shown and comparing the snippet's attributes that are visible there with the known attributes of the snippet.
@@ -241,7 +242,6 @@ We therefore first need to create a number of snippets, so that we can test whet
 One way to do this would be to automatically insert a number of snippets into the database but this would again go against our principal of only using black-box testing for he GUI tests.
 We therefore automatically create a new snippet in each GUI test for this user-story, and subsequently navigate to the new snippet's webpage and automatically verify its attributes.
 Since a snippet's attributes are visualized in the form of DOM-elements, verifying its attributes is simply a matter of checking whether the corresponding DOM-elements have the correct state.
-
 
 \section{Estimates}
 \subsection{Unit Tests}
