@@ -118,14 +118,6 @@ basicstyle=\ttfamily\small,
 \end{tabular}}
 \maketitle
 
-%\begin{abstract}
-%\end{abstract}
-\newpage
-
-\tableofcontents
-
-\newpage
-
 %-------------------------------
 \fancypagestyle{plain}
 {%
@@ -141,6 +133,16 @@ basicstyle=\ttfamily\small,
 
 \section{Detailed test strategy}
 
+\subsection{Overview}
+In this iteration, we implement all user-stories that have the highest priority: registering a new user account, logging in and logging out, creating a new snippet and viewing an existing snippet.
+
+We create both back-end tests for these user-stories, as well as automated GUI tests.
+
+\subsubsection*{Back-end tests}
+In order to assure proper workings of the back-end it is needed to create unit tests that cover all of the controllers.
+Since this iteration will only implement features of the high priority slice only two controllers need proper testing: the account controller and the snippet controller.
+
+\subsubsection*{GUI tests}
 Unit-tests for the GUI of each user story will be created with the use of the Selenium framework \footnote{http://www.seleniumhq.org/}.
 This framework can be used to simulate a user's interaction with the website. Specifically, it offers mechanisms to send mouse-clicks to DOM-elements, navigate a website, or send keyboard input through input forms.
 Conversely, it also offers mechanisms to check the complete state of a DOM-element.
@@ -155,6 +157,13 @@ We believe that our GUI tests must accurately model a user's actions while using
 \subsection{User management}
 
 \subsubsection*{Log in}
+
+\paragraph{Back-end tests}
+To test the login process it requires some special testing.
+The implementation notifies the user of a wrong password or wrong email address.
+As such tests need to be written to assure that the system detects which piece of information is wrong: the username or the password and notifies the user as such. And finally we need to test that proper login also work.
+
+\paragraph{GUI tests}
 The result of the action of a user logging in can be categorized in three main scenario's: either the log-in was successful, either it was unsuccessful because a non-existing username was provided, or it was unsuccessful because an incorrect password was entered.
 We will test these three scenario's with the use of Selenium.
 We navigate to the home page of Codebox, navigate from there to the log-in page, find the DOM-elements that correspond with the textboxes where users enter their username and password, enter some credentials and subsequently click the 'Log in' button.
@@ -167,6 +176,12 @@ For this reason, we will insert one or multiple user profiles directly into the 
 By inserting these profiles directly into the database, we can test the 'Log in' user-story separately from e.g., the 'Register' user-story.
 
 \subsubsection*{Register}
+\paragraph{Back-end tests}
+To test the registration process one has to test the registration process.
+However, this process is not contained within the controller but within the \texttt{Custom\-Member\-ship\-Provider}.
+The only thing to test in the \texttt{HomeController} itself was a registration with proper credentials.
+
+\paragraph{GUI tests}
 From a high-level point of view, there are only two possible results when registering a new user account: either the registration succeeded or it failed.
 
 Automatically testing a successful registration can be problematic, because the username of each account must be unique.
@@ -179,13 +194,22 @@ A successful registration causes Codebox to redirect to the log-in page. We will
 We will also test how unsuccessful registrations are handled by Codebox. We will test how Codebox handles registrations that use an already existing username or e-mail address, how it handles usernames or passwords that are considered too short, or how it handles the case where the textboxes containing the required information are empty when the user submits the form.
 
 \subsubsection*{Log out}
+\paragraph{Back-end tests}
 
+\paragraph{GUI tests}
 We will write GUI tests for logging out a user. Because each webpage that is shown by Codebox always contains a link in the upper-right corner to log out the user, we will write a GUI test that checks the expected behaviour when this link is clicked.
 Logging out the user should result in a redirect to the home page of the application, so our test will check whether this redirect has indeed been performed.
 
 \subsection{Snippet management}
 
 \subsubsection*{Create new snippet}
+\paragraph{Back-end tests}
+To test the creation of snippets one has to check the validity of the input at the controller.
+Hence, tests need to be created to edit snippets and to view snippets. The latter is a simple test to make sure the controller does a proper redirect or returns the proper snippet.
+The former needs to verify the user can only request to edit or create snippets he has access to and that the edits are processed properly by the controller.
+The storage of snippets can not be tested however. The application uses Entity Framework as its back-end and thus we find that this software should not be tested.
+
+\paragraph{GUI tests}
 We will again create unit-tests to check the creation of both valid and invalid snippets.
 A valid snippet must have at least a name and a code fragment. The name of a snippet does not need to be unique.
 To create a code snippet, the user must first be logged in.
@@ -208,12 +232,28 @@ Specifically, we will test how the system handles the case where no name or code
 Currently, we foresee that not providing either of these attributes is the only possible cause of performing an unsuccessful snippet creation. 
 
 \subsubsection*{Show snippet}
+\paragraph{Back-end tests}
 
+\paragraph{GUI tests}
 Testing whether a snippet is displayed correctly can be performed by navigating to the webpage where the snippet is shown and comparing the snippet's attributes that are visible there with the known attributes of the snippet.
 We therefore first need to create a number of snippets, so that we can test whether their attributes are correctly visualized.
 
 One way to do this would be to automatically insert a number of snippets into the database but this would again go against our principal of only using black-box testing for he GUI tests.
 We therefore automatically create a new snippet in each GUI test for this user-story, and subsequently navigate to the new snippet's webpage and automatically verify its attributes.
 Since a snippet's attributes are visualized in the form of DOM-elements, verifying its attributes is simply a matter of checking whether the corresponding DOM-elements have the correct state.
+
+
+\section{Estimates}
+\subsection{Unit Tests}
+The above described unit tests require the first initial setup and exploration
+of the \texttt{Moq} framework and \texttt{Ninject}. As such we expect some
+additional time to be spent on figuring out how everything will be done.
+
+The unit tests should require half a day to setup and configure the sample data
+and possible configuration. For the actual tests we will assume that one or two
+full days should be enough to write all the tests. We predict that the testing
+for the editing and listing each will be done in a single day. A day is planned
+for each due to the fact that possible bugs may have to be fixed.
+\subsection{Interface Tests}
 
 \end{document}
