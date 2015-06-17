@@ -148,7 +148,7 @@ Similar to the first iteration, all GUI tests will be performed using the Seleni
 GUI testing will be done from a black-box perspective, so that we can model a user's experience as accurately as possible.
 Specifically, this means that we will avoid inserting or updating values, such as user accounts or code snippets, directly from the database wherever possible.
 Instead, we will perform these actions through the webinterface, similar to how a user would accomplish this.
-However, we will insert one user account directly into the database, because most user-stories, e.g., creating, viewing or editing snippets, require the user to be logged in.
+However, we will insert one user account, often referred to in this document as the \emph{central} user account, directly into the database, because most user-stories, e.g., creating, viewing or editing snippets, require the user to be logged in.
 It would be undesirable to first register a user, log in with this new user account, perform the desired test and log out again, because these tests would then hinge completely on whether the 'Register' user-story succeeded.
 
 We therefore choose to insert this user account directly into the database.
