@@ -118,14 +118,6 @@ basicstyle=\ttfamily\small,
 \end{tabular}}
 \maketitle
 
-%\begin{abstract}
-%\end{abstract}
-\newpage
-
-\tableofcontents
-
-\newpage
-
 %-------------------------------
 \fancypagestyle{plain}
 {%
@@ -157,7 +149,7 @@ Similar to the first iteration, all GUI tests will be performed using the Seleni
 Similar to the first iteration, we will perform all GUI testing from a black-box perspective, so that we can model a user's experience as accurately as possible.
 Specifically, this means that we will avoid inserting or updating values, such as user accounts or code snippets, directly from the database wherever possible.
 Instead, we will perform these actions through the webinterface, similar to how a user would accomplish this.
-However, we will insert one user account directly into the database, because most user-stories, e.g., creating, viewing or editing snippets, require the user to be logged in.
+However, we will insert one user account, often referred to in this document as the \emph{central} user account, directly into the database, because most user-stories, e.g., creating, viewing or editing snippets, require the user to be logged in.
 It would be undesirable to first register a user, log in with this new user account, perform the desired test and log out again, because these tests would then hinge completely on whether the 'Register' user-story succeeded.
 
 We therefore choose to insert this user account directly into the database.
@@ -220,7 +212,7 @@ We can then check whether the attributes that are shown on this page correspond 
 \section{Evaluation of previous planning}
 The planned tasks were executed within the set timeslot. As such we can safely
 state that the previous planning was correct.
-\subsection{Unit Tests}
+\subsection{Back-end Tests}
 The planned tasks have been executed in the time we planned for them in the
 previous deliverable. Again there was a small hurdle in the implementation of
 the project that required refactoring. This time the
@@ -229,6 +221,15 @@ methods were thus not accessible from within the unit tests. As such a derived
 class was created from the \texttt{CustomMembershipProvider} which publishes the
 methods in a public fashion. Except that hurdle the tests were straightforward
 as they were a variation on the previously written tests.
+
+\subsection{GUI tests}
+We planned on requiring one day and half of work for writing all GUI tests for the second iteration.
+This estimation turned out to accurate to a certain extent. Because we could re-use quite a lot of code for testing the 'Edit account' and 'Edit snippet' stories from the GUI tests of respectively the 'Register' and 'Create new snippet' user-stories, we were able to shave off a decent amount of time.
+
+We did not encounter any bugs whatsoever while running these tests, so we did not have to spend any time on fixing bugs.
+
+However, we did spend an additional half-day on refactoring some of the testing code, so that it would be easier to re-use this code, not only for the second iteration, but other iterations as well.
+
 \end{document}
 
 \end{document}
