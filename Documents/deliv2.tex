@@ -197,12 +197,16 @@ We will check this scenario by doing exactly this and verifying whether the corr
 
 
 \section{Estimates}
-\subsection{Unit Tests}
+\subsection{Back-end Tests}
 For the unit tests two days will be planned in again. To make sure there is time
-to fix any possible bugs while writing the unit tests. Hence, day one will be
+to fix any possible bugs while writing the unit tests. Hence, the first day will be
 used to implement the editing of accounts and the second day will be used to
 implement the unit tests for the deletion of snippets.
-\subsection{Interface Tests}
+\subsection{GUI Tests}
+We expect to be able to re-use quite a lot of code for the GUI tests that check the 'Edit snippet' and 'Edit account' user-stories.
+We will probably not be able to re-use any code for the 'Delete snippet' user-story, but we do not expect the tests for this user-story to be very complex.
+
+We therefore plan on writing all GUI tests in one day and a half: one day for the tests for both the 'Edit snippet' and 'Edit account' stories, and half a day for the other tests.
 
 \section{Evaluation of previous planning}
 The initial project setup was rather difficult. Since this project is a group
@@ -214,7 +218,7 @@ extensive experience with version controlling .net projects and as such we ran
 into some issues with the dependency management of packages. After this initial
 hurdle was overcome we could start on our own individual tasks.
 
-\subsection{Unit Tests}
+\subsection{Back-end tests}
 The unit tests went according to plan. There was however one issue that had to
 be resolved. To unit test the \texttt{FormsAuthentication} is a static
 class. The class serves the purpose of managing authentication on the
@@ -222,5 +226,9 @@ website. As such it was impossible to use \texttt{Moq} to override the
 behaviour. To mitigate this issue it suffices to wrap the class in a non-static
 version and inject it using \texttt{Ninject}. This little hurdle was resolved
 rather quickly by means of some Google-Fu.
+
+\subsection{GUI tests}
+We had little difficulty with developing the GUI tests for the first iteration. We counted on writing all tests in three and a half days: half a day for exploring the Selenium framework and three days for writing the GUI tests proper.
+In the end, we needed three days to write all GUI tests, including the initial Selenium exploration.
 
 \end{document}
